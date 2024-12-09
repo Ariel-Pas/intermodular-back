@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,9 @@
 </head>
 <body>
     @include ('partials.nav-bar')
+    <div class="container-md d-flex justify-content-end">
+        <div >{{fechaActual('d/m/Y')}}</div>
+    </div>
 
     @yield('contenido')
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Empresa;
 use Illuminate\Http\Request;
 
 class EmpresaController extends Controller
@@ -11,7 +12,10 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        //
+
+        $empresas = Empresa::orderBy('nombre')->paginate(5);
+        return view('empresas.empresas', compact('empresas'));
+
     }
 
     /**
@@ -19,7 +23,8 @@ class EmpresaController extends Controller
      */
     public function create()
     {
-        //
+
+        return redirect()->route('inicio');
     }
 
     /**
@@ -35,7 +40,10 @@ class EmpresaController extends Controller
      */
     public function show(string $id)
     {
-        //
+
+        $empresa = Empresa::firstWhere('id' , '=', $id);
+       // dd($empresa);
+        return view('empresas.empresa', compact('empresa'));
     }
 
     /**
@@ -43,7 +51,7 @@ class EmpresaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return redirect()->route('inicio');
     }
 
     /**
@@ -59,6 +67,35 @@ class EmpresaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Empresa::findOrFail($id)->delete();
+
+        return redirect()->route('empresas.index');
+    }
+
+    public function nuevoPrueba()
+    {
+        $empresa = new Empresa();
+        $empresa->nombre = 'Empresa'.rand(1,40);
+        $empresa->cif = 'cifInventado';
+        $empresa->descripcion = 'Esta empresa no existe';
+        $empresa->email = 'empresa@mail.com';
+        $empresa->password = '1234567';
+        $empresa->direccion = 'Avenida 1 numero 2';
+        $empresa->coordX = 0;
+        $empresa->coordY = 0;
+        $empresa->provincia = 1;
+        $empresa->poblacion = 1;
+
+        $empresa->save();
+
+        return redirect()->route('empresas.index');
+    }
+
+    public function editarPrueba($id)
+    {
+        $empresa = Empresa::findOrFail($id);
+        $empresa->nombre = 'Nombre modificado';
+        $empresa->save();
+        return redirect()->route('empresas.index');
     }
 }

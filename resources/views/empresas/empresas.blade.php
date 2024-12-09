@@ -6,10 +6,12 @@
 <div class="row">
 
     @forelse($empresas as $empresa)
-        @include('partials.tarjeta-empresa')
+        @include('empresas.tarjeta-empresa')
 
     @empty <p>No hay resultados</p>
     @endforelse
+
+    {{$empresas->links()}}
 
 </div>
 
