@@ -10,8 +10,11 @@ Route::get('/', function(){
 })
 ->name('inicio');
 
+Route::get('empresas/nuevo', [EmpresaController::class, 'nuevoPrueba']);
+Route::get('empresas/cambiar/{id}', [EmpresaController::class, 'editarPrueba']);
+
 Route::resource('empresas', EmpresaController::class);
 
-Route::get('nuevo', [EmpresaController::class, 'nuevoPrueba']);
 
-Route::get('cambiar/{id}', [EmpresaController::class, 'editarPrueba']);
+
+

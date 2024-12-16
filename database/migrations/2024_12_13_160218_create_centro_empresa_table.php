@@ -11,17 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('centros', function (Blueprint $table) {
+        Schema::create('centro_empresa', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('nombre');
-            $table->string('codigo');
-            $table->string('email');
-            $table->string('password');
-            $table->string('direccion');
-            $table->string('telefono');
-            $table->integer('poblacion');
-            $table->integer('provincia');
+            $table->foreignId('centro_id')->constrained()->onDelete('cascade');
+            $table->foreignId('empresa_id')->constrained()->onDelete('cascade');
+            $table->text('notas')->nullable();
         });
     }
 
@@ -30,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('centros');
+        Schema::dropIfExists('centro_empresa');
     }
 };

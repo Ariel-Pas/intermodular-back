@@ -41,8 +41,8 @@ class EmpresaController extends Controller
     public function show(string $id)
     {
 
-        $empresa = Empresa::firstWhere('id' , '=', $id);
-       // dd($empresa);
+        $empresa = Empresa::firstWhere('id', '=', $id);
+        // dd($empresa);
         return view('empresas.empresa', compact('empresa'));
     }
 
@@ -75,10 +75,10 @@ class EmpresaController extends Controller
     public function nuevoPrueba()
     {
         $empresa = new Empresa();
-        $empresa->nombre = 'Empresa'.rand(1,40);
-        $empresa->cif = 'cifInventado';
+        $empresa->nombre = 'Empresa' . rand(1, 40);
+        $empresa->cif = 'cifInventado' . rand(1, 40);
         $empresa->descripcion = 'Esta empresa no existe';
-        $empresa->email = 'empresa@mail.com';
+        $empresa->email = 'empresa' . rand(1, 40) . '@mail.com';
         $empresa->password = '1234567';
         $empresa->direccion = 'Avenida 1 numero 2';
         $empresa->coordX = 0;

@@ -6,10 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
-class User extends Authenticatable
+use app\Models\Centro;
+class Usuario extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    protected $table = 'Users';
+   //  @use HasFactory<\Database\Factories\UsuarioFactory>;
     use HasFactory, Notifiable;
 
     /**
@@ -44,5 +45,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    //relaciones
+    public function centro(){
+        return $this->belongsTo(Centro::class);
     }
 }
