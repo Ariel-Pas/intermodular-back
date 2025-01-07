@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('direccion');
             $table->double('coordX');
             $table->double('coordY');
+            $table->string('horario_manana');
+            $table->string('horario_tarde');
+            $table->boolean('finSemana');
             $table->integer('provincia');
             $table->integer('poblacion');
 

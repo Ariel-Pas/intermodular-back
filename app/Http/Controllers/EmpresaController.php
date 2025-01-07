@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmpresaRequest;
 use App\Models\Empresa;
+
 use Illuminate\Http\Request;
 
 class EmpresaController extends Controller
@@ -24,15 +26,31 @@ class EmpresaController extends Controller
     public function create()
     {
 
-        return redirect()->route('inicio');
+        return view('empresas.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EmpresaRequest $request)
     {
-        //
+        //dd($request);
+        $empresa = new Empresa();
+        $empresa->nombre = $request->nombre;
+        $datos = $request->only(['nombre', 'cif', 'descripcion', 'email', 'direccion', 'provincia', 'poblacion']);
+        $datos['finSemana'] = $request->has('finSemana');
+        //rellenar para tener un valor, más adelante se recibirá del form
+        $datos['coordX'] = 0;
+        $datos['coordY'] = 0;
+        //Preguntar si una empresa tiene password o no
+        $datos['password'] = '12345';
+        //horario
+        $datos['horario_manana'] = $request['apManana'].$request['cierreManana'];
+        $datos['horario_tarde'] = $request['apTarde'].$request['cierreTarde'];
+
+        Empresa::create($datos);
+
+        return redirect()->route('empresas.index')->with('msg', "Empresa $request->nombre creada con éxito");
     }
 
     /**
@@ -42,6 +60,7 @@ class EmpresaController extends Controller
     {
 
         $empresa = Empresa::firstWhere('id', '=', $id);
+
         // dd($empresa);
         return view('empresas.empresa', compact('empresa'));
     }

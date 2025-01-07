@@ -3,6 +3,7 @@
 @section('tituloNavegador', 'Info de empresa')
 
 @section('contenido')
+
     <section class="container-md py-3">
        <div class="row">
          <div class="col-6">

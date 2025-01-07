@@ -27,7 +27,10 @@ class EmpresaFactory extends Factory
             'poblacion' => rand(1,30),
             'provincia' => rand(1,15),
             'coordX' => rand(0,100),
-            'coordY' => rand(0,100)
+            'coordY' => rand(0,100),
+            'horario_manana' => '9:00 - 13:00',
+            'horario_tarde' => '14:00 - 18:00',
+            'finSemana' => fake()->boolean(20)
         ];
     }
 }
