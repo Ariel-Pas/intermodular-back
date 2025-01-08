@@ -38,6 +38,7 @@ class CentrosController extends Controller
     public function store(CentroRequest $request)
     {
        //dd($errors);
+       //dd($request);
        $datos = $request->except('empresas, password');
        $centro = new Centro($datos);
         $centro->password = md5($request->password);

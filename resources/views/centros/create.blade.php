@@ -69,8 +69,14 @@
             <div class="row">
                 @foreach($empresas as $empresa)
                     <div class="col-2">
-                        <input type="checkbox" class="form-check-input" value="{{$empresa->id}}" name="empresas[]" {{
-                            isset($centro) && $centro->empresas->firstWhere('id', $empresa->id) !== null ? 'checked' : ''}}>
+                        <input type="checkbox" class="form-check-input" value="{{$empresa->id}}" name="empresas[]"
+
+                        @if(old('empresas', null) != null) @checked(in_array($empresa->id, old('empresas')))
+
+                        @elseif(isset($centro->id)) @checked($centro->empresas->firstWhere('id', $empresa->id) !== null)
+
+                        @endif
+                        >
                         <label class="form-check-label" for="{{'empresasCheck'.$empresa->nombre}}">{{$empresa->nombre}}</label>
 
                     </div>
@@ -80,9 +86,19 @@
 
         <select class="form-select mb-3" aria-label="Default select example" name="provincia" >
             <option  {{!isset($centro) ? 'selected' : ''}}>Elige una provincia</option>
-            <option value="1" @if(isset($centro) && $centro->provincia == 1) selected = "true" @endif >Alicante</option>
-            <option value="2" @if(isset($centro) && $centro->provincia == 2) selected = "true" @endif  >Valencia</option>
-            <option value="3" @if(isset($centro) && $centro->provincia == 3) selected = "true" @endif>Castellón</option>
+            <option value="1"
+            @if(old('poblacion', null) != null) @selected(old('provincia') == '1')
+            @elseif(isset($centro->id) && $centro->provincia == '1') selected = "true"
+            @endif >Alicante</option>
+            <option value="2"
+            @if(old('poblacion', null) != null) @selected(old('provincia') == '2')
+            @elseif(isset($centro->id) && $centro->provincia == '2') selected = "true"
+            @endif
+            >Valencia</option>
+            <option value="3"
+            @if(old('poblacion', null) != null) @selected(old('provincia') == '3')
+            @elseif(isset($centro->id) && $centro->provincia == '3') selected = "true"
+            @endif>Castellón</option>
         </select>
         @if ($errors->has('provincia'))
             <p class="error-msg">{{$errors->first('provincia')}}</p>
@@ -91,16 +107,16 @@
         <select class="form-select mb-3" aria-label="Default select example" name="poblacion">
             <option  selected>Elige una localidad</option>
             <option value="1"
-            @if(isset($centro) && $centro->poblacion == 1) selected = "true"
-            @else @selected(old('poblacion') == 1)
+            @if(old('poblacion', null) != null) @selected(old('poblacion') == '1')
+            @elseif(isset($centro->id) && $centro->poblacion == '1') selected = "true"
             @endif>Benidorm</option>
             <option value="2"
-            @if(isset($centro) && $centro->poblacion == 2) selected = "true"
-            @else @selected(old('poblacion') == 2)
+            @if(old('poblacion', null) != null) @selected(old('poblacion') == '2')
+            @elseif(isset($centro->id) && $centro->poblacion == '2') selected = "true"
             @endif>La Vila-Joiosa</option>
             <option value="3"
-            @if(isset($centro) && $centro->poblacion == 3) selected = "true"
-            @else @selected(old('poblacion') == 3)
+            @if(old('poblacion', null) != null) @selected(old('poblacion') == '3')
+            @elseif(isset($centro->id) && $centro->poblacion == '3') selected = "true"
             @endif>La Nucía</option>
         </select>
         @if ($errors->has('poblacion'))

@@ -46,7 +46,8 @@ class EmpresaRequest extends FormRequest
             'required' => 'Campo requerido',
             'min' => 'Este campo no cumple con el tamaño mínimo',
             'regex' => 'Formato inválido',
-            'size' => 'Número de caracteres incorrecto'
+            'size' => 'Número de caracteres incorrecto',
+            'email' => 'Email no válido'
         ];
     }
 }

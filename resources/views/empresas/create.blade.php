@@ -84,22 +84,22 @@
         </div>
 
         <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="finSemana" name="finSemana">
+            <input type="checkbox" class="form-check-input" id="finSemana" name="finSemana" @checked(old('finSemana'))>
             <label class="form-check-label" for="finSemana"
-            @checked(old('finSemana'))
+
             >Abre los fines de semana</label>
         </div>
 
         <select class="form-select mb-3" aria-label="Default select example" name="provincia">
             <option >Elige una provincia</option>
             <option
-            @selected(old('provincia') == 1)
-            value="1">Alicante</option>
+            value="1"
+            @selected(old('provincia') == '1')>Alicante</option>
             <option value="2"
-            @selected(old('provincia') == 2)
+            @selected(old('provincia') == '2')
             >Valencia</option>
             <option value="3"
-            @selected(old('provincia') == 3)
+            @selected(old('provincia') == '3')
             >Castellón</option>
         </select>
         @if ($errors->has('provincia'))
@@ -110,13 +110,13 @@
         <select class="form-select mb-3" aria-label="Default select example" name="poblacion">
             <option >Elige una localidad</option>
             <option value="1"
-            @selected(old('poblacion') == 1)
+            @selected(old('poblacion') == '1')
             >Benidorm</option>
             <option value="2"
-            @selected(old('poblacion') == 2)
+            @selected(old('poblacion') == '2')
             >La Vila-Joiosa</option>
             <option value="3"
-            @selected(old('poblacion') == 3)
+            @selected(old('poblacion') == '3')
             >La Nucía</option>
         </select>
         @if ($errors->has('poblacion'))
