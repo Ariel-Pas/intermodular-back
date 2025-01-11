@@ -5,6 +5,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\ControlEdicionCentros;
 use App\Http\Middleware\BloquearRuta;
+use App\Http\Middleware\RolCheck;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,7 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'FiltroEdicion' => ControlEdicionCentros::class,
-            'Bloquear' => BloquearRuta::class
+            'Bloquear' => BloquearRuta::class,
+            'RolCheck' => RolCheck::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

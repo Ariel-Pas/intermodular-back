@@ -32,11 +32,13 @@
             <td>{{$centro->email}}</td>
             <td>{{$centro->direccion}}</td>
             <td>{{$centro->empresas()->implode('nombre', ',')}}</td>
+            @if(auth()->check() && auth()->user()->role === 'admin')
             <td>
                 <a class="btn btn-primary" href="{{route('centros.edit', $centro->id)}}">
                     Editar
                 </a>
             </td>
+            @endif
           </tr>
           @endforeach
         </tbody>
