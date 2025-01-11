@@ -6,9 +6,17 @@ use App\Http\Requests\CentroRequest;
 use Illuminate\Http\Request;
 use App\Models\Centro;
 use App\Models\Empresa;
-
-class CentrosController extends Controller
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+class CentrosController extends Controller implements HasMiddleware
 {
+    public static function middleware() :array
+    {
+        return[
+            new Middleware('auth', except:['index', 'show'])
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */

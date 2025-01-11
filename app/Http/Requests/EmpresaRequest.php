@@ -23,7 +23,7 @@ class EmpresaRequest extends FormRequest
     {
         return [
             'nombre' => 'required',
-            'cif' => 'required|string|size:9',
+            'cif' => 'required|string|size:9|unique:empresas',
             'descripcion' => 'required',
             'email' => 'required|email',
             'direccion' => 'required',

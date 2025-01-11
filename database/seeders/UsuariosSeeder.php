@@ -18,5 +18,15 @@ class UsuariosSeeder extends Seeder
             Usuario::factory()->create(['centro_id' =>$centro->id]);
         }
 
+        //admin
+        /* $admin = new Usuario();
+        $admin->nombre = 'admin';
+        $admin->apellidos = 'admin';
+        $admin->cif = '';
+        $admin->email = 'admin';
+        $admin->centro_id = 1;
+        $admin->password = bcrypt('admin');
+        $admin->save(); */
+
     }
 }

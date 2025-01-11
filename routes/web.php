@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CentrosController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,6 +18,8 @@ Route::get('empresas/cambiar/{id}', [EmpresaController::class, 'editarPrueba'])-
 Route::resource('empresas', EmpresaController::class);
 Route::resource('centros', CentrosController::class);
 
-
-
+//Sesión
+Route::get('login', [LoginController::class, 'loginForm'])->name('login');
+Route::post('login' , [LoginController::class, 'login']);
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
