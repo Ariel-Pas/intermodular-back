@@ -22,7 +22,6 @@ class EmpresaFactory extends Factory
             'cif' =>fake()->regexify('/[0-9]{8}[A-Z]/'),
             'descripcion' => fake()->text(100),
             'email' => $nombre.'@mail.com',
-            'password' => fake()->password(),
             'direccion' => fake()->address(),
             'poblacion' => rand(1,30),
             'provincia' => rand(1,15),

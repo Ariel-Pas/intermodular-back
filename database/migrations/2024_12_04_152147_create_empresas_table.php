@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('cif')->unique();
             $table->text('descripcion');
             $table->string('email')->unique();
-            $table->string('password');
             $table->string('direccion');
             $table->double('coordX');
             $table->double('coordY');

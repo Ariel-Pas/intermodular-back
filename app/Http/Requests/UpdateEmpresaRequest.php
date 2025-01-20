@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmpresaRequest extends FormRequest
+class UpdateEmpresaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,9 @@ class EmpresaRequest extends FormRequest
     {
         return [
             'nombre' => 'required',
-            'cif' => 'required|string|size:9|unique:empresas',
+            'cif' => 'required|string|size:9',
             'descripcion' => 'required|string',
-            'email' => 'required|email|unique:empresas',
+            'email' => 'required|email',
             'direccion' => 'required|string',
             'horario_manana' => 'required',
             'horario_tarde' => 'required',
@@ -35,21 +35,6 @@ class EmpresaRequest extends FormRequest
             'coordX' => 'required|numeric',
             'coordY' => 'required|numeric'
 
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'nombre.required' => 'Introduce un nombre de empresa',
-            'provincia.numeric' => 'Elige una provincia',
-            'poblacion.numeric' => 'Elige una población',
-            'email.unique' => 'Este email está en uso',
-            'required' => 'Campo requerido',
-            'min' => 'Este campo no cumple con el tamaño mínimo',
-            'regex' => 'Formato inválido',
-            'size' => 'Número de caracteres incorrecto',
-            'email' => 'Email no válido'
         ];
     }
 }
