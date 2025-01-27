@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Flogti\SpanishCities\Traits\HasTown;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
 class Empresa extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTown;
     protected $guarded = ['id'];
 
     protected $hidden = ['created_at', 'updated_at'];

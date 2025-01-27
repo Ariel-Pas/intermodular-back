@@ -16,6 +16,8 @@ class EmpresaFactory extends Factory
      */
     public function definition(): array
     {
+        //obtener posibles municipios
+
         $nombre = fake()->company();
         return [
            'nombre'=> $nombre,

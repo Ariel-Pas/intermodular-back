@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Flogti\SpanishCities\Database\Seeders\CommunitiesTableSeeder;
+use Flogti\SpanishCities\Database\Seeders\ProvincesTableSeeder;
+use Flogti\SpanishCities\Database\Seeders\TownsTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,9 +16,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $this->call(CommunitiesTableSeeder::class);
+        $this->call(ProvincesTableSeeder::class);
+        $this->call(TownsTableSeeder::class);
+
+        
         $this->call(CentrosSeeder::class);
         $this->call(UsuariosSeeder::class);
         $this->call(EmpresasSeeder::class);
+
+
+
         /* User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

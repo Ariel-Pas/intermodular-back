@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('telefono');
             $table->integer('poblacion');
             $table->integer('provincia');
+            $table->foreignId('town_id')->nullable()->constrained();
         });
     }
 

@@ -16,7 +16,7 @@ class EmpresasApiController extends Controller
      */
     public function index()
     {
-        $empresas = Empresa/* ::with('categorias', 'servicios')-> */::all();
+        $empresas = Empresa::with('town:id,name,province_id')->get();
         return response()->json($empresas);
     }
 
