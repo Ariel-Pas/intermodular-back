@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('centro_id')->constrained()->onDelete('cascade');
             $table->foreignId('empresa_id')->constrained()->onDelete('cascade');
+            $table->index(['centro_id', 'empresa_id']);
             $table->text('notas')->nullable();
         });
     }

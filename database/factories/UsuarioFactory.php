@@ -23,6 +23,7 @@ class UsuarioFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
             'nombre' => fake()->firstName(),
             'apellidos' => fake()->lastName(),
@@ -31,7 +32,7 @@ class UsuarioFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'cif' =>fake()->regexify('/[0-9]{8}[A-Z]/'),
-            'role' => 'user'
+            'role' => 'profesor'
         ];
     }
 

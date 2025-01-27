@@ -8,6 +8,12 @@
 
 
 <div class="row">
+    @if($errors->any())
+        @foreach ($errors->all() as $error)
+        <span>{{$error}}</span>
+        @endforeach
+    @endif ($errors)
+
 
     <form method="POST" action="{{ isset($centro->id) ? route('centros.update', ['centro'=>$centro->id]) : route('centros.store')}}" novalidate>
         @if(isset($centro->id))
@@ -21,11 +27,6 @@
         @if ($errors->has('nombre'))
             <p class="error-msg">{{$errors->first('nombre')}}</p>
         @endif
-
-        <div class="mb-3">
-          <label for="codigo" class="form-label">Codigo</label>
-          <input type="text" class="form-control" id="codigo" name="codigo" value="{{old('codigo', $centro->codigo)}}">
-        </div>
 
 
         @if(!isset($centro->id))
@@ -87,16 +88,16 @@
         <select class="form-select mb-3" aria-label="Default select example" name="provincia" >
             <option  {{!isset($centro) ? 'selected' : ''}}>Elige una provincia</option>
             <option value="1"
-            @if(old('poblacion', null) != null) @selected(old('provincia') == '1')
+            @if(old('provincia', null) != null) @selected(old('provincia') == '1')
             @elseif(isset($centro->id) && $centro->provincia == '1') selected = "true"
             @endif >Alicante</option>
             <option value="2"
-            @if(old('poblacion', null) != null) @selected(old('provincia') == '2')
+            @if(old('provincia', null) != null) @selected(old('provincia') == '2')
             @elseif(isset($centro->id) && $centro->provincia == '2') selected = "true"
             @endif
             >Valencia</option>
             <option value="3"
-            @if(old('poblacion', null) != null) @selected(old('provincia') == '3')
+            @if(old('provincia', null) != null) @selected(old('provincia') == '3')
             @elseif(isset($centro->id) && $centro->provincia == '3') selected = "true"
             @endif>Castellón</option>
         </select>

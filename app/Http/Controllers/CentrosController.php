@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CentroRequest;
+use App\Http\Requests\CentroUpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\Centro;
 use App\Models\Empresa;
@@ -50,7 +51,7 @@ class CentrosController extends Controller implements HasMiddleware
        //dd($request);
        $datos = $request->except('empresas, password');
        $centro = new Centro($datos);
-        $centro->password = md5($request->password);
+        $centro->password = bcrypt($request->password);
        $centro->save();
        $centro->empresas()->sync($request->empresas);
        return redirect()->route('centros.index')->with('msg', "Centro $request->nombre creado");
@@ -61,7 +62,7 @@ class CentrosController extends Controller implements HasMiddleware
      */
     public function show(string $id)
     {
-        //
+        $centro = Centro::findOrFail($id);
     }
 
     /**
@@ -79,12 +80,12 @@ class CentrosController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CentroUpdateRequest $request, string $id)
     {
 
-        $datos = $request->except('empresas');
+        $datos = $request->except('empresas', 'password');
        $centro = Centro::findOrFail($id);
-       //dd($request->poblacion);
+       $centro->password = bcrypt($request->password);
        //actualizar los datos propios no fk
         $centro->update($datos);
        $centro->empresas()->sync($request->empresas);
@@ -96,6 +97,16 @@ class CentrosController extends Controller implements HasMiddleware
      */
     public function destroy(string $id)
     {
-        //
+        $centro = Centro::findOrFail($id);
+        $centro->delete();
     }
+
+    public function asociarNotaAEmpresa(Request $request)
+    {
+        //obtener
+        $centro = Centro::findOrFail($request->centro);
+        $centro->empresas()->updateExistingPivot($request->empresa, ['notas'=>$request->nota]);
+    }
+
+
 }

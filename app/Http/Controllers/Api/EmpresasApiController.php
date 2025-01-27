@@ -16,7 +16,7 @@ class EmpresasApiController extends Controller
      */
     public function index()
     {
-        $empresas = Empresa::all();
+        $empresas = Empresa/* ::with('categorias', 'servicios')-> */::all();
         return response()->json($empresas);
     }
 
@@ -82,7 +82,7 @@ class EmpresasApiController extends Controller
 
         //$empresa->update($datos);
         $empresa->save();
-   
+
         return response()->json($empresa);
     }
 

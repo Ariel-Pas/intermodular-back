@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use app\Models\Centro;
+use Laravel\Sanctum\HasApiTokens;
+
 class Usuario extends Authenticatable
 {
     protected $table = 'Users';
    //  @use HasFactory<\Database\Factories\UsuarioFactory>;
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

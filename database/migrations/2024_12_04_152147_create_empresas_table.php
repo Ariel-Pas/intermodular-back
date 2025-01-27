@@ -26,7 +26,11 @@ return new class extends Migration
             $table->boolean('finSemana');
             $table->integer('provincia');
             $table->integer('poblacion');
-
+            $table->string('imagen')->nullable();
+            $table->string('telefono')->nullable();
+            $table->double('puntuacion_profesor')->nullable();
+            $table->double('puntuacion_alumno')->nullable();
+            $table->integer('vacantes')->nullable();
         });
     }
 

@@ -29,7 +29,10 @@ class EmpresaFactory extends Factory
             'coordY' => rand(0,100),
             'horario_manana' => '9:00 - 13:00',
             'horario_tarde' => '14:00 - 18:00',
-            'finSemana' => fake()->boolean(20)
+            'finSemana' => fake()->boolean(20),
+            'vacantes' => rand(1,7),
+            'puntuacion_profesor' => rand(1,10),
+            'puntuacion_alumno' => rand(1,10)
         ];
     }
 }

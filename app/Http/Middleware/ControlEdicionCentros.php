@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Centro;
+use Illuminate\Support\Facades\Auth;
 class ControlEdicionCentros
 {
     /**
@@ -13,16 +13,14 @@ class ControlEdicionCentros
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $idCentro): Response
+    public function handle(Request $request, Closure $next, $idEmpresa): Response
     {
-        dd($idCentro);
-        //return redirect("/");
-
-        //Sólo se pueden editar los centros que tienen un '1' en el nombre
-        $centro = Centro::find($idCentro);
-        if(!str_contains($centro->nombre, '1')){
-            return redirect("/");
+        //comprobar que el usuario es centro o profesor, y que su centro tiene relación con la empresa a editar
+        $empresa= null;
+        if(Auth::user()->role == 'centro' || Auth::user()->role == 'profesor'){
+            $empresa = Auth::user()->centro->empresas->where('id', '=', $idEmpresa);
         }
+        if($empresa == null) return redirect()->route('empresas', ['empresa' => $idEmpresa]);
         return $next($request);
     }
 }
