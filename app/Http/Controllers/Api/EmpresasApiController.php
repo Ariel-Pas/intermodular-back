@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Empresa;
+use App\Models\Centro;
+use app\Models;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmpresaRequest;
 use App\Http\Requests\UpdateEmpresaRequest;
 use \Exception;
+use Illuminate\Support\Facades\Auth;
 
 class EmpresasApiController extends Controller
 {
@@ -20,15 +23,30 @@ class EmpresasApiController extends Controller
         return response()->json($empresas);
     }
 
+    //Esta se queda abierta para los alumnos
+    public function empresasPorCentro($idCentro)
+    {
+        $centro = Centro::find($idCentro);
+        $empresas = $centro->empresas()->with('town:id,name,province_id')->get();
+        return response()->json($empresas);
+    }
+
     /**
-     * Store a newly created resource in storage.
+     * Guardar empresa desde crud profesores y centro
      */
     public function store(EmpresaRequest $request)
     {
-
+        //TODO Por que ????'
+        Centro::find(0);
+        //este store lo usan profes y centros
+        $user = Auth::user();
+        $centro = $user->centro;
+        //return response()->json($centro);
         try{
             $datos = $request->all();
             $empresa = new Empresa($datos);
+            $empresa->save();
+            $user->centro->empresas()->attach($empresa->id);
             $empresa->save();
             return response()->json($empresa);
 
@@ -43,8 +61,12 @@ class EmpresasApiController extends Controller
      */
     public function show(string $id)
     {
-        $empresa = Empresa::find($id); //que pasa si fail?
-        if($empresa == null) return response()->json(json_encode(['error'=>'No existe la empresa']), 404);
+        //TODO Por que ????'
+        Centro::find(0);
+        $centro = Auth::user()->centro;
+        //comprobar que el usuario está asociado a la empresa
+        $empresa = Auth::user()->centro->empresas->find($id);
+        if(!$empresa) return response()->json(json_encode(['error'=>'No existe la empresa']), 404);
         return response()->json($empresa);
     }
 
@@ -53,7 +75,7 @@ class EmpresasApiController extends Controller
      */
     public function update(UpdateEmpresaRequest $request, string $id)
     {
-
+        //ESTA SE USA SOLO PARA LA EMPRESA??
         $empresa = Empresa::find($id);
         if($empresa == null) return response()->json(json_encode(['error'=>'No existe la empresa']), 404);
 
@@ -91,9 +113,24 @@ class EmpresasApiController extends Controller
      */
     public function destroy(string $id)
     {
-        $empresa = Empresa::find($id); //que pasa si fail?
-        if($empresa == null) return response()->json(json_encode(['error'=>'No existe la empresa']), 404);
-        $empresa->delete();
+        //TODO Por que ????'
+        Centro::find(0);
+        //eliminar la relación de la empresa con el centro
+        $centro = Auth::user()->centro;
+        $centro->empresas()->detach($id);
+        $empresa = Empresa::findOrFail($id);
+        if($empresa->centros->isEmpty()) $empresa->delete();
+
         return response()->json($empresa);
     }
+
+
+    //Métodos internos
+
+    public function asociarEmpresaCentro($idEmpresa, $idCentro){
+
+    }
+    //actualizar nota
+    //contactar
+    //
 }

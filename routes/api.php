@@ -13,8 +13,10 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::resource('empresas', EmpresasApiController::class);
+Route::apiResource('empresas', EmpresasApiController::class)->middleware('auth:sanctum');
 
+//Ruta pública para alumnos
+Route::get('empresas-centro/{idCentro}', [EmpresasApiController::class, 'empresasPorCentro']);
 Route::post('login', [LoginController::class, 'apiLogin'])->name('apiLogin');
 
 
@@ -22,8 +24,4 @@ Route::post('login', [LoginController::class, 'apiLogin'])->name('apiLogin');
 Route::get('provincias', [LocalizacionApiController::class, 'getProvincias']);
 Route::get('municipios/{id}', [LocalizacionApiController::class, 'getMunicipios']);
 
-use Flogti\SpanishCities\Models\Community;
-Route::get('testmun', function(){
-    $municipios = Community::find(10)->towns;
-    return response()->json($municipios);
-});
+

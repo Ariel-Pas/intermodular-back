@@ -14,11 +14,23 @@ class CiclosSeeder extends Seeder
     public function run(): void
     {
         //
-        $ciclos = ['Administración de sistemas informáticos en red', 'Sistemas microinformáticos y redes', 'Desarrollo de aplicaciones web', 'Desarrollo de aplicaciones multiplataforma', 'Servicios comerciales', 'Actividades comerciales', 'Márketing y publicidad', 'Gestión administrativa', 'Administración y finanzas'];
+        $ciclosGrupo = [
+            'Informática'=> [
+                'Administración de sistemas informáticos en red', 'Sistemas microinformáticos y redes', 'Desarrollo de aplicaciones web', 'Desarrollo de aplicaciones multiplataforma'
+            ],
+            'Administración' => [
+                'Servicios comerciales', 'Actividades comerciales', 'Márketing y publicidad', 'Gestión administrativa', 'Administración y finanzas'
+            ]
+            ];
 
-        foreach($ciclos as $ciclo)
+        foreach($ciclosGrupo as $grupo => $valor)
         {
-            Ciclo::create(['nombre'=>$ciclo]);
+
+            foreach($valor as $ciclo)
+            {
+                Ciclo::create(['nombre'=>$ciclo, 'campo'=>$grupo]);
+            }
+
         }
     }
 }

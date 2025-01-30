@@ -24,14 +24,12 @@ return new class extends Migration
             $table->string('horario_manana');
             $table->string('horario_tarde');
             $table->boolean('finSemana');
-            $table->integer('provincia');
-            $table->integer('poblacion');
             $table->string('imagen')->nullable();
-            $table->string('telefono')->nullable();
+            $table->string('telefono');
             $table->double('puntuacion_profesor')->nullable();
             $table->double('puntuacion_alumno')->nullable();
             $table->integer('vacantes')->nullable();
-            $table->foreignId('town_id')->nullable()->constrained();
+            $table->foreignId('town_id')->constrained();
         });
     }
 

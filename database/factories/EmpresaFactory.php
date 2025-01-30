@@ -25,8 +25,6 @@ class EmpresaFactory extends Factory
             'descripcion' => fake()->text(100),
             'email' => $nombre.'@mail.com',
             'direccion' => fake()->address(),
-            'poblacion' => rand(1,30),
-            'provincia' => rand(1,15),
             'coordX' => rand(0,100),
             'coordY' => rand(0,100),
             'horario_manana' => '9:00 - 13:00',
@@ -34,7 +32,8 @@ class EmpresaFactory extends Factory
             'finSemana' => fake()->boolean(20),
             'vacantes' => rand(1,7),
             'puntuacion_profesor' => rand(1,10),
-            'puntuacion_alumno' => rand(1,10)
+            'puntuacion_alumno' => rand(1,10),
+            'telefono' => fake()->phoneNumber()
         ];
     }
 }
