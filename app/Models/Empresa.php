@@ -17,4 +17,9 @@ class Empresa extends Model
     public function centros(){
         return $this->belongsToMany(Centro::class)->withPivot('notas');
     }
+
+    //REVISAR
+    public function categorias(){
+        return $this->belongsToMany(Categoria::class);
+    }
 }
