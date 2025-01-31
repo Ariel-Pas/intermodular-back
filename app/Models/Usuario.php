@@ -53,4 +53,9 @@ class Usuario extends Authenticatable
     public function centro(){
         return $this->belongsTo(Centro::class);
     }
+
+    //REVISAR
+    public function empresa(){
+        return $this->belongsTo(Empresa::class);
+    }
 }
