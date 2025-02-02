@@ -24,7 +24,7 @@ class EmpresaController extends Controller implements HasMiddleware
      */
     public function index()
     {
-
+        //este es para el admin
         $empresas = Empresa::orderBy('nombre')->paginate(5);
         return view('empresas.empresas', compact('empresas'));
 
@@ -53,7 +53,7 @@ class EmpresaController extends Controller implements HasMiddleware
         $datos['coordX'] = 0;
         $datos['coordY'] = 0;
         //Preguntar si una empresa tiene password o no
-        $datos['password'] = '12345';
+       
         //horario
         $datos['horario_manana'] = $request['apManana'].$request['cierreManana'];
         $datos['horario_tarde'] = $request['apTarde'].$request['cierreTarde'];
