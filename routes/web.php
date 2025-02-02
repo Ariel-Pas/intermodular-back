@@ -3,6 +3,7 @@
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CentrosController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,4 +23,11 @@ Route::resource('centros', CentrosController::class);
 Route::get('login', [LoginController::class, 'loginForm'])->name('login');
 Route::post('login' , [LoginController::class, 'login']);
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+//ANGULAR
+Route::post('login', [LoginController::class, 'apiLogin'])->name('apilogin');
+
+
+Route::get('admin', [UserController::class, 'controlPanel'])->middleware('RolCheck:Admin')->name('controlPanel');
+Route::get('users', [UserController::class, 'index'])->name('listaUsuarios');
 

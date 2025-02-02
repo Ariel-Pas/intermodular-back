@@ -24,8 +24,8 @@ class UsuariosSeeder extends Seeder
         $admin->apellidos = 'admin';
         $admin->cif = '';
         $admin->email = 'admin';
-        $admin->centro_id = 1;
-        $admin->role = "admin";
+        $admin->centro_id = null;
+        $admin->role = "Admin";
         $admin->password = bcrypt('admin');
         $admin->save();
 
@@ -35,8 +35,8 @@ class UsuariosSeeder extends Seeder
         $prof->apellidos = 'profesor';
         $prof->cif = '2';
         $prof->email = 'profesor';
-        $prof->centro_id = 1;
-        $prof->role = "profesor";
+        $prof->centro_id = null;
+        $prof->role = "Tutor";
         $prof->password = bcrypt('profesor');
         $prof->save();
 
@@ -46,8 +46,8 @@ class UsuariosSeeder extends Seeder
         $centro->apellidos = 'centro';
         $centro->cif = '3';
         $centro->email = 'centro';
-        $centro->centro_id = 1;
-        $centro->role = "centro";
+        $centro->centro_id = null;
+        $centro->role = "Centro";
         $centro->password = bcrypt('centro');
         $centro->save();
 

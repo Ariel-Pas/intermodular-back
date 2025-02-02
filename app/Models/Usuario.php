@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Usuario extends Authenticatable
 {
-    protected $table = 'Users';
+    protected $table = 'users';
    //  @use HasFactory<\Database\Factories\UsuarioFactory>;
     use HasFactory, Notifiable, HasApiTokens;
 
@@ -25,6 +25,7 @@ class Usuario extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -50,13 +51,27 @@ class Usuario extends Authenticatable
         ];
     }
 
-    //relaciones
+    //RELACIONES
     public function centro(){
         return $this->belongsTo(Centro::class);
     }
 
-    //REVISAR
     public function empresa(){
         return $this->belongsTo(Empresa::class);
     }
+
+    //MANEJO DE VISTAS
+    public function esAdmin() {
+        return $this->role === 'Admin';
+    }
+
+    public function esCentro(){
+        return $this->role === 'Centro';
+    }
+
+    public function esTutor(){
+        return $this->role === 'Tutor';
+    }
+
 }
+

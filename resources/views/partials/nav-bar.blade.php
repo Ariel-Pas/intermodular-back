@@ -8,6 +8,9 @@
         <div class="navbar-nav">
           <a class="nav-link active" aria-current="page" href="{{route('inicio')}}">Inicio</a>
           <a class="nav-link" href="{{route('empresas.index')}}">Empresas</a>
+
+          {{-- FUNCIONA --}}
+          <a class="nav-link" href="{{url('http://localhost:4200/dashboard')}}">Empresas TEST</a>
           <a class="nav-link" href="{{route('centros.index')}}">Centros</a>
 
           @if(auth()->check())

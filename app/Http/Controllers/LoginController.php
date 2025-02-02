@@ -19,7 +19,22 @@ class LoginController extends Controller
 
         if (Auth::attempt(['email' => $credenciales['email'], 'password' => $credenciales['password']])) {
             $request->session()->regenerate();
-            return redirect()->intended(route('empresas.index'));
+            // return redirect()->intended(route('empresas.index'));
+            if(Auth::user()->role == 'Admin'){
+                //ACTUALIZAR RUTA
+                return redirect()->intended(route('controlPanel'));
+            }
+
+            if(Auth::user()->role == 'Centro'){
+                //ACTUALIZAR RUTA
+                return redirect()->intended(route('listaUsuarios'));
+            }
+
+            if(Auth::user()->role == 'Tutor'){
+                //ACTUALIZAR RUTA
+                return redirect()->intended(route('listaUsuarios'));
+            }
+
         } else {
             $msg = 'No se ha encontrado el usuario';
             return view('auth.login', compact('msg'));
@@ -37,6 +52,7 @@ class LoginController extends Controller
         return redirect('/');
     }
 
+    //ACTUALIZAR
     public function apiLogin(Request $request)
     {
         $credenciales = $request->only(['email', 'password']);
