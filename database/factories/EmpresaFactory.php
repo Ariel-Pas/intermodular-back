@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Empresa>
  */
@@ -23,7 +23,7 @@ class EmpresaFactory extends Factory
            'nombre'=> $nombre,
             'cif' =>fake()->regexify('/[0-9]{8}[A-Z]/'),
             'descripcion' => fake()->text(100),
-            'email' => $nombre.'@mail.com',
+            'email' => fake()->email(),
             'direccion' => fake()->address(),
             'coordX' => rand(0,100),
             'coordY' => rand(0,100),
@@ -33,7 +33,8 @@ class EmpresaFactory extends Factory
             'vacantes' => rand(1,7),
             'puntuacion_profesor' => rand(1,10),
             'puntuacion_alumno' => rand(1,10),
-            'telefono' => fake()->phoneNumber()
+            'telefono' => fake()->phoneNumber(),
+            'token' => Str::uuid()
         ];
     }
 }
