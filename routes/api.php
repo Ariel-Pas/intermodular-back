@@ -4,9 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\EmpresasApiController;
+use App\Http\Controllers\CicloController;
 use App\Http\Controllers\LocalizacionApiController;
 use App\Http\Controllers\LoginController;
-
+use App\Models\Ciclo;
 
 Route::post('login', [LoginController::class, 'apiLogin'])->name('apiLogin');
 
@@ -44,8 +45,10 @@ Route::post('empresas/notas/{idEmpresa}', [EmpresasApiController::class, 'actual
 //Localizaciones
 Route::get('provincias', [LocalizacionApiController::class, 'getProvincias']);
 Route::get('municipios/{id}', [LocalizacionApiController::class, 'getMunicipios']);
-
-
+Route::get('areas', [CicloController::class, 'getAreas']);
+//Ciclos y áreas
+Route::get('ciclos', [CicloController::class, 'index'])->middleware('auth:sanctum');
+Route::get('ciclos-area/{id}', [CicloController::class, 'ciclosPorArea'])->middleware('auth:sanctum');
 
 Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('auth:sanctum');
 

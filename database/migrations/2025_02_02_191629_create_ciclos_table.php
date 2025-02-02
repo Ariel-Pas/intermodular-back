@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nombre')->unique();
-            $table->string('campo');
+            $table->foreignId('areasciclo_id')->constrained();
         });
     }
 
