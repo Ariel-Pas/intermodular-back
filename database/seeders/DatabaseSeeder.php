@@ -5,9 +5,9 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Flogti\SpanishCities\Database\Seeders\CommunitiesTableSeeder;
+/* use Flogti\SpanishCities\Database\Seeders\CommunitiesTableSeeder;
 use Flogti\SpanishCities\Database\Seeders\ProvincesTableSeeder;
-use Flogti\SpanishCities\Database\Seeders\TownsTableSeeder;
+use Flogti\SpanishCities\Database\Seeders\TownsTableSeeder; */
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ProvincesTableSeeder::class);
         $this->call(TownsTableSeeder::class);
 
+        $this->call(CategoriasSeeder::class);
+        $this->call(ServiciosSeeder::class);
         $this->call(CiclosSeeder::class);
         $this->call(CentrosSeeder::class);
         $this->call(UsuariosSeeder::class);
