@@ -7,7 +7,8 @@ use Illuminate\Database\Seeder;
 use App\Models\Empresa;
 use App\Models\Centro;
 use App\Models\Localidad;
-use Flogti\SpanishCities\Models\Community;
+// use Flogti\SpanishCities\Models\Community;
+use App\Models\Localizacion\Community;
 
 class EmpresasSeeder extends Seeder
 {
