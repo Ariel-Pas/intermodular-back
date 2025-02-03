@@ -28,13 +28,28 @@ class EmpresasApiController extends Controller
     public function index()
     {
         $empresas = Empresa::with('town:id,name,province_id')->get();
-        return response()->json($empresas);
+        return response()->json(new EmpresaBasicResource($empresas));
     }
 
     //Esta se queda abierta para los alumnos
     public function empresasPorCentro($idCentro)
     {
         $centro = Centro::find($idCentro);
+        $empresas = $centro->empresas()->with('town:id,name,province_id')->get();
+        return response()->json(EmpresaBasicResource::collection($empresas));
+    }
+
+    public function obtenerEmpresasUrl(){
+        $centro = Auth::user()->centro;
+
+        return response()->json(['url' => $centro->id]);
+    }
+
+
+    public function empresasPorAuth()
+    {
+
+        $centro = Auth::user()->centro;
         $empresas = $centro->empresas()->with('town:id,name,province_id')->get();
         return response()->json(EmpresaBasicResource::collection($empresas));
     }

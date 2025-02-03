@@ -16,6 +16,7 @@ class EmpresaAuthResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'cif' => $this->cif,
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
             'email' => $this->email,

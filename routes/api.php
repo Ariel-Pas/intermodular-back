@@ -23,6 +23,11 @@ Route::get('empresa-completa/{id}', [EmpresasApiController::class, 'empresaCompl
 //Ruta pública para alumnos
 Route::get('empresas-centro/{idCentro}', [EmpresasApiController::class, 'empresasPorCentro']);
 
+//Obtener ruta pública para alumnos
+Route::get('empresas-centro-url', [EmpresasApiController::class, 'obtenerEmpresasUrl'])->middleware('auth:sanctum');
+
+//Ruta privada empresas que busca según usuario autenticado
+Route::get('empresas-usuario', [EmpresasApiController::class, 'empresasPorAuth'])->middleware('auth:sanctum');
 
 
 //Editar por token

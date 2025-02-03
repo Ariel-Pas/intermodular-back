@@ -1,7 +1,8 @@
 <?php
 
-function fechaActual($formato)
+/* function fechaActual($formato)
 {
     return date($formato);
 }
 
+ */

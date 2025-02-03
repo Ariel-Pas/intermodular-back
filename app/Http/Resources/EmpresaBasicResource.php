@@ -22,8 +22,8 @@ class EmpresaBasicResource extends JsonResource
             'email' => $this->email,
             'direccion' => [
                 'calle' => $this->direccion,
-                'provincia' => $this->province(),
-                'poblacion'=> $this->town,
+                'provincia' => $this->province()->name,
+                'poblacion'=> $this->town->name,
                 'posicion' => [
                     'coordX' => $this->coordX,
                     'coordY' => $this->coordY
