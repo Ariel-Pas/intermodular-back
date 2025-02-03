@@ -1,0 +1,78 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\Servicio;
+use Illuminate\Http\Request;
+
+class ServicioApiController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return response()->json(Servicio::all(), 200);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validarDatos = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'categoria_id' => 'required|exists:categorias,id',
+        ]);
+
+        $servicio = Servicio::create($validarDatos);
+        return response()->json($servicio, 201);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $servicio = Servicio::find($id);
+        if (!$servicio) {
+            return response()->json(['error' => 'Servicio no encontrado'], 404);
+        }
+        return response()->json($servicio, 200);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $servicio = Servicio::find($id);
+        if (!$servicio) {
+            return response()->json(['error' => 'Servicio no encontrado'], 404);
+        }
+
+        $validarDatos = $request->validate([
+            //'sometimes' SOLO VALIDARA EL CAMPO CUANDO ESTE PRESENTE EN LA PETICION
+            'nombre' => 'sometimes|string|max:255',
+            'categoria_id' => 'sometimes|exists:categorias,id',
+        ]);
+
+        $servicio->update($validarDatos);
+        return response()->json($servicio, 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $servicio = Servicio::find($id);
+        if (!$servicio) {
+            return response()->json(['error' => 'Servicio no encontrado'], 404);
+        }
+
+        $servicio->delete();
+        return response()->json(['mensaje' => 'Servicio eliminado correctamente'], 200);
+    }
+}

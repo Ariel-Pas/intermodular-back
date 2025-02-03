@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\EmpresasApiController;
 use App\Http\Controllers\CicloController;
+use App\Http\Controllers\Api\ServicioApiController;
+use App\Http\Controllers\Api\CategoriaApiController;
 use App\Http\Controllers\LocalizacionApiController;
 use App\Http\Controllers\LoginController;
 use App\Models\Ciclo;
@@ -55,3 +57,27 @@ Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('a
 
 
 
+//use Flogti\SpanishCities\Models\Community;
+// Route::get('testmun', function(){
+//     $municipios = Community::find(10)->towns;
+//     return response()->json($municipios);
+// });
+
+
+//SERVICIOS
+// Route::get('/servicios', [ServicioApiController::class, 'index']);
+// Route::get('/servicios/{id}', [ServicioApiController::class, 'show']);
+// Route::post('/servicios', [ServicioApiController::class, 'store']);
+// Route::put('/servicios/{id}', [ServicioApiController::class, 'update']);
+// Route::delete('/servicios/{id}', [ServicioApiController::class, 'destroy']);
+
+Route::apiResource('servicios', ServicioApiController::class);
+
+//CATEGORIAS
+// Route::get('/categorias', [CategoriaApiController::class, 'index']);
+// Route::get('/categorias/{id}', [CategoriaApiController::class, 'show']);
+// Route::post('/categorias', [CategoriaApiController::class, 'store']);
+// Route::put('/categorias/{id}', [CategoriaApiController::class, 'update']);
+// Route::delete('/categorias/{id}', [CategoriaApiController::class, 'destroy']);
+
+Route::apiResource('categorias', CategoriaApiController::class);

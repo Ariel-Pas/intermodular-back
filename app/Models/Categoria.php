@@ -14,7 +14,6 @@ class Categoria extends Model
         return $this->belongsToMany(Servicio::class);
     }
 
-    //REVISAR
     public function empresas(){
         return $this->belongsToMany(Empresa::class);
     }
