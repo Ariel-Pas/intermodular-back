@@ -22,7 +22,6 @@ class UsuariosSeeder extends Seeder
          $admin = new Usuario();
         $admin->nombre = 'admin';
         $admin->apellidos = 'admin';
-        $admin->cif = '';
         $admin->email = 'admin';
         $admin->centro_id = null;
         $admin->role = "Admin";
@@ -33,7 +32,6 @@ class UsuariosSeeder extends Seeder
         $prof = new Usuario();
         $prof->nombre = 'profesor';
         $prof->apellidos = 'profesor';
-        $prof->cif = '2';
         $prof->email = 'profesor';
         $prof->centro_id = null;
         $prof->role = "Tutor";
@@ -44,7 +42,6 @@ class UsuariosSeeder extends Seeder
         $centro = new Usuario();
         $centro->nombre = 'centro';
         $centro->apellidos = 'centro';
-        $centro->cif = '3';
         $centro->email = 'centro';
         $centro->centro_id = null;
         $centro->role = "Centro";
