@@ -9,6 +9,7 @@ use App\Http\Controllers\LocalizacionApiController;
 use App\Http\Controllers\LoginController;
 use App\Models\Ciclo;
 
+
 Route::post('login', [LoginController::class, 'apiLogin'])->name('apiLogin');
 
 Route::get('/user', function (Request $request) {
@@ -51,5 +52,6 @@ Route::get('ciclos', [CicloController::class, 'index'])->middleware('auth:sanctu
 Route::get('ciclos-area/{id}', [CicloController::class, 'ciclosPorArea'])->middleware('auth:sanctum');
 
 Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('auth:sanctum');
+
 
 
