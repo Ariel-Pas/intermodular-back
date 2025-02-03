@@ -14,9 +14,9 @@ class UsuariosSeeder extends Seeder
     public function run(): void
     {
         $centros = Centro::all();
-        foreach ($centros as $centro) {
+        /* foreach ($centros as $centro) {
             Usuario::factory()->create(['centro_id' =>$centro->id]);
-        }
+        } */
 
         //admin
         $admin = new Usuario();

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Centro extends Model
 {
-    //use HasFactory, HasTown;
+    use HasFactory, HasTown;
     protected $guarded = ['id'];
     public function empresas(){
        return $this->belongsToMany(Empresa::class)->withPivot('notas');
