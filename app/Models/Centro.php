@@ -19,4 +19,9 @@ class Centro extends Model
     {
        return $this->hasMany(Usuario::class);
     }
+
+    public function ciclos()
+    {
+        return $this->belongsToMany(Ciclo::class);
+    }
 }
