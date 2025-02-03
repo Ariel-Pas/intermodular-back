@@ -64,6 +64,10 @@ class LoginController extends Controller
                 'access_token' => $token,
                 'token_type' => 'Bearer'
             ]);
+            // return redirect('/admin')->with([
+            //     'access_token' => $token,
+            //     'token_type' => 'Bearer'
+            // ]);
         } else {
             return response()->json([
                 'message' => 'Datos incorrectos'

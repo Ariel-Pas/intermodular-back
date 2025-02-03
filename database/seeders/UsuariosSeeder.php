@@ -19,7 +19,7 @@ class UsuariosSeeder extends Seeder
         }
 
         //admin
-         $admin = new Usuario();
+        $admin = new Usuario();
         $admin->nombre = 'admin';
         $admin->apellidos = 'admin';
         $admin->email = 'admin';

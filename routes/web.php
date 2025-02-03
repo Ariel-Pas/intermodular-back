@@ -7,11 +7,18 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
+//CONTROLAR SI YA ESTAS LOGEADO Y ACCEDES A '/' QUE REDIRIJA A ?
 Route::get('/', function(){
-
-    return view('inicio');
+    return view('auth.login');
 })
 ->name('inicio');
+
+//VER, NO SE SI FUNCIONA
+Route::get('/admin', function () {
+    return view('inicio');
+})->middleware('auth');
+
+
 
 Route::get('empresas/nuevo', [EmpresaController::class, 'nuevoPrueba'])->middleware('Bloquear');
 Route::get('empresas/cambiar/{id}', [EmpresaController::class, 'editarPrueba'])->middleware('Bloquear');

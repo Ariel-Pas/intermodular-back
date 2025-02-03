@@ -1,8 +1,8 @@
-@extends('template')
+{{-- @extends('template')
 
 @section('tituloNavegador', 'Panel de Control')
 
-@section('contenido')
+@section('contenido') --}}
     {{-- <div class="row"> --}}
     {{-- <div class="col-3 ms-2 border-end border-2" style="color:#278a81"> --}}
     <div>
@@ -46,8 +46,8 @@
     {{-- </div> --}}
     {{-- </div> --}}
 
-@endsection
+{{-- @endsection --}}
 
-@section('contenidoDinamico')
+{{-- @section('contenidoDinamico')
     <h2>contenido Dinamico</h2>
-@endsection
+@endsection --}}

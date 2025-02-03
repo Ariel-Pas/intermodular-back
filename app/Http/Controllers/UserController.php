@@ -42,7 +42,7 @@ class UserController extends Controller
 
     public function controlPanel()
     {
-        return view('usuarios.controlPanel');
+        return view('inicio');
     }
 
     /**

@@ -27,10 +27,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-3 ms-2 border-end border-2" style="color:#278a81">
-                    @yield('contenido')
+                    @include('partials.controlPanel')
+                    {{-- @yield('contenido') --}}
                 </div>
                 <div class="col-8">
-                    @yield('contenidoDinamico')
+                    @yield('contenido')
                 </div>
             </div>
         </div>
