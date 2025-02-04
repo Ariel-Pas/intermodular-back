@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Empresa extends Model
 {
-    //use HasFactory, HasTown;
+    use HasFactory, HasTown;
     protected $guarded = ['id'];
 
     protected $hidden = ['created_at', 'updated_at', 'token', 'notas'];
