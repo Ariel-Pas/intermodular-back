@@ -17,11 +17,14 @@ class TokenControllerApi extends Controller
     public function generarToken(Request $request)
     { // request = tiene idEmpresa y tipoFormulario
         try {
+
             $request->validate([
                 'empresa_id' => 'required',
                 'formulario_id' => 'required',
                 'centro_id' => 'required'
             ]);
+
+            // dd($request);
             // $centroUsuario = Auth::user()->centro;
 
             // $empresaUsuario= $centroUsuario->empresas->find($request->empresa_id);  // comprobar si la empresa está asociada al usuario

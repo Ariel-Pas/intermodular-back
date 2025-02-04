@@ -89,8 +89,6 @@ Route::post('/resenias', [ReseniaControllerApi::class, 'store']); // funciona pe
 // Solicitudes
 
 
-
-=======
 //Centros
 Route::get('centros', [CentroApiController::class, 'index']);
 Route::get('centros-provincia/{idProvincia}', [CentroApiController::class, 'centrosPorProvincia']);
