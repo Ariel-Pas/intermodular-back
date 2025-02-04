@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\EmpresasApiController;
+use App\Http\Controllers\Api\CentroApiController;
 use App\Http\Controllers\CicloController;
 use App\Http\Controllers\LocalizacionApiController;
 use App\Http\Controllers\LoginController;
@@ -47,11 +48,15 @@ Route::post('empresas/notas/{idEmpresa}', [EmpresasApiController::class, 'actual
 Route::get('provincias', [LocalizacionApiController::class, 'getProvincias']);
 Route::get('municipios/{id}', [LocalizacionApiController::class, 'getMunicipios']);
 Route::get('areas', [CicloController::class, 'getAreas']);
+
+
 //Ciclos y áreas
 Route::get('ciclos', [CicloController::class, 'index'])->middleware('auth:sanctum');
 Route::get('ciclos-area/{id}', [CicloController::class, 'ciclosPorArea'])->middleware('auth:sanctum');
 
 Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('auth:sanctum');
 
-
-
+//Centros
+Route::get('centros', [CentroApiController::class, 'index']);
+Route::get('centros-provincia/{idProvincia}', [CentroApiController::class, 'centrosPorProvincia']);
+Route::get('centros-localidad/{idLocalidad}', [CentroApiController::class, 'centrosPorLocalidad']);
