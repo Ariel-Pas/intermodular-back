@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CentrosController;
+use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TokenController;
+use App\Http\Controllers\ReseniaController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,4 +25,10 @@ Route::resource('centros', CentrosController::class);
 Route::get('login', [LoginController::class, 'loginForm'])->name('login');
 Route::post('login' , [LoginController::class, 'login']);
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+// Formularios
+Route::get('/mostrarFormularios/{id}', [FormularioController::class, 'mostrarFormulario']); // este no funciona en ThunderClient
+
+// Resenias
+// Route::post('/resenias', [ReseniaController::class, 'store']);
 

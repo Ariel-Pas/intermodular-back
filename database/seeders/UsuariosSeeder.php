@@ -35,7 +35,7 @@ class UsuariosSeeder extends Seeder
         $prof->apellidos = 'profesor';
         $prof->cif = '2';
         $prof->email = 'profesor';
-        $prof->centro_id = 1;
+        $prof->centro_id = 2;
         $prof->role = "profesor";
         $prof->password = bcrypt('profesor');
         $prof->save();
@@ -46,7 +46,7 @@ class UsuariosSeeder extends Seeder
         $centro->apellidos = 'centro';
         $centro->cif = '3';
         $centro->email = 'centro';
-        $centro->centro_id = 1;
+        $centro->centro_id = 3;
         $centro->role = "centro";
         $centro->password = bcrypt('centro');
         $centro->save();
