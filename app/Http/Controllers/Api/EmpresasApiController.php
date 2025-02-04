@@ -77,6 +77,7 @@ class EmpresasApiController extends Controller
             $datos = $request->all();
             $empresa = new Empresa($datos);
             $empresa->token = Str::uuid();
+            $empresa->town_id = $request->localidad;
             $empresa->cif = Str::upper($request->cif);
             $empresa->save();
             $user->centro->empresas()->attach($empresa->id);
@@ -167,9 +168,6 @@ class EmpresasApiController extends Controller
 
     public function obtenerUrlEditarPorIdEmpresa($id)
     {
-        //TODO comprobar que quien pide el token tiene permiso por estar asociado al centro
-
-
         $empresa = Auth::user()->centro->empresas->find($id);
         if(!$empresa) return response()->json(['error' => 'Id no existe'], 404);
 
@@ -200,7 +198,7 @@ class EmpresasApiController extends Controller
     {
         $cif = strtoupper($cif);
         $empresa = Empresa::firstWhere('cif', '=', $cif);
-        if($empresa) return response()->json($empresa);
+        if($empresa) return response()->json(new EmpresaBasicResource($empresa));
         return response()->json(['error' => 'No existe una empresa con ese cif'], 404);
     }
 
