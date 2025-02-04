@@ -25,7 +25,7 @@
         <hr>
     </div>
     <div>
-        <a class="text-decoration-none" href="#"><i class="bi bi-tags"></i> Categorias</a>
+        <a class="text-decoration-none" href="{{route('categorias.index')}}"><i class="bi bi-tags"></i> Categorias</a>
         <hr>
     </div>
     <div>

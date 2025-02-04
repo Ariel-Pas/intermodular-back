@@ -4,6 +4,7 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CentrosController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -34,7 +35,24 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 //ANGULAR
 Route::post('login', [LoginController::class, 'apiLogin'])->name('apilogin');
 
-
 Route::get('admin', [UserController::class, 'controlPanel'])->middleware('RolCheck:Admin')->name('controlPanel');
 Route::get('users', [UserController::class, 'index'])->name('listaUsuarios');
+
+//CATEGORIAS Y SERVICIOS
+Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
+Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
+Route::post('/categorias/{id}/servicios', [CategoriaController::class, 'storeServicio'])->name('servicios.store');
+
+Route::put('/categorias/{id}', [CategoriaController::class, 'update'])->name('categorias.update');
+// Route::post('/categorias/{id}/update', [CategoriaController::class, 'update'])->name('categorias.update');
+
+Route::post('/servicios/{id}/update', [CategoriaController::class, 'updateServicio'])->name('servicios.update');
+
+Route::delete('/categorias/{id}', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
+
+//Route::post('/categorias/{id}/delete', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
+
+Route::delete('/servicios/{id}', [CategoriaController::class, 'destroyServicio'])->name('servicios.destroy');
+// Route::post('/servicios/{id}/delete', [CategoriaController::class, 'destroyServicio'])->name('servicios.destroy');
+
 

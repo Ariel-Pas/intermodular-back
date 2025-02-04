@@ -7,8 +7,8 @@ use Illuminate\Database\Seeder;
 use App\Models\Empresa;
 use App\Models\Centro;
 use App\Models\Localidad;
-// use Flogti\SpanishCities\Models\Community;
-use App\Models\Localizacion\Community;
+use Flogti\SpanishCities\Models\Community;
+// use App\Models\Community;
 
 class EmpresasSeeder extends Seeder
 {
@@ -17,6 +17,7 @@ class EmpresasSeeder extends Seeder
      */
     public function run(): void
     {
+        // Community::all();
         //2 empresas por centro
         $centros = Centro::all();
         $municipios = Community::find(10)->towns;

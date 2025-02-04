@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('servicios', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->foreignId('categoria_id')->constrained()->onDelete('cascade');
-            //NUEVO
-            // $table->foreignId('categoria_id')->nullable()->constrained()->onDelete('cascade');
+            $table->string('nombre')->unique();
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('servicios');
+        Schema::dropIfExists('roles');
     }
 };

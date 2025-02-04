@@ -25,9 +25,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ServiciosSeeder::class);
         $this->call(CiclosSeeder::class);
         $this->call(CentrosSeeder::class);
+        $this->call(RolesSeeder::class);
         $this->call(UsuariosSeeder::class);
         $this->call(EmpresasSeeder::class);
-
 
 
         /* User::factory()->create([

@@ -8,10 +8,13 @@ class Categoria extends Model
 {
     protected $guarded = ['id'];
 
+    protected $fillable = ['nombre'];
+
     protected $hidden = ['created_at', 'updated_at'];
 
+    //CAMBIADO DE belongsToMany A HasMany
     public function servicios(){
-        return $this->belongsToMany(Servicio::class);
+        return $this->hasMany(Servicio::class);
     }
 
     public function empresas(){

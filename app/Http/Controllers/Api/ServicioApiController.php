@@ -13,7 +13,8 @@ class ServicioApiController extends Controller
      */
     public function index()
     {
-        return response()->json(Servicio::all(), 200);
+        // return response()->json(Servicio::all(), 200);
+        return response()->json(Servicio::with('categoria')->get(), 200);
     }
 
     /**
@@ -24,6 +25,8 @@ class ServicioApiController extends Controller
         $validarDatos = $request->validate([
             'nombre' => 'required|string|max:255',
             'categoria_id' => 'required|exists:categorias,id',
+            //REVISAR
+            // 'categoria_id' => 'nullable|exists:categorias,id',
         ]);
 
         $servicio = Servicio::create($validarDatos);
@@ -35,7 +38,8 @@ class ServicioApiController extends Controller
      */
     public function show(string $id)
     {
-        $servicio = Servicio::find($id);
+        // $servicio = Servicio::find($id);
+        $servicio = Servicio::with('categoria')->find($id);
         if (!$servicio) {
             return response()->json(['error' => 'Servicio no encontrado'], 404);
         }
@@ -56,6 +60,9 @@ class ServicioApiController extends Controller
             //'sometimes' SOLO VALIDARA EL CAMPO CUANDO ESTE PRESENTE EN LA PETICION
             'nombre' => 'sometimes|string|max:255',
             'categoria_id' => 'sometimes|exists:categorias,id',
+            //REVISAR
+            // 'categoria_id' => 'sometimes|nullable|exists:categorias,id',
+
         ]);
 
         $servicio->update($validarDatos);

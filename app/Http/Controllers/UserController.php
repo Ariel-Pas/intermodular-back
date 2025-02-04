@@ -128,4 +128,17 @@ class UserController extends Controller
 
         return redirect()->route('usuarios.index')->with('msg', "Usuario con ID: $id eliminado con éxito!");
     }
+
+    public function asignarRoles(Request $request, Usuario $user)
+    {
+        $request->validate([
+            'roles' => 'required|array',
+            'roles.*' => 'exists:roles,id',
+        ]);
+
+        //ASIGNA MULTIPLES ROLES AL USUARIO
+        $user->roles()->sync($request->roles);
+
+        return response()->json(['mensaje' => 'Roles asignados correctamente']);
+    }
 }

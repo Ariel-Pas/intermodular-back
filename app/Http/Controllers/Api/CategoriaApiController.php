@@ -13,7 +13,7 @@ class CategoriaApiController extends Controller
      */
     public function index()
     {
-        return response()->json(Categoria::all(), 200);
+        return response()->json(Categoria::with('servicios')->get(), 200);
     }
 
     /**
@@ -34,7 +34,8 @@ class CategoriaApiController extends Controller
      */
     public function show(string $id)
     {
-        $categoria = Categoria::find($id);
+        // $categoria = Categoria::find($id);
+        $categoria = Categoria::with('servicios')->find($id);
         if (!$categoria) {
             return response()->json(['error' => 'Categoría no encontrada'], 404);
         }
@@ -46,7 +47,7 @@ class CategoriaApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $categoria = Categoria::find('id');
+        $categoria = Categoria::find($id);
         if (!$categoria) {
             return response()->json(['error' => 'Categoría no encontrada'], 404);
         }

@@ -60,17 +60,15 @@ class Usuario extends Authenticatable
         return $this->belongsTo(Empresa::class);
     }
 
+    public function roles(){
+        // return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_usuario', 'usuario_id', 'role_id');
+    }
+
     //MANEJO DE VISTAS
-    public function esAdmin() {
-        return $this->role === 'Admin';
-    }
-
-    public function esCentro(){
-        return $this->role === 'Centro';
-    }
-
-    public function esTutor(){
-        return $this->role === 'Tutor';
+    public function tieneRol($rolNombre)
+    {
+        return $this->roles()->where('nombre', $rolNombre)->exists();
     }
 
 }
