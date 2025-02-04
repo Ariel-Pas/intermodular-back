@@ -25,7 +25,6 @@ class EmpresasApiController extends Controller
      */
     public function store(EmpresaRequest $request)
     {
-
         try{
             $datos = $request->all();
             $empresa = new Empresa($datos);
@@ -43,6 +42,7 @@ class EmpresasApiController extends Controller
      */
     public function show(string $id)
     {
+
         $empresa = Empresa::find($id); //que pasa si fail?
         if($empresa == null) return response()->json(json_encode(['error'=>'No existe la empresa']), 404);
         return response()->json($empresa);
