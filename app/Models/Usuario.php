@@ -6,7 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use app\Models\Centro;
+use App\Models\Centro;
+
 use Laravel\Sanctum\HasApiTokens;
 
 class Usuario extends Authenticatable
@@ -52,5 +53,10 @@ class Usuario extends Authenticatable
     //relaciones
     public function centro(){
         return $this->belongsTo(Centro::class);
+    }
+
+    //REVISAR
+    public function empresa(){
+        return $this->belongsTo(Empresa::class);
     }
 }

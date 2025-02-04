@@ -11,6 +11,7 @@ class Centro extends Model
 {
     use HasFactory, HasTown;
     protected $guarded = ['id'];
+    protected $hidden = ['password'];
     public function empresas(){
        return $this->belongsToMany(Empresa::class)->withPivot('notas');
     }
@@ -19,4 +20,10 @@ class Centro extends Model
     {
        return $this->hasMany(Usuario::class);
     }
+
+    public function ciclos()
+    {
+        return $this->belongsToMany(Ciclo::class);
+    }
+
 }

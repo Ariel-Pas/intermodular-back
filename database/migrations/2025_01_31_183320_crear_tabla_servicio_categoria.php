@@ -11,16 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('centros', function (Blueprint $table) {
+        Schema::create('serv_cat', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('categoria_id')->constrained();
+            $table->foreignId('servicio_id')->constrained();
             $table->timestamps();
-            $table->string('nombre');
-            $table->string('codigo');
-            $table->string('email');
-            $table->string('password');
-            $table->string('direccion');
-            $table->string('telefono');
-            $table->foreignId('town_id')->constrained();
         });
     }
 
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('centros');
+        Schema::dropIfExists('serv_cat');
     }
 };

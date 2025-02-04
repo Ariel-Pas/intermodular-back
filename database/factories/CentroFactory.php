@@ -24,8 +24,6 @@ class CentroFactory extends Factory
             'password' => fake()->password(),
             'direccion' => fake()->address(),
             'telefono' => fake()->phoneNumber(),
-            'poblacion' => rand(1,30),
-            'provincia' => rand(1,15)
         ];
     }
 }
