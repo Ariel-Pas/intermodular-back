@@ -23,9 +23,16 @@ class CategoriaApiController extends Controller
     {
         $validarDatos = $request->validate([
             'nombre' => 'required|string|max:255',
+            'servicios' => 'array',
+            'servicios.*' => 'exists:servicios,id'
         ]);
 
         $categoria = Categoria::create($validarDatos);
+
+        if($request->has('servicios')){
+            $categoria->servicios()->sync($request->servicios);
+        }
+
         return response()->json($categoria, 201);
     }
 
@@ -34,7 +41,6 @@ class CategoriaApiController extends Controller
      */
     public function show(string $id)
     {
-        // $categoria = Categoria::find($id);
         $categoria = Categoria::with('servicios')->find($id);
         if (!$categoria) {
             return response()->json(['error' => 'Categoría no encontrada'], 404);
@@ -52,12 +58,23 @@ class CategoriaApiController extends Controller
             return response()->json(['error' => 'Categoría no encontrada'], 404);
         }
 
-        $validarDatos = $request->validate([
-            //'sometimes' SOLO VALIDARA EL CAMPO CUANDO ESTE PRESENTE EN LA PETICION
-            'nombre' => 'sometimes|string|max:255',
+        if($categoria->nombre !== $request->nombre){
+            $request->validate([
+                'nombre' => 'required|string|max:255|unique:categoria,nombre'
+            ]);
+        }
+
+        $request->validate([
+            'servicios' => 'array',
+            'servicios.*' => 'exists:servicios,id'
         ]);
 
-        $categoria->update($validarDatos);
+        $categoria->update($request->nombre);
+
+        if($request->has('servicios')){
+            $categoria->servicios()->sync($request->servicios);
+        }
+
         return response()->json($categoria, 200);
     }
 

@@ -14,8 +14,9 @@ class CategoriaController extends Controller
     public function index()
     {
         $categorias = Categoria::with('servicios')->get();
-        //CREAR VISTA
-        return view('categorias.categorias', compact('categorias'));
+        $servicios = Servicio::all();
+
+        return view('categorias.categorias', compact('categorias','servicios'));
     }
 
     /**
@@ -32,9 +33,16 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         $request->validate(['nombre' => 'required|unique:categorias']);
-        Categoria::create(['nombre' => $request->nombre]);
+        $categoria =  Categoria::create([
+            'nombre' => $request->nombre
+        ]);
+
+        //ASOCIO LOS SERVICIOS A LA CATEGORIA
+        if ($request->has('servicios')) {
+            $categoria->servicios()->sync($request->servicios);
+        }
+
         $msg = 'Categoria agregada.';
-        // return view('categorias.categorias', compact('msg'));
         return redirect()->route('categorias.index')->with('msg', $msg);
     }
 
@@ -59,10 +67,19 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate(['nombre' => 'required|unique:categorias,nombre']);
-        Categoria::findOrFail($id)->update(['nombre' => $request->nombre]);
+
+        $categoria = Categoria::findOrFail($id);
+
+        if($categoria->nombre !== $request->nombre){
+            $request->validate(['nombre' => 'required|unique:categorias,nombre']);
+        }
+
+        $categoria->update(['nombre' => $request->nombre]);
+
+        //ASOCIO LOS SERVICIOS A LA CATEGORIA
+        $categoria->servicios()->sync($request->servicios ?? []);
+
         $msg = 'Categoria actualizada.';
-        // return view('categorias.categorias', compact('msg'));
         return redirect()->route('categorias.index')->with('msg', $msg);
     }
 
@@ -71,48 +88,10 @@ class CategoriaController extends Controller
      */
     public function destroy(string $id)
     {
-        // Categoria::findOrFail($id)->delete();
         $categoria = Categoria::findOrFail($id);
         $categoria->delete();
         $msg = 'Categoria eliminada.';
-        // return view('categorias.categorias', compact('msg'));
         return redirect()->route('categorias.index')->with('msg', $msg);
     }
 
-    public function storeServicio(Request $request, $categoria_id)
-    {
-        $request->validate([
-            'nombre' => 'required|unique:servicios,nombre,NULL,id,categoria_id,' . $categoria_id
-        ]);
-        Servicio::create([
-            'nombre' => $request->nombre,
-            'categoria_id' => $categoria_id
-        ]);
-
-        $msg = "Servicio creado.";
-        // return view('categorias.categorias', compact('msg'));
-        return redirect()->route('categorias.index')->with('msg', $msg);
-    }
-
-    public function updateServicio(Request $request, string $id)
-    {
-        $servicio = Servicio::findOrFail($id);
-        $request->validate([
-            'nombre' => 'required|unique:servicios,nombre,NULL,id,categoria_id,' . $servicio->categoria_id
-        ]);
-        $servicio->update(['nombre' => $request->nombre]);
-        $msg = "Servicio actualizado.";
-        // return view('categorias.categorias', compact('msg'));
-        return redirect()->route('categorias.index')->with('msg', $msg);
-    }
-
-    public function destroyServicio(string $id)
-    {
-        // Servicio::findOrFail($id)->delete();
-        $servicio = Servicio::findOrFail($id);
-        $servicio->delete();
-        $msg = "Servicio eliminado.";
-        // return view('categorias.categorias', compact('msg'));
-        return redirect()->route('categorias.index')->with('msg', $msg);
-    }
 }

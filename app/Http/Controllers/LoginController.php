@@ -80,4 +80,40 @@ class LoginController extends Controller
             ]);
         }
     }
+
+    //PROBAR
+    // public function apiLogin(Request $request)
+    // {
+    //     $credenciales = $request->only(['email', 'password']);
+
+    //     if (Auth::attempt(['email' => $credenciales['email'], 'password' => $credenciales['password']])) {
+    //         $user = Auth::user();
+    //         $token = $user->createToken('auth')->plainTextToken;
+    //         $roles = $user->roles->pluck('nombre');
+
+    //         // Si la petición es una API (JSON o AJAX), devolvemos JSON
+    //         if ($request->expectsJson() || $request->ajax()) {
+    //             return response()->json([
+    //                 'access_token' => $token,
+    //                 'token_type' => 'Bearer',
+    //                 'roles' => $roles,
+    //                 'nombre' => $user->nombre
+    //             ]);
+    //         }
+
+    //         // Si es una petición normal, guardamos el token en la sesión y redirigimos
+    //         session(['access_token' => $token]);
+
+    //         return redirect('/admin');
+    //     }
+
+    //     // Si falla la autenticación, enviamos JSON o redirigimos con error
+    //     if ($request->expectsJson() || $request->ajax()) {
+    //         return response()->json([
+    //             'message' => 'Datos incorrectos'
+    //         ], 401);
+    //     }
+
+    //     return redirect()->back()->withErrors(['message' => 'Datos incorrectos']);
+    // }
 }

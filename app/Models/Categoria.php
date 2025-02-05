@@ -12,9 +12,8 @@ class Categoria extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
-    //CAMBIADO DE belongsToMany A HasMany
     public function servicios(){
-        return $this->hasMany(Servicio::class);
+        return $this->belongsToMany(Servicio::class, 'categoria_servicio');
     }
 
     public function empresas(){

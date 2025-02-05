@@ -54,28 +54,28 @@ class ServiciosSeeder extends Seeder
             ["categoria" => 4, "id" => 37, "nombre" => "Café"],
         ];
 
-        // foreach ($servicios as $servicioData) {
-        //     $servicio = Servicio::create([
-        //         'id' => $servicioData['id'],
-        //         'nombre' => $servicioData['nombre']
-        //     ]);
-
-        //     $categoria = Categoria::find($servicioData['categoria']);
-        //     if ($categoria) {
-        //         $servicio->categorias()->attach($categoria->id);
-        //     }
-        // }
-
         foreach ($servicios as $servicioData) {
-            $categoria = Categoria::find($servicioData['categoria']);
+            $servicio = Servicio::create([
+                'id' => $servicioData['id'],
+                'nombre' => $servicioData['nombre']
+            ]);
 
+            $categoria = Categoria::find($servicioData['categoria']);
             if ($categoria) {
-                Servicio::create([
-                    'id' => $servicioData['id'],
-                    'nombre' => $servicioData['nombre'],
-                    'categoria_id' => $categoria->id, 
-                ]);
+                $servicio->categorias()->attach($categoria->id);
             }
         }
+
+        // foreach ($servicios as $servicioData) {
+        //     $categoria = Categoria::find($servicioData['categoria']);
+
+        //     if ($categoria) {
+        //         Servicio::create([
+        //             'id' => $servicioData['id'],
+        //             'nombre' => $servicioData['nombre'],
+        //              'categoria_id' => $categoria->id,
+        //         ]);
+        //     }
+        // }
     }
 }
