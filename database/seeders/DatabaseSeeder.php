@@ -30,6 +30,11 @@ class DatabaseSeeder extends Seeder
         $this->call(EmpresasSeeder::class);
 
 
+        $this->call(FormularioSeeder::class);
+        $this->call(PreguntasSeeder::class);
+        $this->call(FormularioPreguntaSeeder::class);
+
+
         /* User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
