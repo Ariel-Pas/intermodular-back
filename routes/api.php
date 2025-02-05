@@ -44,14 +44,16 @@ Route::post('empresas/token/{token}', [EmpresasApiController::class, 'updateEmpr
 Route::get('empresas/comprobar-cif/{cif}', [EmpresasApiController::class, 'obtenerEmpresaPorCif'])->middleware('auth:sanctum');
 Route::get('empresas/asociar-centro/{id}', [EmpresasApiController::class, 'asociarEmpresaCentro'])->middleware('auth:sanctum');
 
+
 //Actualizar notas de empresa
 Route::post('empresas/notas/{idEmpresa}', [EmpresasApiController::class, 'actualizarNota'])->middleware('auth:sanctum');
 
 //Localizaciones
 Route::get('provincias', [LocalizacionApiController::class, 'getProvincias']);
 Route::get('municipios/{id}', [LocalizacionApiController::class, 'getMunicipios']);
-Route::get('areas', [CicloController::class, 'getAreas']);
+
 //Ciclos y áreas
+Route::get('areas', [CicloController::class, 'getAreas']);
 Route::get('ciclos', [CicloController::class, 'index'])->middleware('auth:sanctum');
 Route::get('ciclos-area/{id}', [CicloController::class, 'ciclosPorArea'])->middleware('auth:sanctum');
 

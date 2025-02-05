@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Community;
-use App\Models\Province;
-use App\Models\Town;
+/* use App\Models\Community;
+use App\Models\Province; */
+//use App\Models\Town;
+
+use App\Http\Resources\ProvinciaResource;
 use Illuminate\Http\Request;
+use Flogti\SpanishCities\Models\Town;
+use Flogti\SpanishCities\Models\Community;
+use Flogti\SpanishCities\Models\Province;
 
 class LocalizacionApiController extends Controller
 {
-    //obtener provincias- nombre e id
+    //obtener provincias- nombre e i
     public function getProvincias(){
         $provincias = Community::find(10)->provinces;
-        return response()->json($provincias);
+        return response()->json(ProvinciaResource::collection($provincias));
     }
 
     public function getProvincia($id)
     {
         $provincia = Province::find($id);
-        return response()->json($provincia);
+        return response()->json(new ProvinciaResource($provincia));
     }
 
     public function getMunicipios($id)

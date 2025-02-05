@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\EmpresaRequest;
 use App\Http\Requests\UpdateEmpresaRequest;
 use App\Http\Resources\EmpresaAuthResource;
+use App\Http\Resources\EmpresaAuthSinNotasResource;
 use App\Http\Resources\EmpresaBasicResource;
 use \Exception;
 use Illuminate\Support\Facades\Auth;
@@ -180,7 +181,7 @@ class EmpresasApiController extends Controller
         $empresa = Empresa::where('token', '=', $token)->first();
         if(!$empresa) return response()->json(['error' => 'Token incorrecto']);
 
-        return response()->json($empresa);
+        return response()->json(new EmpresaAuthSinNotasResource($empresa));
 
     }
 

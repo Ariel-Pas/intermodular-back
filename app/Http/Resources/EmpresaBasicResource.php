@@ -22,7 +22,7 @@ class EmpresaBasicResource extends JsonResource
             'email' => $this->email,
             'direccion' => [
                 'calle' => $this->direccion,
-                'provincia' => $this->province()->name,
+                'provincia' => new ProvinciaResource($this->province()),
                 'poblacion'=> $this->town->name,
                 'posicion' => [
                     'coordX' => $this->coordX,

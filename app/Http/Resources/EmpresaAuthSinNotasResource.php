@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\EmpresasApiController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EmpresaAuthResource extends JsonResource
+class EmpresaAuthSinNotasResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,7 +22,7 @@ class EmpresaAuthResource extends JsonResource
             'email' => $this->email,
             'direccion' => [
                 'calle' => $this->direccion,
-                'provincia' => new ProvinciaResource($this->province()),
+                'provincia' =>new ProvinciaResource($this->province()),
                 'poblacion'=> $this->town,
                 'posicion' => [
                     'coordX' => $this->coordX,
@@ -39,7 +39,6 @@ class EmpresaAuthResource extends JsonResource
             'servicios' => [],
             'vacantes' => $this->vacantes,
             'puntuacion'=> $this->puntuacion_alumno,
-            'notas' => $this->pivot->notas,
             'urlEditar' =>  action([EmpresasApiController::class, 'empresaPorToken'], ['token'=>$this->token])
         ];
     }
