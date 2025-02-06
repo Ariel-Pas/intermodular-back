@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UsuarioRequest;
 use App\Models\Usuario;
 use App\Models\Centro;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 
 class UserController extends Controller
@@ -38,21 +40,24 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UsuarioRequest $request)
+    //HE QUITADO EL UsuarioRequest PORQUE ME DA FALLOS CON EL EMAIL, AGREGAR LUEGO
+    public function store(Request $request)
     {
+
         $usuario = new Usuario();
         $usuario->nombre = $request->nombre;
-        $usuario->apellido = $request->apellido;
+        $usuario->apellidos = $request->apellidos;
         $usuario->email = $request->email;
-        $usuario->password = $request->password;
-
-        //REVISAR UNIQUE REL CENTRO
+        $usuario->password = bcrypt($request->password);
         $usuario->centro_id = $request->centro_id;
-
-        $usuario->role = 'Tutor';
         $usuario->save();
 
-        return redirect()->route('usuarios.index')->with('msg', "Usuario creado con éxito!");
+        //ASIGNAR ROLES
+        $roles = Role::whereIn('nombre', $request->roles)->get();
+        $usuario->roles()->attach($roles);
+
+        $msg = "Usuario creado con éxito!";
+        return redirect()->route('usuarios.index')->with('msg', $msg);
     }
 
     /**
@@ -70,26 +75,32 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $usuario = Usuario::findOrFail($id);
-        return view('usuarios.edit', compact('usuario'));
+        $centros = Centro::all();
+        return view('usuarios.edit', compact('usuario', 'centros'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UsuarioRequest $request, Usuario $usuario)
+    public function update(Request $request, string $id)
     {
-        //CHEQUEAR EDICION
+        $usuario = Usuario::findOrFail($id);
         $usuario->nombre = $request->nombre;
-        $usuario->apellido = $request->apellido;
-        //REVISAR UNIQUE
+        $usuario->apellidos = $request->apellidos;
         $usuario->email = $request->email;
-        $usuario->password = $request->password;
-        //REVISAR UNIQUE REL CENTRO
-        // $usuario->centro_id = $request->centro_id;
-        $usuario->role = $request->role;
-        $usuario->save();
+        //SI NO SE CAMBIA EL PASS, NO ES NECESARIO ENCRIPTARLA DENUEVO
+        if ($request->password) {
+            $usuario->password = bcrypt($request->password);
+        }
+        $usuario->centro_id = $request->centro_id;
+        $usuario->update();
 
-        return redirect()->route('usuarios.index')->with('msg', "Usuario $request->nombre, y rol $request->role editado con éxito!");
+        //ASIGNAR ROLES
+        $rolesIds = Role::whereIn('nombre', $request->roles)->pluck('id');
+        $usuario->roles()->sync($rolesIds);
+
+        $msg = "Usuario $request->nombre editado con éxito!";
+        return redirect()->route('usuarios.index')->with('msg', $msg);
     }
 
     /**

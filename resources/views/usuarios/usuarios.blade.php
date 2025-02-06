@@ -25,10 +25,11 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Email</th>
+                        {{-- <th>Apellidos</th>
+                        <th>Email</th> --}}
                         <th>ID Centro</th>
-                        <th>Fecha de Alta</th>
+                        <th>Rol/es</th>
+                        {{-- <th>Fecha de Alta</th> --}}
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -39,12 +40,15 @@
                         <td>{{$usuario->id}}</td>
                         {{-- DATOS USUARIO --}}
                         <td>{{$usuario->nombre}}</td>
-                        <td>{{$usuario->apellidos}}</td>
-                        <td>{{$usuario->email}}</td>
+                        {{-- <td>{{$usuario->apellidos}}</td>
+                        <td>{{$usuario->email}}</td> --}}
                         <td>{{$usuario->centro_id}}</td>
-                        <td>{{$usuario->created_at}}</td>
+                        {{-- <td>{{$usuario->created_at}}</td> --}}
+                        <td>{{$usuario->roles->pluck('nombre')->join(', ')}}</td>
                         <td class="d-flex justify-content-center">
-                            <a class="align-self-center text-dark" href="{{route('usuarios.edit', $usuario->id)}}"><i class="bi bi-pencil-square"></i></a>
+                            <a class="align-self-center text-dark ms-3 me-3" href="{{route('usuarios.show', $usuario->id)}}"><i class="bi bi-eye"></i></a>
+                            <a class="align-self-center text-dark me-1" href="{{route('usuarios.edit', $usuario->id)}}"><i class="bi bi-pencil-square"></i></a>
+                            {{-- ELIMINAR USUARIO --}}
                             <form method="POST" action="{{route('usuarios.destroy', $usuario->id)}}">
                                 @csrf
                                 @method('DELETE')

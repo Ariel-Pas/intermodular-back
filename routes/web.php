@@ -41,11 +41,13 @@ Route::get('admin', [UserController::class, 'controlPanel'])->middleware('RolChe
 
 //USUARIOS
 Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
-Route::get('usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
+Route::get('/usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
+Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
 Route::get('/usuarios/edit/{id}', [UserController::class, 'edit'])->name('usuarios.edit');
-Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store')->middleware('auth');
+Route::get('/usuarios/{id}', [UserController::class, 'show'])->name('usuarios.show');
 Route::put('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.update');
 Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+//Route::resource('usuarios', UserController::class)->only(['create', 'edit','update', 'index', 'show', 'destroy', 'store']);
 
 //CATEGORIAS
 Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
