@@ -33,7 +33,6 @@ class EmpresaFactory extends Factory
             'vacantes' => rand(1,7),
             'puntuacion_profesor' => rand(1,10),
             'puntuacion_alumno' => rand(1,10),
-            'telefono' => fake()->phoneNumber(),
             'token' => Str::uuid()
         ];
     }

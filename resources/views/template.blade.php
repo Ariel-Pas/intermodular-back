@@ -20,7 +20,7 @@
         @include ('partials.nav-bar')
         <!-- VER DE MOVER ESTO AL NAV-BAR -->
         <div class="container-md d-flex justify-content-end">
-            <div>{{ fechaActual('d/m/Y') }}</div>
+           
         </div>
         <!-- VER DE MOVER ESTO AL NAV-BAR -->
         <hr>
