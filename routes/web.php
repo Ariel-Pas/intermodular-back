@@ -62,6 +62,10 @@ Route::delete('/servicios/{id}', [ServicioController::class, 'destroy'])->name('
 Route::get('/mostrarFormularios/{id}', [FormularioController::class, 'mostrarFormulario']); // este no funciona en ThunderClient
 
 // Resenias
+// Route::get('/resenias/index', [ReseniaController::class, 'index'])->name('resenias.index');
+Route::get('/resenias/{tipo?}', [ReseniaController::class, 'index'])->name('resenias.index');
+Route::get('/resenias/empresa/{empresaId}', [ReseniaController::class, 'show'])->name('resenias.show');
+
 // Route::post('/resenias', [ReseniaController::class, 'store']);
 
 
