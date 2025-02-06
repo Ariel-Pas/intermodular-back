@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('cif')->unique();
+        Schema::create('categoria_servicio', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('categoria_id')->constrained()->onDelete('cascade');
+            $table->foreignId('servicio_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('cif');
-        });
+        Schema::dropIfExists('serv_cat');
     }
 };
