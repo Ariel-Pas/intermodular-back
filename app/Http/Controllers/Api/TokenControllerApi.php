@@ -38,7 +38,9 @@ class TokenControllerApi extends Controller
                 'centro_id' => $request->centro_id, //$centroUsuario->id
                 'formulario_id' => $request->formulario_id,
             ]);
-            return response()->json(['url' => "/mostrarFormulario/$token"], 200);  // genero token , debo ver si debe coincidir con el endpoint o como
+            // return response()->json(['url' => "/mostrarFormulario/$token"], 200);  // genero token , debo ver si debe coincidir con el endpoint o como
+            // return response()->json(["$token"], 200);  // genero token , debo ver si debe coincidir con el endpoint o como
+            return response()->json(['token' => $token], 200);
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

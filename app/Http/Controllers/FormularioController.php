@@ -20,6 +20,8 @@ public function mostrarFormulario($id)
 }
 
 
+
+
     // public function mostrarFormulario($token) {
     //     $token = Token::with(['formulario', 'empresa', 'centro'])->where('token', $token)->first();
 
