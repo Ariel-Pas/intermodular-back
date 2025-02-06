@@ -20,9 +20,6 @@ use \Exception;
 
 class SolicitudControllerApi extends Controller
 {
-    // antes de hacer un insert (post) de una solicitud debo comprobar si existe la empresa en la bbdd
-    // observando el cif, si el cif existe debo asociar la solicitud a la empresa para que agrega la solicitud a dicha empresa
-
 
 
 
@@ -37,12 +34,23 @@ class SolicitudControllerApi extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(SolicitudRequest $request)
     {
         // antes de hacer un insert de una solicitud debo comprobar si existe la empresa en la bbdd observando el cif,
         // si el cif existe en la bbdd debo asociar la solicitud a la empresa para que agrega la solicitud a dicha empresa
 
+
         $empresa = Empresa::where('cif', $request->cif)->first();
+
+        // $empresa = Empresa::where('cif', $request->cif)->first();
+
+        // if ($empresa) {
+        //     $empresa->empresa->associate->id;
+        // } else {
+
+        // }
+
 
         try {
             $solicitud = Solicitud::create([
@@ -60,15 +68,22 @@ class SolicitudControllerApi extends Controller
                 'empresa_id' => $request->empresa_id,
             ]);
 
+
             $solicitud->ciclos()->attach($request->ciclos, [
                 'numero_puestos' => $request->numero_puestos, // introduzco el atributo adicional de la tabla pivot
             ]);
+
+            // $solicitud->ciclos()->attach($request->ciclos, [
+            //     'numero_puestos' => $request->numero_puestos, // introduzco el atributo adicional de la tabla pivot
+            // ]);
+
 
             return response()->json(['message' => 'Solicitud creada exitosamente', 'solicitud' => $solicitud], 201);
         } catch (Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 500);
         }
     }
+
 
 
     // public function agregarCiclosASolicitud(Request $request, $id)
