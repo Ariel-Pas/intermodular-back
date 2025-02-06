@@ -15,6 +15,7 @@ use App\Http\Resources\EmpresaAuthResource;
 use App\Http\Resources\EmpresaAuthSinNotasResource;
 use App\Http\Resources\EmpresaBasicResource;
 use \Exception;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -75,15 +76,16 @@ class EmpresasApiController extends Controller
         $centro = $user->centro;
         //return response()->json($centro);
         try{
-            $datos = $request->all();
+            $datos = $request->except(['imagen', 'tipoImagen']);
             $empresa = new Empresa($datos);
             $empresa->token = Str::uuid();
             $empresa->town_id = $request->localidad;
             $empresa->cif = Str::upper($request->cif);
+            $empresa->imagen = EmpresasApiController::leerImagen($request->imagen, $request->tipoImagen);
             $empresa->save();
             $user->centro->empresas()->attach($empresa->id);
             $empresa->save();
-            return response()->json(new EmpresaAuthResource($empresa));
+            return response()->json(new EmpresaAuthSinNotasResource($empresa));
 
         }catch(Exception $ex)
         {
@@ -133,11 +135,13 @@ class EmpresasApiController extends Controller
         $empresa->horario_manana = $request->horario_manana;
         $empresa->horario_tarde = $request->horario_tarde;
         $empresa->finSemana = $request->finSemana;
+        $empresa->town_id = $request->localidad;
+        if($request->has('imagen') && $request->imagen != '') $empresa->imagen = EmpresasApiController::leerImagen($request->imagen, $request->tipoImagen);
 
         //$empresa->update($datos);
         $empresa->save();
 
-        return response()->json(new EmpresaAuthResource($empresa));
+        return response()->json(new EmpresaAuthSinNotasResource($empresa));
     }
 
     /**
@@ -245,6 +249,19 @@ class EmpresasApiController extends Controller
 
 
         return response(null);
+
+    }
+
+
+    private static function leerImagen($base64, $formato){
+        $formatosValidos = ['jpg', 'jpeg', 'png', 'webp'];
+        if(!in_array($formato, $formatosValidos)) throw new Exception("Formato no válido", 1);
+        ;
+
+        $data = base64_decode($base64);
+        $nombre = time().'.'.$formato;
+        Storage::put($nombre, $data, 'public');
+        return public_path($nombre);
 
     }
 

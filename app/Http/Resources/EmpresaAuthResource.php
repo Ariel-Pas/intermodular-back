@@ -40,7 +40,7 @@ class EmpresaAuthResource extends JsonResource
             'vacantes' => $this->vacantes,
             'puntuacion'=> $this->puntuacion_alumno,
             'notas' => $this->pivot->notas,
-            'urlEditar' =>  action([EmpresasApiController::class, 'empresaPorToken'], ['token'=>$this->token])
+            'urlEditar' => $this->token
         ];
     }
 }
