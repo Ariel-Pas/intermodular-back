@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('horario_tarde');
             $table->boolean('finSemana');
             $table->string('imagen')->nullable();
-            $table->string('telefono');
             $table->double('puntuacion_profesor')->nullable();
             $table->double('puntuacion_alumno')->nullable();
             $table->integer('vacantes')->nullable();

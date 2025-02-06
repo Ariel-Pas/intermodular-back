@@ -11,6 +11,9 @@ use App\Http\Controllers\Api\CentroApiController;
 use App\Http\Controllers\Api\SolicitudControllerApi;
 use App\Http\Controllers\CicloController;
 
+use App\Http\Controllers\Api\ServicioApiController;
+use App\Http\Controllers\Api\CategoriaApiController;
+
 use App\Http\Controllers\LocalizacionApiController;
 use App\Http\Controllers\LoginController;
 use App\Models\Ciclo;
@@ -39,6 +42,11 @@ Route::get('empresa-completa/{id}', [EmpresasApiController::class, 'empresaCompl
 Route::get('empresas-centro/{idCentro}', [EmpresasApiController::class, 'empresasPorCentro']);
 
 
+//Obtener ruta pública para alumnos
+Route::get('empresas-centro-url', [EmpresasApiController::class, 'obtenerEmpresasUrl'])->middleware('auth:sanctum');
+
+//Ruta privada empresas que busca según usuario autenticado
+Route::get('empresas-usuario', [EmpresasApiController::class, 'empresasPorAuth'])->middleware('auth:sanctum');
 
 //Editar por token
 //obtener url editar de una empresa
@@ -48,11 +56,11 @@ Route::get('empresas/token/{token}', [EmpresasApiController::class, 'empresaPorT
 //Editar
 Route::post('empresas/token/{token}', [EmpresasApiController::class, 'updateEmpresaPorToken']);
 
-
 //Asociar empresa a centro
 //Comprobar si existe por cif
 Route::get('empresas/comprobar-cif/{cif}', [EmpresasApiController::class, 'obtenerEmpresaPorCif'])->middleware('auth:sanctum');
 Route::get('empresas/asociar-centro/{id}', [EmpresasApiController::class, 'asociarEmpresaCentro'])->middleware('auth:sanctum');
+
 
 //Actualizar notas de empresa
 Route::post('empresas/notas/{idEmpresa}', [EmpresasApiController::class, 'actualizarNota'])->middleware('auth:sanctum');
@@ -60,20 +68,21 @@ Route::post('empresas/notas/{idEmpresa}', [EmpresasApiController::class, 'actual
 //Localizaciones
 Route::get('provincias', [LocalizacionApiController::class, 'getProvincias']);
 Route::get('municipios/{id}', [LocalizacionApiController::class, 'getMunicipios']);
-Route::get('areas', [CicloController::class, 'getAreas']);
 
 
 //Ciclos y áreas
+Route::get('areas', [CicloController::class, 'getAreas']);
 Route::get('ciclos', [CicloController::class, 'index'])->middleware('auth:sanctum');
 Route::get('ciclos-area/{id}', [CicloController::class, 'ciclosPorArea'])->middleware('auth:sanctum');
 
 Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('auth:sanctum');
 
-use Flogti\SpanishCities\Models\Community;
-// Route::get('testmun', function(){
-//     $municipios = Community::find(10)->towns;
-//     return response()->json($municipios);
-// });
+
+//SERVICIOS
+Route::apiResource('servicios', ServicioApiController::class);
+
+//CATEGORIAS
+Route::apiResource('categorias', CategoriaApiController::class);
 
 
 // Formularios
@@ -96,3 +105,4 @@ Route::get('ciclosPorCentro/{idCentro}', [CentroApiController::class, 'ciclosPor
 
 Route::get('centros-provincia/{idProvincia}', [CentroApiController::class, 'centrosPorProvincia']);
 Route::get('centros-localidad/{idLocalidad}', [CentroApiController::class, 'centrosPorLocalidad']);
+

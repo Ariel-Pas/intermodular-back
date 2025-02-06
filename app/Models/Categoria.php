@@ -8,13 +8,14 @@ class Categoria extends Model
 {
     protected $guarded = ['id'];
 
+    protected $fillable = ['nombre'];
+
     protected $hidden = ['created_at', 'updated_at'];
 
     public function servicios(){
-        return $this->belongsToMany(Servicio::class);
+        return $this->belongsToMany(Servicio::class, 'categoria_servicio');
     }
 
-    //REVISAR
     public function empresas(){
         return $this->belongsToMany(Empresa::class);
     }

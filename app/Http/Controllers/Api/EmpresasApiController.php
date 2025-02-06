@@ -11,8 +11,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\EmpresaRequest;
 use App\Http\Requests\UpdateEmpresaRequest;
 use App\Http\Resources\EmpresaAuthResource;
+use App\Http\Resources\EmpresaAuthSinNotasResource;
 use App\Http\Resources\EmpresaBasicResource;
 use \Exception;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -27,13 +29,28 @@ class EmpresasApiController extends Controller
     public function index()
     {
         $empresas = Empresa::with('town:id,name,province_id')->get();
-        return response()->json($empresas);
+        return response()->json(new EmpresaBasicResource($empresas));
     }
 
     //Esta se queda abierta para los alumnos
     public function empresasPorCentro($idCentro)
     {
         $centro = Centro::find($idCentro);
+        $empresas = $centro->empresas()->with('town:id,name,province_id')->get();
+        return response()->json(EmpresaBasicResource::collection($empresas));
+    }
+
+    public function obtenerEmpresasUrl(){
+        $centro = Auth::user()->centro;
+
+        return response()->json(['url' => $centro->id]);
+    }
+
+
+    public function empresasPorAuth()
+    {
+
+        $centro = Auth::user()->centro;
         $empresas = $centro->empresas()->with('town:id,name,province_id')->get();
         return response()->json(EmpresaBasicResource::collection($empresas));
     }
@@ -58,14 +75,16 @@ class EmpresasApiController extends Controller
         $centro = $user->centro;
    
         try{
-            $datos = $request->all();
+            $datos = $request->except(['imagen', 'tipoImagen']);
             $empresa = new Empresa($datos);
             $empresa->token = Str::uuid();
+            $empresa->town_id = $request->localidad;
             $empresa->cif = Str::upper($request->cif);
+            $empresa->imagen = EmpresasApiController::leerImagen($request->imagen, $request->tipoImagen);
             $empresa->save();
             $user->centro->empresas()->attach($empresa->id);
             $empresa->save();
-            return response()->json(new EmpresaAuthResource($empresa));
+            return response()->json(new EmpresaAuthSinNotasResource($empresa));
 
         }catch(Exception $ex)
         {
@@ -117,11 +136,13 @@ class EmpresasApiController extends Controller
         $empresa->horario_manana = $request->horario_manana;
         $empresa->horario_tarde = $request->horario_tarde;
         $empresa->finSemana = $request->finSemana;
+        $empresa->town_id = $request->localidad;
+        if($request->has('imagen') && $request->imagen != '') $empresa->imagen = EmpresasApiController::leerImagen($request->imagen, $request->tipoImagen);
 
         //$empresa->update($datos);
         $empresa->save();
 
-        return response()->json(new EmpresaAuthResource($empresa));
+        return response()->json(new EmpresaAuthSinNotasResource($empresa));
     }
 
     /**
@@ -153,9 +174,6 @@ class EmpresasApiController extends Controller
 
     public function obtenerUrlEditarPorIdEmpresa($id)
     {
-        //TODO comprobar que quien pide el token tiene permiso por estar asociado al centro
-
-
         $empresa = Auth::user()->centro->empresas->find($id);
         if(!$empresa) return response()->json(['error' => 'Id no existe'], 404);
 
@@ -168,7 +186,7 @@ class EmpresasApiController extends Controller
         $empresa = Empresa::where('token', '=', $token)->first();
         if(!$empresa) return response()->json(['error' => 'Token incorrecto']);
 
-        return response()->json($empresa);
+        return response()->json(new EmpresaAuthSinNotasResource($empresa));
 
     }
 
@@ -186,7 +204,7 @@ class EmpresasApiController extends Controller
     {
         $cif = strtoupper($cif);
         $empresa = Empresa::firstWhere('cif', '=', $cif);
-        if($empresa) return response()->json($empresa);
+        if($empresa) return response()->json(new EmpresaBasicResource($empresa));
         return response()->json(['error' => 'No existe una empresa con ese cif'], 404);
     }
 
@@ -232,6 +250,19 @@ class EmpresasApiController extends Controller
 
 
         return response(null);
+
+    }
+
+
+    private static function leerImagen($base64, $formato){
+        $formatosValidos = ['jpg', 'jpeg', 'png', 'webp'];
+        if(!in_array($formato, $formatosValidos)) throw new Exception("Formato no válido", 1);
+        ;
+
+        $data = base64_decode($base64);
+        $nombre = time().'.'.$formato;
+        Storage::put($nombre, $data, 'public');
+        return public_path($nombre);
 
     }
 
