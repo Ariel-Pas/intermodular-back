@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\EmpresasApiController;
 use App\Http\Controllers\Api\ReseniaControllerApi;
 
 use App\Http\Controllers\Api\CentroApiController;
+use App\Http\Controllers\Api\SolicitudControllerApi;
 use App\Http\Controllers\CicloController;
 
 use App\Http\Controllers\Api\ServicioApiController;
@@ -96,11 +97,12 @@ Route::get('/get-Token/{token}', [TokenControllerApi::class, 'obtenerFormularioP
 Route::post('/resenias', [ReseniaControllerApi::class, 'store']); // funciona perfecto
 
 // Solicitudes
-
+Route::post('/solicitudes', [SolicitudControllerApi::class, 'store']);
 
 //Centros
 Route::get('centros', [CentroApiController::class, 'index']);
+Route::get('ciclosPorCentro/{idCentro}', [CentroApiController::class, 'ciclosPorCentro']); // nuevo
+
 Route::get('centros-provincia/{idProvincia}', [CentroApiController::class, 'centrosPorProvincia']);
 Route::get('centros-localidad/{idLocalidad}', [CentroApiController::class, 'centrosPorLocalidad']);
-
 
