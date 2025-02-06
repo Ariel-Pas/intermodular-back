@@ -28,7 +28,7 @@ Route::get('empresas/cambiar/{id}', [EmpresaController::class, 'editarPrueba'])-
 Route::resource('empresas', EmpresaController::class);
 Route::resource('centros', CentrosController::class);
 
-//Sesión
+//SESSION
 Route::get('login', [LoginController::class, 'loginForm'])->name('login');
 Route::post('login' , [LoginController::class, 'login']);
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
@@ -36,17 +36,16 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 //ANGULAR
 Route::post('login', [LoginController::class, 'apiLogin'])->name('apilogin');
 
+//REVISAR
 Route::get('admin', [UserController::class, 'controlPanel'])->middleware('RolCheck:Admin')->name('controlPanel');
-Route::get('users', [UserController::class, 'index'])->name('listaUsuarios');
 
-//CATEGORIAS Y SERVICIOS
-// Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
-// Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
-// Route::post('/categorias/{id}/servicios', [CategoriaController::class, 'storeServicio'])->name('servicios.store');
-// Route::put('/categorias/{id}', [CategoriaController::class, 'update'])->name('categorias.update');
-// Route::post('/servicios/{id}/update', [CategoriaController::class, 'updateServicio'])->name('servicios.update');
-// Route::delete('/categorias/{id}', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
-// Route::delete('/servicios/{id}', [CategoriaController::class, 'destroyServicio'])->name('servicios.destroy');
+//USUARIOS
+Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
+Route::get('usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
+Route::get('/usuarios/edit/{id}', [UserController::class, 'edit'])->name('usuarios.edit');
+Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store')->middleware('auth');
+Route::put('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.update');
+Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
 
 //CATEGORIAS
 Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');

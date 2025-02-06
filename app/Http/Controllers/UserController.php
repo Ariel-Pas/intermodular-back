@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UsuarioRequest;
 use App\Models\Usuario;
+use App\Models\Centro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,31 +16,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $users = Usuario::orderBy('role')->get();
-        // return view('usuarios.usuarios', compact('users'));
-
-        //OBTENGO USUARIO AUTENTICADO
-        $user = Auth::user();
-
-        if ($user->role == 'Admin') {
-            // ADMIN -> TODOS
-            $users = Usuario::orderBy('role')->get();
-        } elseif ($user->role == 'Centro') {
-            //REVISAR (Centros(empresas,tutores))
-            // CENTROS -> CENTROS , TUTORES
-            $users = Usuario::whereIn('role', ['Centro', 'Tutor'])->orderBy('role')->get();
-        } elseif ($user->role == 'Tutor') {
-            //REVISAR (Tutores(empresas))
-            // TUTORES -> TUTORES
-            $users = Usuario::where('role', 'Tutor')->orderBy('role')->get();
-        } else {
-            // Si el usuario tiene un rol desconocido, devolver una lista vacía
-            // $users = collect();
-        }
-
-        return view('usuarios.usuarios', compact('users'));
+        $usuarios = Usuario::all();
+        return view('usuarios.usuarios', compact('usuarios'));
     }
 
+    //CORREGIR O ELIMINAR
     public function controlPanel()
     {
         return view('inicio');
@@ -50,31 +31,28 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('usuarios.create');
+        $centros = Centro::all();
+        return view('usuarios.create', compact('centros'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    //AGREGAR VALIDACION UsuarioPost
     public function store(UsuarioRequest $request)
     {
         $usuario = new Usuario();
         $usuario->nombre = $request->nombre;
         $usuario->apellido = $request->apellido;
-        //REVISAR UNIQUE
         $usuario->email = $request->email;
         $usuario->password = $request->password;
 
-        //REVISAR UNIQUE REL EMPRESA
-        $usuario->cif = $request->cif;
         //REVISAR UNIQUE REL CENTRO
         $usuario->centro_id = $request->centro_id;
 
-        $usuario->role = $request->role;
+        $usuario->role = 'Tutor';
         $usuario->save();
 
-        return redirect()->route('usuarios.index')->with('msg', "Usuario $request->nombre, y rol $request->role creado con éxito!");
+        return redirect()->route('usuarios.index')->with('msg', "Usuario creado con éxito!");
     }
 
     /**
@@ -82,9 +60,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        // $usuario = Usuario::firstWhere('id', '=', $id);
         $usuario = Usuario::findOrFail($id);
-        //dd($usuario);
         return view('usuarios.usuario', compact('usuario'));
     }
 
@@ -108,10 +84,8 @@ class UserController extends Controller
         //REVISAR UNIQUE
         $usuario->email = $request->email;
         $usuario->password = $request->password;
-        //REVISAR UNIQUE REL EMPRESA
-        $usuario->cif = $request->cif;
         //REVISAR UNIQUE REL CENTRO
-        $usuario->centro_id = $request->centro_id;
+        // $usuario->centro_id = $request->centro_id;
         $usuario->role = $request->role;
         $usuario->save();
 
@@ -125,10 +99,12 @@ class UserController extends Controller
     {
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
-
-        return redirect()->route('usuarios.index')->with('msg', "Usuario con ID: $id eliminado con éxito!");
+        $msg = "Usuario con ID: $id eliminado con éxito!";
+        return redirect()->route('usuarios.index')->with('msg', $msg);
     }
 
+
+    //REVISAR
     public function asignarRoles(Request $request, Usuario $user)
     {
         $request->validate([

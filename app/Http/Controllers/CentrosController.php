@@ -15,7 +15,7 @@ class CentrosController extends Controller implements HasMiddleware
     {
         return[
             new Middleware('auth', except:['index', 'show']),
-            new Middleware(['RolCheck:admin'], only:['edit', 'update'])
+            new Middleware(['RolCheck:Admin'], only:['edit', 'update'])
         ];
     }
 

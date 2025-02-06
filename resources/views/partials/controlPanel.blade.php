@@ -2,7 +2,7 @@
     <h3 class="mb-5">Administrar</h3>
 </div>
 <div>
-    <a class="text-decoration-none" style="color:#278a81" href="#"><i class="bi bi-people"></i> Usuarios</a>
+    <a class="text-decoration-none" style="color:#278a81" href="{{route('usuarios.index')}}"><i class="bi bi-people"></i> Usuarios</a>
     <hr>
 </div>
 <div>
