@@ -19,9 +19,9 @@
     <div style="background-color: #f8f9fa">
         @include ('partials.nav-bar')
         <!-- VER DE MOVER ESTO AL NAV-BAR -->
-        <div class="container-md d-flex justify-content-end">
+        {{-- <div class="container-md d-flex justify-content-end">
             <div>{{ fechaActual('d/m/Y') }}</div>
-        </div>
+        </div> --}}
         <!-- VER DE MOVER ESTO AL NAV-BAR -->
         <hr>
         <div class="container-fluid">
