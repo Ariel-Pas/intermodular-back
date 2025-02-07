@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('provincia');
             $table->string('localidad');
             $table->string('email');
-            $table->enum('titularidad', ['publica', 'privada']);
-            $table->time('horario_comienzo');
-            $table->time('horario_fin');
+            $table->string('titularidad');
+            $table->string('horario_comienzo');
+            $table->string('horario_fin');
             $table->timestamps();
 
             $table->unsignedBigInteger('empresa_id');

@@ -50,7 +50,7 @@ class UsuariosSeeder extends Seeder
         $prof->email = 'profesor';
 
         $prof->centro_id = 1;
-        $prof->role = "profesor";
+
 
         $prof->password = bcrypt('profesor');
         $prof->save();
@@ -63,7 +63,7 @@ class UsuariosSeeder extends Seeder
         $centro->email = 'centro';
 
         $centro->centro_id = 1;
-        $centro->role = "centro";
+
 
         $centro->password = bcrypt('centro');
         $centro->save();

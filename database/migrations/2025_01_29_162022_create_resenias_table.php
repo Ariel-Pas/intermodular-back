@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('resenias', function (Blueprint $table) {
             $table->id();
             $table->string('respuesta');
-            $table->date('fecha');
+            $table->date('fecha')->nullable();
             $table->unsignedBigInteger('pregunta_id');
             $table->unsignedBigInteger('formulario_id');
             $table->timestamps();
