@@ -19,6 +19,9 @@ class CentrosSeeder extends Seeder
         $ciclos = Ciclo::all();
         $randCiclo = rand(1, $ciclos->count() -1);
         Centro::factory()->count(6)->create(['town_id' => $municipios[rand(1, $municipios->count() -1)]->id]);
+        for ($i=0; $i < 10; $i++) {
+            Centro::factory()->create(['town_id' => $municipios[rand(1, $municipios->count() -1)]->id]);
+        }
 
         Centro::all()->each(function ($centro) use($ciclos) {
             $centro->ciclos()->attach(

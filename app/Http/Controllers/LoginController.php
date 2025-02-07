@@ -76,7 +76,6 @@ class LoginController extends Controller
         } else {
             return response()->json([
                 'message' => 'Datos incorrectos'
-
             ]);
         }
     }

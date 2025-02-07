@@ -48,7 +48,10 @@ class UsuariosSeeder extends Seeder
         $prof->nombre = 'profesor';
         $prof->apellidos = 'profesor';
         $prof->email = 'profesor';
-        $prof->centro_id = null;
+
+        $prof->centro_id = 1;
+        $prof->role = "profesor";
+
         $prof->password = bcrypt('profesor');
         $prof->save();
         $prof->roles()->attach(Role::where('nombre', 'Tutor')->first()->id);
@@ -58,7 +61,10 @@ class UsuariosSeeder extends Seeder
         $centro->nombre = 'centro';
         $centro->apellidos = 'centro';
         $centro->email = 'centro';
-        $centro->centro_id = null;
+
+        $centro->centro_id = 1;
+        $centro->role = "centro";
+
         $centro->password = bcrypt('centro');
         $centro->save();
         $centro->roles()->attach(Role::where('nombre', 'Centro')->first()->id);

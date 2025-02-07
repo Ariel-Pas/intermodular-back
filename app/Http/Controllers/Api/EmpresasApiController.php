@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
 use App\Mail\ContactoEmpresa;
 use App\Models\Empresa;
@@ -57,7 +56,7 @@ class EmpresasApiController extends Controller
         //este store lo usan profes y centros
         $user = Auth::user();
         $centro = $user->centro;
-        //return response()->json($centro);
+   
         try{
             $datos = $request->all();
             $empresa = new Empresa($datos);
@@ -79,11 +78,13 @@ class EmpresasApiController extends Controller
      */
     public function show(string $id)
     {
+
         $centro = Auth::user()->centro;
         //comprobar que el usuario está asociado a la empresa
         $empresa = Auth::user()->centro->empresas->find($id);
         if(!$empresa) return response()->json(json_encode(['error'=>'No existe la empresa']), 404);
         return response()->json(new EmpresaBasicResource($empresa));
+
     }
 
     /**

@@ -2,10 +2,16 @@
 
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CentrosController;
+use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\LoginController;
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ServicioController;
+
+use App\Http\Controllers\TokenController;
+use App\Http\Controllers\ReseniaController;
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -49,6 +55,7 @@ Route::put('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.
 Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
 //Route::resource('usuarios', UserController::class)->only(['create', 'edit','update', 'index', 'show', 'destroy', 'store']);
 
+
 //CATEGORIAS
 Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
 Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
@@ -60,3 +67,11 @@ Route::get('/servicios', [ServicioController::class, 'index'])->name('servicios.
 Route::post('/servicios', [ServicioController::class, 'store'])->name('servicios.store');
 Route::put('/servicios/{id}', [ServicioController::class, 'update'])->name('servicios.update');
 Route::delete('/servicios/{id}', [ServicioController::class, 'destroy'])->name('servicios.destroy');
+
+// Formularios
+Route::get('/mostrarFormularios/{id}', [FormularioController::class, 'mostrarFormulario']); // este no funciona en ThunderClient
+
+// Resenias
+// Route::post('/resenias', [ReseniaController::class, 'store']);
+
+
