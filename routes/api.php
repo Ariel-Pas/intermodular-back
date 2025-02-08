@@ -19,6 +19,8 @@ use App\Http\Controllers\ReseniaController;
 use App\Http\Controllers\Api\TokenControllerApi;
 use App\Http\Controllers\Api\SolicitudControllerApi;
 
+use App\Http\Controllers\Api\ServicioApiController;
+use App\Http\Controllers\Api\CategoriaApiController;
 
 
 Route::post('login', [LoginController::class, 'apiLogin'])->name('apiLogin');
