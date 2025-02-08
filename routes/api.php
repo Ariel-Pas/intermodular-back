@@ -4,25 +4,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\EmpresasApiController;
-
 use App\Http\Controllers\Api\ReseniaControllerApi;
 
 use App\Http\Controllers\Api\CentroApiController;
 use App\Http\Controllers\CicloController;
 
-use App\Http\Controllers\Api\ServicioApiController;
-use App\Http\Controllers\Api\CategoriaApiController;
-
 use App\Http\Controllers\LocalizacionApiController;
 use App\Http\Controllers\LoginController;
 use App\Models\Ciclo;
-
-
 
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\ReseniaController;
 use App\Http\Controllers\Api\TokenControllerApi;
+use App\Http\Controllers\Api\SolicitudControllerApi;
+
 
 
 Route::post('login', [LoginController::class, 'apiLogin'])->name('apiLogin');
@@ -41,6 +37,7 @@ Route::get('empresa-completa/{id}', [EmpresasApiController::class, 'empresaCompl
 Route::get('empresas-centro/{idCentro}', [EmpresasApiController::class, 'empresasPorCentro']);
 
 
+
 //Obtener ruta pública para alumnos
 Route::get('empresas-centro-url', [EmpresasApiController::class, 'obtenerEmpresasUrl'])->middleware('auth:sanctum');
 
@@ -54,6 +51,7 @@ Route::get('empresas/buscar-token/{id}', [EmpresasApiController::class, 'obtener
 Route::get('empresas/token/{token}', [EmpresasApiController::class, 'empresaPorToken']);
 //Editar
 Route::post('empresas/token/{token}', [EmpresasApiController::class, 'updateEmpresaPorToken']);
+
 
 //Asociar empresa a centro
 //Comprobar si existe por cif
@@ -77,6 +75,7 @@ Route::get('ciclos-area/{id}', [CicloController::class, 'ciclosPorArea'])->middl
 Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('auth:sanctum');
 
 
+
 //SERVICIOS
 Route::apiResource('servicios', ServicioApiController::class);
 Route::get('servicios-simple', [ServicioApiController::class, 'getAll']);
@@ -84,6 +83,7 @@ Route::get('servicios-simple', [ServicioApiController::class, 'getAll']);
 //CATEGORIAS
 Route::apiResource('categorias', CategoriaApiController::class);
 Route::get('categorias-simple', [CategoriaApiController::class, 'getAll']);
+
 
 // Formularios
 Route::get('/mostrarFormulario/{id}', [FormularioController::class, 'mostrarFormulario']); // funciona perfecto
@@ -97,11 +97,15 @@ Route::get('/get-Token/{token}', [TokenControllerApi::class, 'obtenerFormularioP
 Route::post('/resenias', [ReseniaControllerApi::class, 'store']); // funciona perfecto
 
 // Solicitudes
+Route::post('/solicitudes', [SolicitudControllerApi::class, 'store']);
+Route::post('solicitudes/{solicitudId}/agregar-ciclos', [SolicitudControllerApi::class, 'agregarCiclosASolicitud']); // nuevo
+
 
 
 //Centros
 Route::get('centros', [CentroApiController::class, 'index']);
+Route::get('ciclosPorCentro/{idCentro}', [CentroApiController::class, 'ciclosPorCentro']); // nuevo
+
 Route::get('centros-provincia/{idProvincia}', [CentroApiController::class, 'centrosPorProvincia']);
 Route::get('centros-localidad/{idLocalidad}', [CentroApiController::class, 'centrosPorLocalidad']);
-
 

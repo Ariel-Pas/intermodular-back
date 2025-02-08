@@ -24,6 +24,7 @@ class RolCheck
 
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
+
         if (Auth::check() && Auth::user()->roles->pluck('nombre')->intersect($roles)->isNotEmpty()) {
             return $next($request);
         }

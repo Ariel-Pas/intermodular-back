@@ -34,7 +34,7 @@ Route::get('empresas/cambiar/{id}', [EmpresaController::class, 'editarPrueba'])-
 Route::resource('empresas', EmpresaController::class);
 Route::resource('centros', CentrosController::class);
 
-//Sesión
+//SESSION
 Route::get('login', [LoginController::class, 'loginForm'])->name('login');
 Route::post('login' , [LoginController::class, 'login']);
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
@@ -42,8 +42,18 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 //ANGULAR
 Route::post('login', [LoginController::class, 'apiLogin'])->name('apilogin');
 
+//REVISAR
 Route::get('admin', [UserController::class, 'controlPanel'])->middleware('RolCheck:Admin')->name('controlPanel');
-Route::get('users', [UserController::class, 'index'])->name('listaUsuarios');
+
+//USUARIOS
+Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
+Route::get('/usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
+Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
+Route::get('/usuarios/edit/{id}', [UserController::class, 'edit'])->name('usuarios.edit');
+Route::get('/usuarios/{id}', [UserController::class, 'show'])->name('usuarios.show');
+Route::put('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.update');
+Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+//Route::resource('usuarios', UserController::class)->only(['create', 'edit','update', 'index', 'show', 'destroy', 'store']);
 
 
 //CATEGORIAS
@@ -62,6 +72,10 @@ Route::delete('/servicios/{id}', [ServicioController::class, 'destroy'])->name('
 Route::get('/mostrarFormularios/{id}', [FormularioController::class, 'mostrarFormulario']); // este no funciona en ThunderClient
 
 // Resenias
+// Route::get('/resenias/index', [ReseniaController::class, 'index'])->name('resenias.index');
+Route::get('/resenias/{tipo?}', [ReseniaController::class, 'index'])->name('resenias.index');
+Route::get('/resenias/empresa/{empresaId}', [ReseniaController::class, 'show'])->name('resenias.show');
+
 // Route::post('/resenias', [ReseniaController::class, 'store']);
 
 
