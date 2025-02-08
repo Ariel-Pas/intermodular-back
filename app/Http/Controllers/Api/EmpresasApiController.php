@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -73,7 +74,7 @@ class EmpresasApiController extends Controller
         //este store lo usan profes y centros
         $user = Auth::user();
         $centro = $user->centro;
-   
+
         try{
             $datos = $request->except(['imagen', 'tipoImagen']);
             $empresa = new Empresa($datos);
@@ -84,6 +85,15 @@ class EmpresasApiController extends Controller
             $empresa->save();
             $user->centro->empresas()->attach($empresa->id);
             $empresa->save();
+            //asociar categorias y servicios
+            foreach($request->servicios as $servicio)
+            {
+                DB::table('empresa_cat')->insert([
+                    'empresa_id' => $empresa->id,
+                    'categoria_id' => $servicio['categoria'],
+                    'servicio_id' => $servicio['servicio']
+                ]);
+            }
             return response()->json(new EmpresaAuthSinNotasResource($empresa));
 
         }catch(Exception $ex)
@@ -255,14 +265,15 @@ class EmpresasApiController extends Controller
 
 
     private static function leerImagen($base64, $formato){
+        //required image mimes:jpg
         $formatosValidos = ['jpg', 'jpeg', 'png', 'webp'];
         if(!in_array($formato, $formatosValidos)) throw new Exception("Formato no válido", 1);
         ;
 
         $data = base64_decode($base64);
         $nombre = time().'.'.$formato;
-        Storage::put($nombre, $data, 'public');
-        return public_path($nombre);
+        Storage::disk('public')->put($nombre, $data, 'public');
+        return asset("/storage/".$nombre);
 
     }
 

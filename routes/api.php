@@ -79,10 +79,11 @@ Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('a
 
 //SERVICIOS
 Route::apiResource('servicios', ServicioApiController::class);
+Route::get('servicios-simple', [ServicioApiController::class, 'getAll']);
 
 //CATEGORIAS
 Route::apiResource('categorias', CategoriaApiController::class);
-
+Route::get('categorias-simple', [CategoriaApiController::class, 'getAll']);
 
 // Formularios
 Route::get('/mostrarFormulario/{id}', [FormularioController::class, 'mostrarFormulario']); // funciona perfecto

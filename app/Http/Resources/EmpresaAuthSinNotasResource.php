@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 use App\Http\Controllers\Api\EmpresasApiController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Illuminate\Support\Facades\DB;
 class EmpresaAuthSinNotasResource extends JsonResource
 {
     /**
@@ -36,7 +36,7 @@ class EmpresaAuthSinNotasResource extends JsonResource
             ],
             'imagen' => $this->imagen,
             'categorias' => [],
-            'servicios' => [],
+            'servicios' => DB::table('empresa_cat')->select(['categoria_id','servicio_id'])->where('empresa_id', '=', $this->id)->get(),
             'vacantes' => $this->vacantes,
             'puntuacion'=> $this->puntuacion_alumno,
             'urlEditar' =>  action([EmpresasApiController::class, 'empresaPorToken'], ['token'=>$this->token])
