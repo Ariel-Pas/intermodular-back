@@ -32,13 +32,19 @@
             <td>{{$centro->email}}</td>
             <td>{{$centro->direccion}}</td>
             <td>{{$centro->empresas()->implode('nombre', ',')}}</td>
-            @if(auth()->check() && auth()->user()->role === 'admin')
+
             <td>
                 <a class="btn btn-primary" href="{{route('centros.edit', $centro->id)}}">
                     Editar
                 </a>
+
+                <form action="{{route('centros.destroy', $centro->id)}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <input class="btn btn-danger" type="submit" value="Eliminar">
+                </form>
             </td>
-            @endif
+
           </tr>
           @endforeach
         </tbody>

@@ -27,7 +27,7 @@ class EmpresaFactory extends Factory
             'direccion' => fake()->address(),
             'coordX' => rand(0,100),
             'coordY' => rand(0,100),
-            'horario_manana' => '9:00',
+            'horario_manana' => '09:00',
             'horario_tarde' => '14:00',
             'finSemana' => fake()->boolean(20),
             'vacantes' => rand(1,7),

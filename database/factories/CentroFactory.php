@@ -19,9 +19,7 @@ class CentroFactory extends Factory
         $nombre ='centro'.rand();
         return [
             'nombre' => $nombre,
-            'codigo' => fake()->regexify('\d{5}'),
             'email' => $nombre.'@mail.com',
-            'password' => fake()->password(),
             'direccion' => fake()->address(),
             'telefono' => fake()->phoneNumber(),
         ];
