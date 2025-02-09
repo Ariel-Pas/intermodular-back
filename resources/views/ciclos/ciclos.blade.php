@@ -6,7 +6,7 @@
 
 <div class="row">
     @if (session('msg'))
-    <div>{{session('msg')}}</div>
+    <div class="alert alert-success">{{session('msg')}}</div>
     @endif
     <div>
         <a href="{{route('ciclos.create')}}">

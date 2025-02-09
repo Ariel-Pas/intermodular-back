@@ -4,7 +4,7 @@
 
 @section('contenido')
 @if (session('msg'))
-    <div>{{session('msg')}}</div>
+    <div class="alert alert-success">{{session('msg')}}</div>
 @endif
 <div class=" my-3">
     <a href="{{route('empresas.create')}}">

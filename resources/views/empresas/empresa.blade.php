@@ -11,7 +11,7 @@
              <p>{{$empresa['descripcion']}}</p>
          </div>
          <div class="col-4">
-            <img class="img-fluid rounded-4" src="https://images.unsplash.com/photo-1664575602276-acd073f104c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGVtcHJlc2F8ZW58MHx8MHx8fDA%3D">
+            <img class="img-fluid rounded-4" src={{$empresa->imagen ?? "https://images.unsplash.com/photo-1664575602276-acd073f104c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGVtcHJlc2F8ZW58MHx8MHx8fDA%3D"}}>
          </div>
        </div>
         <p>Más info</p>
