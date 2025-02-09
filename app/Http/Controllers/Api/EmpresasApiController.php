@@ -151,6 +151,15 @@ class EmpresasApiController extends Controller
 
         //$empresa->update($datos);
         $empresa->save();
+        DB::table('empresa_cat')->where('empresa_id', '=', $id)->delete();
+        foreach($request->servicios as $servicio)
+            {
+                DB::table('empresa_cat')->insert([
+                    'empresa_id' => $empresa->id,
+                    'categoria_id' => $servicio['categoria'],
+                    'servicio_id' => $servicio['servicio']
+                ]);
+            }
 
         return response()->json(new EmpresaAuthSinNotasResource($empresa));
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ServicioBasicResource;
 use App\Models\Servicio;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 
 class ServicioApiController extends Controller
@@ -80,6 +81,11 @@ class ServicioApiController extends Controller
     //version simple
     public function getAll(){
         $servicios = Servicio::all();
+        return response()->json(ServicioBasicResource::Collection($servicios));
+    }
+
+    public function getByCategoria($id){
+        $servicios = Categoria::find($id)->servicios;
         return response()->json(ServicioBasicResource::Collection($servicios));
     }
 }

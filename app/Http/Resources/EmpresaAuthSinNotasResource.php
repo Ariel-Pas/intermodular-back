@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\EmpresasApiController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
+use App\Models\Servicio;
 class EmpresaAuthSinNotasResource extends JsonResource
 {
     /**
@@ -14,6 +15,8 @@ class EmpresaAuthSinNotasResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $serviciosId = DB::table('empresa_cat')->select('servicio_id')->where('empresa_id', '=', $this->id)->pluck('servicio_id');
+        $servicios = Servicio::whereIn('id', $serviciosId)->get();
         return [
             'id' => $this->id,
             'cif' => $this->cif,
@@ -36,7 +39,7 @@ class EmpresaAuthSinNotasResource extends JsonResource
             ],
             'imagen' => $this->imagen,
             'categorias' => [],
-            'servicios' => DB::table('empresa_cat')->select(['categoria_id','servicio_id'])->where('empresa_id', '=', $this->id)->get(),
+            'servicios' => ServicioBasicResource::collection($servicios),
             'vacantes' => $this->vacantes,
             'puntuacion'=> $this->puntuacion_alumno,
             'urlEditar' =>  action([EmpresasApiController::class, 'empresaPorToken'], ['token'=>$this->token])
