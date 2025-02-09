@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CicloWebController;
 use App\Http\Controllers\ServicioController;
 
 use App\Http\Controllers\TokenController;
@@ -77,4 +78,6 @@ Route::get('/resenias/empresa/{empresaId}', [ReseniaController::class, 'show'])-
 
 // Route::post('/resenias', [ReseniaController::class, 'store']);
 
+//CICLOS
+Route::resource('/ciclos', CicloWebController::class);
 
