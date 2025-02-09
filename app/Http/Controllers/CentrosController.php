@@ -37,6 +37,7 @@ class CentrosController extends Controller implements HasMiddleware
      */
     public function create()
     {
+
         $empresas = Empresa::all();
         $centro = new Centro();
         return view('centros.create', compact('empresas', 'centro'));
@@ -48,7 +49,7 @@ class CentrosController extends Controller implements HasMiddleware
     public function store(CentroRequest $request)
     {
        //dd($errors);
-       //dd($request);
+       dd($request);
        $datos = $request->except('empresas, password');
        $centro = new Centro($datos);
         $centro->password = bcrypt($request->password);

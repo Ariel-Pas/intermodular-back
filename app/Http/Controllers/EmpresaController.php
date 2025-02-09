@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EmpresaRequest;
+use App\Http\Requests\EmpresaWebRequest;
+use App\Http\Requests\EmpresaWebUpdateRequest;
+use App\Models\Categoria;
 use App\Models\Empresa;
-
+use Flogti\SpanishCities\Models\Province;
+use Flogti\SpanishCities\Models\Community;
+use Flogti\SpanishCities\Models\Town;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
-class EmpresaController extends Controller implements HasMiddleware
+class EmpresaController extends Controller
 {
 
-    public static function middleware() :array
-    {
-        return[
-            new Middleware('auth', except:['index', 'show'])
-        ];
-    }
 
     /**
      * Display a listing of the resource.
@@ -25,7 +25,8 @@ class EmpresaController extends Controller implements HasMiddleware
     public function index()
     {
         //este es para el admin
-        $empresas = Empresa::orderBy('nombre')->paginate(2);
+        $empresas = Empresa::orderBy('nombre')->paginate(8);
+
         return view('empresas.empresas', compact('empresas'));
 
     }
@@ -35,30 +36,45 @@ class EmpresaController extends Controller implements HasMiddleware
      */
     public function create()
     {
-
-        return view('empresas.create');
+        $empresa = null;
+        $serviciosEmpresa = null;
+        $provincias = Community::find(10)->provinces;
+        $municipios = Town::select('id','province_id', 'name')->whereIn('province_id', ['3', '12', '46'])->get();
+        $categorias = Categoria::with('servicios')->get();
+        return view('empresas.create', compact(['provincias','municipios', 'categorias', 'empresa', 'serviciosEmpresa']));
     }
+
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(EmpresaRequest $request)
+    public function store(EmpresaWebRequest $request)
     {
-        //dd($request);
+        //dd($request->servicios);
         $empresa = new Empresa();
         $empresa->nombre = $request->nombre;
-        $datos = $request->only(['nombre', 'cif', 'descripcion', 'email', 'direccion', 'provincia', 'poblacion']);
+        $datos = $request->only(['nombre', 'cif', 'descripcion', 'email', 'direccion', 'coordX', 'coordY', 'vacantes']);
         $datos['finSemana'] = $request->has('finSemana');
-        //rellenar para tener un valor, más adelante se recibirá del form
-        $datos['coordX'] = 0;
-        $datos['coordY'] = 0;
-        //Preguntar si una empresa tiene password o no
-
+        $datos['town_id'] = $request->poblacion;
         //horario
-        $datos['horario_manana'] = $request['apManana'].$request['cierreManana'];
-        $datos['horario_tarde'] = $request['apTarde'].$request['cierreTarde'];
+        $datos['horario_manana'] = $request['apManana'];
+        $datos['horario_tarde'] = $request['apTarde'];
 
-        Empresa::create($datos);
+        $empresa = new Empresa($datos);
+        $empresa->token = Str::uuid();
+        $nombre = time().'.'.$request->file('imagen')->extension();
+        $path = $request->file('imagen')->store($nombre, 'public');
+        $empresa->imagen = asset("/storage/".$path);
+        $empresa->save();
+        foreach($request->servicios as $servicio)
+        {
+            $categoriaServicio = explode('-', $servicio);
+            DB::table('empresa_cat')->insert([
+                'empresa_id' => $empresa->id,
+                'categoria_id' => $categoriaServicio[0],
+                'servicio_id' => $categoriaServicio[1]
+            ]);
+        }
 
         return redirect()->route('empresas.index')->with('msg', "Empresa $request->nombre creada con éxito");
     }
@@ -75,20 +91,69 @@ class EmpresaController extends Controller implements HasMiddleware
         return view('empresas.empresa', compact('empresa'));
     }
 
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        return redirect()->route('inicio');
+        $empresa = Empresa::find($id);
+
+        $serviciosEmpresa = DB::table('empresa_cat')->where('empresa_id', '=', $id)->get();
+        //dd($serviciosEmpresa);
+        $provincias = Community::find(10)->provinces;
+        $municipios = Town::select('id','province_id', 'name')->whereIn('province_id', ['3', '12', '46'])->get();
+        $categorias = Categoria::with('servicios')->get();
+        return view('empresas.create', compact(['provincias','municipios', 'categorias', 'empresa', 'serviciosEmpresa']));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EmpresaWebUpdateRequest $request, string $id)
     {
-        //
+        $empresa = Empresa::find($id);
+        $empresa->nombre = $request->nombre;
+        $datos = $request->only(['nombre', 'cif', 'descripcion', 'email', 'direccion', 'coordX', 'coordY', 'vacantes']);
+        $datos['finSemana'] = $request->has('finSemana');
+        $datos['town_id'] = $request->poblacion;
+        //horario
+        $datos['horario_manana'] = $request['apManana'];
+        $datos['horario_tarde'] = $request['apTarde'];
+
+        $empresa->update($datos);
+
+        if($request->imagen){
+            $nombre = time().'.'.$request->file('imagen')->extension();
+            $path = $request->file('imagen')->store($nombre, 'public');
+            $empresa->imagen = asset("/storage/".$path);
+            $empresa->save();
+        }
+
+        //borrar servicios asociados hasta el momento
+        DB::table('empresa_cat')->where('empresa_id', '=', $id)->delete();
+        //asociar nuevos servicios
+        foreach($request->servicios as $servicio)
+        {
+            $categoriaServicio = explode('-', $servicio);
+            DB::table('empresa_cat')->insert([
+                'empresa_id' => $empresa->id,
+                'categoria_id' => $categoriaServicio[0],
+                'servicio_id' => $categoriaServicio[1]
+            ]);
+        }
+        foreach($request->servicios as $servicio)
+        {
+            $categoriaServicio = explode('-', $servicio);
+            DB::table('empresa_cat')->insert([
+                'empresa_id' => $empresa->id,
+                'categoria_id' => $categoriaServicio[0],
+                'servicio_id' => $categoriaServicio[1]
+            ]);
+        }
+
+        return redirect()->route('empresas.index')->with('msg', "Empresa $request->nombre actualizada con éxito");
     }
 
     /**
@@ -101,30 +166,10 @@ class EmpresaController extends Controller implements HasMiddleware
         return redirect()->route('empresas.index');
     }
 
-    public function nuevoPrueba()
-    {
-        $empresa = new Empresa();
-        $empresa->nombre = 'Empresa' . rand(1, 40);
-        $empresa->cif = 'cifInventado' . rand(1, 40);
-        $empresa->descripcion = 'Esta empresa no existe';
-        $empresa->email = 'empresa' . rand(1, 40) . '@mail.com';
-        $empresa->password = '1234567';
-        $empresa->direccion = 'Avenida 1 numero 2';
-        $empresa->coordX = 0;
-        $empresa->coordY = 0;
-        $empresa->provincia = 1;
-        $empresa->poblacion = 1;
 
-        $empresa->save();
+    public function leerImagen(){
 
-        return redirect()->route('empresas.index');
     }
 
-    public function editarPrueba($id)
-    {
-        $empresa = Empresa::findOrFail($id);
-        $empresa->nombre = 'Nombre modificado';
-        $empresa->save();
-        return redirect()->route('empresas.index');
-    }
+
 }

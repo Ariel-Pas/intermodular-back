@@ -20,6 +20,11 @@
             <li>Direccion: {{$empresa['direccion']}}</li>
             <li>Fecha adhesión: {{date('d/m/Y',strtotime($empresa->created_at))}}</li>
         </ul>
+        <div>
+            <a href="{{route('empresas.edit', [$empresa->id])}}">
+                <button class="btn btn-primary">Editar</button>
+            </a>
+        </div>
     </section>
     <hr>
 
