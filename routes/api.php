@@ -100,7 +100,6 @@ Route::post('/resenias', [ReseniaControllerApi::class, 'store']); // funciona pe
 
 // Solicitudes
 Route::post('/solicitudes', [SolicitudControllerApi::class, 'store']);
-Route::post('solicitudes/{solicitudId}/agregar-ciclos', [SolicitudControllerApi::class, 'agregarCiclosASolicitud']); // nuevo
 
 
 

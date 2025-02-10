@@ -10,9 +10,13 @@ class Ciclo extends Model
     protected $guarded = ['id'];
     public function centros()
     {
-        return $this->belongsToMany(Centro::class);
+        return $this->belongsToMany(Centro::class); 
     }
 
+    public function solicitudes() // agregue
+    {
+    return $this->belongsToMany(Solicitud::class, 'solicitud_ciclo')->withPivot('numero_puestos');
+    }
 
     public function area()
     {
