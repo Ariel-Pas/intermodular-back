@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Usuario;
 use App\Models\Centro;
 use App\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class UsuariosSeeder extends Seeder
 {
@@ -36,7 +37,7 @@ class UsuariosSeeder extends Seeder
         $admin2->apellidos = 'admin2';
         $admin2->email = 'admin2';
         $admin2->centro_id = null;
-        $admin2->password = bcrypt('admin2');
+        $admin2->password = Hash::make('admin2');
         $admin2->save();
         $admin2->roles()->attach(Role::where('nombre', 'Admin')->first()->id);
         $admin2->roles()->attach(Role::where('nombre', 'Tutor')->first()->id);
@@ -50,7 +51,7 @@ class UsuariosSeeder extends Seeder
         $prof->email = 'profesor';
 
         $prof->centro_id = 1;
-        $prof->role = "profesor";
+        //$prof->role = "profesor";
 
         $prof->password = bcrypt('profesor');
         $prof->save();
@@ -63,7 +64,7 @@ class UsuariosSeeder extends Seeder
         $centro->email = 'centro';
 
         $centro->centro_id = 1;
-        $centro->role = "centro";
+        //$centro->role = "centro";
 
         $centro->password = bcrypt('centro');
         $centro->save();

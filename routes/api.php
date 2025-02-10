@@ -12,11 +12,11 @@ use App\Http\Controllers\CicloController;
 
 use App\Http\Controllers\Api\ServicioApiController;
 use App\Http\Controllers\Api\CategoriaApiController;
-
+use App\Http\Controllers\Api\LoginApiController;
 use App\Http\Controllers\LocalizacionApiController;
 use App\Http\Controllers\LoginController;
 use App\Models\Ciclo;
-
+use App\Http\Controllers\UserController;
 
 
 use App\Http\Controllers\TokenController;
@@ -25,18 +25,14 @@ use App\Http\Controllers\ReseniaController;
 use App\Http\Controllers\Api\TokenControllerApi;
 
 
-Route::post('login', [LoginController::class, 'apiLogin'])->name('apiLogin');
+//LOGIN
+Route::post('login', [LoginApiController::class, 'login'])->name('api.login');
+Route::post('logout', [LoginApiController::class, 'logout'])->middleware('auth:sanctum')->name('api.logout');
 
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
+//EMPRESAS
 Route::apiResource('empresas', EmpresasApiController::class)->middleware('auth:sanctum');
-
 //Obtener infomación completa de empresa
 Route::get('empresa-completa/{id}', [EmpresasApiController::class, 'empresaCompleta'])->middleware('auth:sanctum');
-
 //Ruta pública para alumnos
 Route::get('empresas-centro/{idCentro}', [EmpresasApiController::class, 'empresasPorCentro']);
 

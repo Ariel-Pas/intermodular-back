@@ -6,7 +6,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link active" aria-current="page" href="{{route('inicio')}}">Inicio</a>
+            {{-- href="{{route('inicio')}}" --}}
+          <a class="nav-link active" aria-current="page" >Inicio</a>
           <a class="nav-link" href="{{route('empresas.index')}}">Empresas</a>
 
           {{-- FUNCIONA --}}
