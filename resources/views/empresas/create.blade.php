@@ -9,7 +9,7 @@
         @csrf
         <div class="mb-3">
           <label for="nombre" class="form-label">Nombre de la empresa</label>
-          <input type="text" class="form-control" id="nombre" name="nombre" value="{{old('nombre')}}">
+          <input type="text" class="form-control" id="nombre" name="nombre" value="{{old('nombre')}}" required>
           @if ($errors->has('nombre'))
             <p class="error-msg">{{$errors->first('nombre')}}</p>
         @endif

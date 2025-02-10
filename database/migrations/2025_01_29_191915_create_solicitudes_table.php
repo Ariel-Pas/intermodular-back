@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('horario_fin');
             $table->timestamps();
 
-            $table->unsignedBigInteger('empresa_id');
+            $table->unsignedBigInteger('empresa_id')->nullable(); // puse nullable
             $table->unsignedBigInteger('centro_id');
 
             $table->foreign('empresa_id')->references('id')->on('empresas')->onDelete('cascade');
