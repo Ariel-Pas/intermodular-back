@@ -132,6 +132,9 @@
 
                     </div>
                 @endforeach
+                @if ($errors->has('ciclos'))
+                <p class="error-msg">{{$errors->first('ciclos')}}</p>
+        @endif
             </div>
         </div>
 

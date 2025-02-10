@@ -14,6 +14,11 @@
 
     <title>@yield('tituloNavegador')</title>
 </head>
+<style>
+    .error-msg{
+        color: red;
+    }
+</style>
 
 <body>
     <div style="background-color: #f8f9fa">
