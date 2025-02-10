@@ -23,7 +23,11 @@ class EmpresaBasicResource extends JsonResource
             'direccion' => [
                 'calle' => $this->direccion,
                 'provincia' => new ProvinciaResource($this->province()),
-                'poblacion'=> $this->town->name,
+                'poblacion'=> [
+                    'id' => $this->town->id,
+                    'name' => $this->town->name,
+                    'region' => $this->province()->id
+                ],
                 'posicion' => [
                     'coordX' => $this->coordX,
                     'coordY' => $this->coordY

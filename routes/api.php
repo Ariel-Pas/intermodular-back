@@ -19,6 +19,8 @@ use App\Http\Controllers\ReseniaController;
 use App\Http\Controllers\Api\TokenControllerApi;
 use App\Http\Controllers\Api\SolicitudControllerApi;
 
+use App\Http\Controllers\Api\ServicioApiController;
+use App\Http\Controllers\Api\CategoriaApiController;
 
 
 Route::post('login', [LoginController::class, 'apiLogin'])->name('apiLogin');
@@ -74,11 +76,15 @@ Route::get('ciclos-area/{id}', [CicloController::class, 'ciclosPorArea'])->middl
 
 Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('auth:sanctum');
 
-use Flogti\SpanishCities\Models\Community;
-// Route::get('testmun', function(){
-//     $municipios = Community::find(10)->towns;
-//     return response()->json($municipios);
-// });
+
+
+//SERVICIOS
+Route::apiResource('servicios', ServicioApiController::class);
+Route::get('servicios-simple', [ServicioApiController::class, 'getAll']);
+
+//CATEGORIAS
+Route::apiResource('categorias', CategoriaApiController::class);
+Route::get('categorias-simple', [CategoriaApiController::class, 'getAll']);
 
 
 // Formularios

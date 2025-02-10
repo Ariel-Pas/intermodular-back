@@ -29,16 +29,6 @@
         @endif
 
 
-        @if(!isset($centro->id))
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password">
-            @if ($errors->has('password'))
-            <p class="error-msg">{{$errors->first('password')}}</p>
-            @endif
-
-        </div>
-        @endif
 
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
@@ -85,44 +75,66 @@
             </div>
         </div>
 
-        <select class="form-select mb-3" aria-label="Default select example" name="provincia" >
-            <option  {{!isset($centro) ? 'selected' : ''}}>Elige una provincia</option>
-            <option value="1"
-            @if(old('provincia', null) != null) @selected(old('provincia') == '1')
-            @elseif(isset($centro->id) && $centro->provincia == '1') selected = "true"
-            @endif >Alicante</option>
-            <option value="2"
-            @if(old('provincia', null) != null) @selected(old('provincia') == '2')
-            @elseif(isset($centro->id) && $centro->provincia == '2') selected = "true"
-            @endif
-            >Valencia</option>
-            <option value="3"
-            @if(old('provincia', null) != null) @selected(old('provincia') == '3')
-            @elseif(isset($centro->id) && $centro->provincia == '3') selected = "true"
-            @endif>Castellón</option>
+        <select class="form-select mb-3" aria-label="Default select example" name="provincia">
+            <option >Elige una provincia</option>
+            @foreach ($provincias as $provincia)
+                <option
+                value="{{$provincia->id}}"
+                @selected(old('provincia', $centro->id ? $centro->province()->id : null) == $provincia->id)>{{$provincia->name}}</option>
+            @endforeach
+
         </select>
         @if ($errors->has('provincia'))
-            <p class="error-msg">{{$errors->first('provincia')}}</p>
+                <p class="error-msg">{{$errors->first('provincia')}}</p>
         @endif
 
+
         <select class="form-select mb-3" aria-label="Default select example" name="poblacion">
-            <option  selected>Elige una localidad</option>
-            <option value="1"
-            @if(old('poblacion', null) != null) @selected(old('poblacion') == '1')
-            @elseif(isset($centro->id) && $centro->poblacion == '1') selected = "true"
-            @endif>Benidorm</option>
-            <option value="2"
-            @if(old('poblacion', null) != null) @selected(old('poblacion') == '2')
-            @elseif(isset($centro->id) && $centro->poblacion == '2') selected = "true"
-            @endif>La Vila-Joiosa</option>
-            <option value="3"
-            @if(old('poblacion', null) != null) @selected(old('poblacion') == '3')
-            @elseif(isset($centro->id) && $centro->poblacion == '3') selected = "true"
-            @endif>La Nucía</option>
+            <option >Elige una localidad</option>
+            @foreach ($municipios as $municipio){
+                <option value={{$municipio->id}}
+                @selected(old('poblacion', $centro->id ? $centro->town_id : null) == $municipio->id)
+                >{{$municipio->name}}</option>
+            }
+
+            @endforeach
+
         </select>
         @if ($errors->has('poblacion'))
-            <p class="error-msg">{{$errors->first('poblacion')}}</p>
+                <p class="error-msg">{{$errors->first('poblacion')}}</p>
         @endif
+
+
+        <div class="my-3 form-check">
+            <p>Ciclos</p>
+            <div class="row">
+                @foreach($ciclos as $ciclo)
+
+                    @php
+                        $cicloChecked = false;
+                        if(old('ciclos', null)) $cicloChecked = in_array($ciclo->id, old('ciclos'));
+                        if ($centro->id) {
+                            //comprobar si existe un ciclo con el id actual en los ciclos del centro
+                            $cicloEnCentro = $centro->ciclos->find($ciclo->id);
+                            //dd($centro->ciclos);
+                            if ($cicloEnCentro){
+
+                                $cicloChecked = true;
+                            }
+                        }
+                    @endphp
+
+                    <div class="col-2">
+                        <input type="checkbox" class="form-check-input" value="{{$ciclo->id}}" name="ciclos[]"
+                        @checked($cicloChecked)
+                        >
+                        <label class="form-check-label" >{{$ciclo->nombre}}</label>
+
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
 
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
