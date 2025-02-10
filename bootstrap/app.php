@@ -18,7 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'FiltroEdicion' => ControlEdicionCentros::class,
             'Bloquear' => BloquearRuta::class,
-            'RolCheck' => RolCheck::class
+            'RolCheck' => RolCheck::class,
+            //REVISAR
+            'auth:sanctum' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
