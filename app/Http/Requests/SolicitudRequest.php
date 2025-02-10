@@ -24,7 +24,7 @@ class SolicitudRequest extends FormRequest
         return [
             'nombreEmpresa' => 'required|string',
             'actividad' => 'required|string',
-            'cif' => 'required|regex:/^[A-Z][0-9]{8}$/',
+            'cif' => 'required|regex:/^\d{8}[A-Z]$/',
             'provincia' => 'required',
             'localidad' => 'required',
             'email' => 'required|email',
@@ -47,7 +47,7 @@ class SolicitudRequest extends FormRequest
             'actividad.string' => 'La actividad debe ser un texto válido.',
 
             'cif.required' => 'El CIF es obligatorio.',
-            'cif.regex' => 'El CIF debe comenzar con una letra mayúscula seguida de 8 números.',
+            'cif.regex' => 'El CIF no es válido.',
 
             'provincia.required' => 'La provincia es obligatoria.',
             'localidad.required' => 'La localidad es obligatoria.',

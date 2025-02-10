@@ -1,69 +1,43 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\SolicitudRequest;
-use Illuminate\Http\Request;
 use App\Models\Solicitud;
+use Illuminate\Http\Request;
 use App\Models\Empresa;
 use App\Models\Centro;
+use App\Models\Ciclo;
+use App\Http\Requests\SolicitudRequest;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 use \Exception;
 
-class SolicitudControllerApi extends Controller
+class SolicitudController extends Controller
 {
-
-
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $solicitudes = Solicitud::orderBy('nombreEmpresa')->paginate(10);
+        return view('solicitudes.index', compact('solicitudes'));
     }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(Request $request)
+    {
+        $centros = Centro::all();
+        $centroSeleccionado = $request->input('centro_id', $centros->first()?->id); // Centro seleccionado o el primero disponible
+        $ciclos = $centroSeleccionado ? Centro::find($centroSeleccionado)?->ciclos ?? collect() : collect();
+        return view('solicitudes.create', compact('centros', 'ciclos', 'centroSeleccionado'));
+    }
+
 
     /**
      * Store a newly created resource in storage.
      */
-
-
-    //  public function store(SolicitudRequest $request)
-    //  {
-    //      // antes de hacer un insert de una solicitud debo comprobar si existe la empresa en la bbdd observando el cif,
-    //      // si el cif existe en la bbdd debo asociar la solicitud a la empresa para que agrega la solicitud a dicha empresa
-
-    //      $empresa = Empresa::where('cif', $request->cif)->first();
-    //      try {
-    //          $solicitud = Solicitud::create([
-    //              'nombreEmpresa' => $request->nombreEmpresa,
-    //              'actividad' => $request->actividad,
-    //              'cif' => $request->cif,
-    //              'provincia' => $request->provincia,
-    //              'localidad' => $request->localidad,
-    //              'email' => $request->email,
-    //              'titularidad' => $request->titularidad,
-    //              'horario_comienzo' => $request->horario_comienzo,
-    //              'horario_fin' => $request->horario_fin,
-    //              'centro_id' => $request->centro_id,
-    //              // 'empresa_id' => $request->empresa_id,
-    //              'empresa_id' => $empresa ? $empresa->id : null,  // asocio la empresa si existe, sino null
-    //          ]);
-
-    //          $solicitud->ciclos()->attach($request->ciclo_id, ['numero_puestos' => $request->numero_puestos]);
-
-
-    //          return response()->json(['message' => 'Solicitud creada exitosamente', 'solicitud' => $solicitud], 201);
-    //      } catch (Exception $ex) {
-    //          return response()->json(['error' => $ex->getMessage()], 500);
-    //      }
-    //  }
-
-
-
-
-
     public function store(SolicitudRequest $request)
     {
         // antes de hacer un insert de una solicitud debo comprobar si existe la empresa en la bbdd observando el cif,
@@ -106,24 +80,30 @@ class SolicitudControllerApi extends Controller
                 'empresa_id' => $empresa ? $empresa->id : null,
             ]);
 
-            // $solicitud->ciclos()->attach($request->ciclo_id, ['numero_puestos' => $request->numero_puestos]);
-
             foreach ($request->ciclos as $ciclo) {
                 $solicitud->ciclos()->attach($ciclo['ciclo_id'], ['numero_puestos' => $ciclo['numero_puestos']]);
             }
-            
+
             return response()->json(['message' => 'Solicitud creada exitosamente', 'solicitud' => $solicitud], 201);
         } catch (Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 500);
         }
     }
 
-
-
     /**
      * Display the specified resource.
      */
     public function show(string $id)
+    {
+        $empresa = Empresa::findOrFail($id);
+        $solicitudes = Solicitud::where('empresa_id', $id)->get();
+        return view('solicitudes.show', compact('empresa', 'solicitudes'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
         //
     }
@@ -141,6 +121,7 @@ class SolicitudControllerApi extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Solicitud::findOrFail($id)->delete();
+        return redirect()->route('solicitudes.index');
     }
 }

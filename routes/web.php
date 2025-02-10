@@ -12,6 +12,7 @@ use App\Http\Controllers\ServicioController;
 
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\ReseniaController;
+use App\Http\Controllers\SolicitudController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -69,15 +70,23 @@ Route::put('/servicios/{id}', [ServicioController::class, 'update'])->name('serv
 Route::delete('/servicios/{id}', [ServicioController::class, 'destroy'])->name('servicios.destroy');
 
 // Formularios
-Route::get('/mostrarFormularios/{id}', [FormularioController::class, 'mostrarFormulario']); // este no funciona en ThunderClient
+Route::get('/mostrarFormularios/{id}', [FormularioController::class, 'mostrarFormulario']); 
 
 // Resenias
-// Route::get('/resenias/index', [ReseniaController::class, 'index'])->name('resenias.index');
 Route::get('/resenias/{tipo?}', [ReseniaController::class, 'index'])->name('resenias.index');
 Route::get('/resenias/empresa/{empresaId}', [ReseniaController::class, 'show'])->name('resenias.show');
+
+
+// Solicitudes
+Route::get('/solicitudes/index', [SolicitudController::class, 'index'])->name('solicitudes.index');
+Route::get('/solicitudes/show/{id}', [SolicitudController::class, 'show'])->name('solicitudes.show');
+Route::delete('/solicitudes/destroy/{id}', [SolicitudController::class, 'destroy'])->name('solicitudes.destroy');
+Route::post('/solicitudes/store', [SolicitudController::class, 'store'])->name('solicitudes.store');
+Route::get('/solicitudes/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
 
 // Route::post('/resenias', [ReseniaController::class, 'store']);
 
 //CICLOS
 Route::resource('/ciclos', CicloWebController::class);
+
 
