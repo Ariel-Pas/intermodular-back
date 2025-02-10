@@ -65,11 +65,15 @@ Route::get('ciclos-area/{id}', [CicloController::class, 'ciclosPorArea'])->middl
 
 Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('auth:sanctum');
 
-use Flogti\SpanishCities\Models\Community;
-// Route::get('testmun', function(){
-//     $municipios = Community::find(10)->towns;
-//     return response()->json($municipios);
-// });
+
+
+//SERVICIOS
+Route::apiResource('servicios', ServicioApiController::class);
+Route::get('servicios-simple', [ServicioApiController::class, 'getAll']);
+
+//CATEGORIAS
+Route::apiResource('categorias', CategoriaApiController::class);
+Route::get('categorias-simple', [CategoriaApiController::class, 'getAll']);
 
 
 // Formularios
@@ -85,7 +89,6 @@ Route::post('/resenias', [ReseniaControllerApi::class, 'store']); // funciona pe
 
 // Solicitudes
 Route::post('/solicitudes', [SolicitudControllerApi::class, 'store']);
-Route::post('solicitudes/{solicitudId}/agregar-ciclos', [SolicitudControllerApi::class, 'agregarCiclosASolicitud']); // nuevo
 
 
 //Centros

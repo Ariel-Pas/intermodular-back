@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ServicioBasicResource;
 use App\Models\Servicio;
 use Illuminate\Http\Request;
 
@@ -73,5 +74,12 @@ class ServicioApiController extends Controller
 
         $servicio->delete();
         return response()->json(['mensaje' => 'Servicio eliminado correctamente'], 200);
+    }
+
+
+    //version simple
+    public function getAll(){
+        $servicios = Servicio::all();
+        return response()->json(ServicioBasicResource::Collection($servicios));
     }
 }

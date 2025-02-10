@@ -34,6 +34,7 @@ class EmpresaRequest extends FormRequest
             'coordX' => 'required|numeric',
             'coordY' => 'required|numeric',
             'centro' => 'string|exists:centro,id',
+            'categorias' =>  'array: servicio,categoria'
 
         ];
     }
