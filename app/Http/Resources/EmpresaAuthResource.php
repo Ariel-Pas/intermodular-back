@@ -42,7 +42,7 @@ class EmpresaAuthResource extends JsonResource
             'categorias' => [],
             'servicios' => ServicioBasicResource::collection($servicios),
             'vacantes' => $this->vacantes,
-            'puntuacion'=> $this->puntuacion_alumno,
+            'puntuacion'=> $this->puntuacionMedia(),
             'notas' => $this->pivot->notas,
             'urlEditar' => $this->token
         ];

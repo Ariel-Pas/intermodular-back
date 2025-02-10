@@ -35,6 +35,7 @@ class UpdateEmpresaRequest extends FormRequest
             'coordY' => 'required|numeric',
             
 
+
         ];
     }
 }
