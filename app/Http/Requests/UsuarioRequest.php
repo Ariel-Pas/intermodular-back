@@ -11,7 +11,7 @@ class UsuarioRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,8 +26,7 @@ class UsuarioRequest extends FormRequest
             'apellido' => 'required|min:2',
             'email' => 'required|email',
             'password' => 'required|min:6',
-            'cif' => 'min:9',
-            'role' => 'required'
+            // 'role' => 'required'
         ];
     }
 
@@ -41,8 +40,7 @@ class UsuarioRequest extends FormRequest
             'email.required' => 'El email es obligatorio.',
             'password.required' => 'Debe ingresar una contraseña.',
             'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
-            'cif.min' => 'El CIF debe tener al menos 9 caracteres.',
-            'role.required' => 'El usuario debe tener al menos un rol.'
+            // 'role.required' => 'El usuario debe tener al menos un rol.'
         ];
     }
 }

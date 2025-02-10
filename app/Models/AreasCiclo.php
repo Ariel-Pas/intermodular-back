@@ -10,6 +10,6 @@ class AreasCiclo extends Model
     protected $hidden = ['created_at', 'updated_at'];
     public function ciclos()
     {
-        return $this->hasMany(Ciclo::class);
+        return $this->hasMany(Ciclo::class, 'areasciclo_id');
     }
 }

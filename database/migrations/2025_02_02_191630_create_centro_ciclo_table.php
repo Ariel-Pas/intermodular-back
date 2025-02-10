@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('centro_ciclo', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('centro_id')->constrained();
-            $table->foreignId('ciclo_id')->constrained();
+            $table->foreignId('centro_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('ciclo_id')->constrained()->cascadeOnDelete();
         });
     }
 

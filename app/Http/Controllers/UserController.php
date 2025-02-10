@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UsuarioRequest;
 use App\Models\Usuario;
+use App\Models\Centro;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 
 class UserController extends Controller
@@ -15,31 +18,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $users = Usuario::orderBy('role')->get();
-        // return view('usuarios.usuarios', compact('users'));
-
-        //OBTENGO USUARIO AUTENTICADO
-        $user = Auth::user();
-
-        if ($user->role == 'Admin') {
-            // ADMIN -> TODOS
-            $users = Usuario::orderBy('role')->get();
-        } elseif ($user->role == 'Centro') {
-            //REVISAR (Centros(empresas,tutores))
-            // CENTROS -> CENTROS , TUTORES
-            $users = Usuario::whereIn('role', ['Centro', 'Tutor'])->orderBy('role')->get();
-        } elseif ($user->role == 'Tutor') {
-            //REVISAR (Tutores(empresas))
-            // TUTORES -> TUTORES
-            $users = Usuario::where('role', 'Tutor')->orderBy('role')->get();
-        } else {
-            // Si el usuario tiene un rol desconocido, devolver una lista vacía
-            // $users = collect();
-        }
-
-        return view('usuarios.usuarios', compact('users'));
+        $usuarios = Usuario::all();
+        return view('usuarios.usuarios', compact('usuarios'));
     }
 
+    //CORREGIR O ELIMINAR
     public function controlPanel()
     {
         return view('inicio');
@@ -50,31 +33,31 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('usuarios.create');
+        $centros = Centro::all();
+        return view('usuarios.create', compact('centros'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    //AGREGAR VALIDACION UsuarioPost
-    public function store(UsuarioRequest $request)
+    //HE QUITADO EL UsuarioRequest PORQUE ME DA FALLOS CON EL EMAIL, AGREGAR LUEGO
+    public function store(Request $request)
     {
+
         $usuario = new Usuario();
         $usuario->nombre = $request->nombre;
-        $usuario->apellido = $request->apellido;
-        //REVISAR UNIQUE
+        $usuario->apellidos = $request->apellidos;
         $usuario->email = $request->email;
-        $usuario->password = $request->password;
-
-        //REVISAR UNIQUE REL EMPRESA
-        $usuario->cif = $request->cif;
-        //REVISAR UNIQUE REL CENTRO
+        $usuario->password = bcrypt($request->password);
         $usuario->centro_id = $request->centro_id;
-
-        $usuario->role = $request->role;
         $usuario->save();
 
-        return redirect()->route('usuarios.index')->with('msg', "Usuario $request->nombre, y rol $request->role creado con éxito!");
+        //ASIGNAR ROLES
+        $roles = Role::whereIn('nombre', $request->roles)->get();
+        $usuario->roles()->attach($roles);
+
+        $msg = "Usuario creado con éxito!";
+        return redirect()->route('usuarios.index')->with('msg', $msg);
     }
 
     /**
@@ -82,9 +65,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        // $usuario = Usuario::firstWhere('id', '=', $id);
         $usuario = Usuario::findOrFail($id);
-        //dd($usuario);
         return view('usuarios.usuario', compact('usuario'));
     }
 
@@ -94,28 +75,32 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $usuario = Usuario::findOrFail($id);
-        return view('usuarios.edit', compact('usuario'));
+        $centros = Centro::all();
+        return view('usuarios.edit', compact('usuario', 'centros'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UsuarioRequest $request, Usuario $usuario)
+    public function update(Request $request, string $id)
     {
-        //CHEQUEAR EDICION
+        $usuario = Usuario::findOrFail($id);
         $usuario->nombre = $request->nombre;
-        $usuario->apellido = $request->apellido;
-        //REVISAR UNIQUE
+        $usuario->apellidos = $request->apellidos;
         $usuario->email = $request->email;
-        $usuario->password = $request->password;
-        //REVISAR UNIQUE REL EMPRESA
-        $usuario->cif = $request->cif;
-        //REVISAR UNIQUE REL CENTRO
+        //SI NO SE CAMBIA EL PASS, NO ES NECESARIO ENCRIPTARLA DENUEVO
+        if ($request->password) {
+            $usuario->password = bcrypt($request->password);
+        }
         $usuario->centro_id = $request->centro_id;
-        $usuario->role = $request->role;
-        $usuario->save();
+        $usuario->update();
 
-        return redirect()->route('usuarios.index')->with('msg', "Usuario $request->nombre, y rol $request->role editado con éxito!");
+        //ASIGNAR ROLES
+        $rolesIds = Role::whereIn('nombre', $request->roles)->pluck('id');
+        $usuario->roles()->sync($rolesIds);
+
+        $msg = "Usuario $request->nombre editado con éxito!";
+        return redirect()->route('usuarios.index')->with('msg', $msg);
     }
 
     /**
@@ -125,10 +110,12 @@ class UserController extends Controller
     {
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
-
-        return redirect()->route('usuarios.index')->with('msg', "Usuario con ID: $id eliminado con éxito!");
+        $msg = "Usuario con ID: $id eliminado con éxito!";
+        return redirect()->route('usuarios.index')->with('msg', $msg);
     }
 
+
+    //REVISAR
     public function asignarRoles(Request $request, Usuario $user)
     {
         $request->validate([
