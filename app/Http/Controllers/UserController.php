@@ -23,9 +23,20 @@ class UserController extends Controller
     }
 
     //CORREGIR O ELIMINAR
-    public function controlPanel()
+    // public function controlPanel()
+    // {
+    //     return view('inicio');
+    // }
+
+    public function controlPanel(Request $request)
     {
-        return view('inicio');
+        $usuario = $request->user(); // Obtener usuario autenticado
+
+        if (!$usuario || !$usuario->roles->pluck('nombre')->contains('Admin')) {
+            return redirect('/login')->withErrors(['error' => 'Acceso no autorizado']);
+        }
+
+        return view('inicio'); // Retorna la vista del panel
     }
 
     /**

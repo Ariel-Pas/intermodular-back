@@ -48,7 +48,7 @@
                     <div class="">
                         <h4 class="text-center">Bienvenido</h4>
                         <h4 class="text-center mb-3" style="color:#ff3600"><strong>Acceder</strong></h4>
-                        <form action="{{ route('apilogin') }}" method="POST">
+                        <form action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="form-group m-2 d-flex align-items-center">
                                 <i class="bi bi-person fs-4 m-2"></i><input type="text"

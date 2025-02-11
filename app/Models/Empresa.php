@@ -24,6 +24,7 @@ class Empresa extends Model
         return $this->belongsToMany(Categoria::class);
     }
 
+
     public function resenias(){
         return $this->hasMany(Resenia::class);
     }
@@ -35,9 +36,8 @@ class Empresa extends Model
 
         return $media*2;
     }
+
 }
 
 
-/* $posts = Post::whereHas('comments', function (Builder $query) {
-    $query->where('content', 'like', 'code%');
-}, '>=', 10)->get(); */
+

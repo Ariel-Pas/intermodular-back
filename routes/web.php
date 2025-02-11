@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\LoginApiController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\CentrosController;
 use App\Http\Controllers\FormularioController;
@@ -17,34 +18,35 @@ use App\Http\Controllers\SolicitudController;
 use Illuminate\Support\Facades\Route;
 
 
-//CONTROLAR SI YA ESTAS LOGEADO Y ACCEDES A '/' QUE REDIRIJA A ?
+
+//LOGIN
+// Route::get('/', function(){
+//     return view('auth.login');
+// })
+// ->name('inicio');
+
 Route::get('/', function(){
     return view('auth.login');
-})
-->name('inicio');
+});
 
-//VER, NO SE SI FUNCIONA
-Route::get('/admin', function () {
-    return view('inicio');
-})->middleware('auth');
+// Route::get('/login', function(){
+//     return view('auth.login');
+// })->name('login');
 
+Route::get('/login', [LoginController::class, 'loginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+
+Route::get('/admin', [UserController::class, 'controlPanel'])
+    ->middleware(['auth', 'RolCheck:Admin'])
+    ->name('admin');
 
 
 
 
 Route::resource('empresas', EmpresaController::class);
 Route::resource('centros', CentrosController::class);
-
-//SESSION
-Route::get('login', [LoginController::class, 'loginForm'])->name('login');
-Route::post('login' , [LoginController::class, 'login']);
-Route::get('logout', [LoginController::class, 'logout'])->name('logout');
-
-//ANGULAR
-Route::post('login', [LoginController::class, 'apiLogin'])->name('apilogin');
-
-//REVISAR
-Route::get('admin', [UserController::class, 'controlPanel'])->middleware('RolCheck:Admin')->name('controlPanel');
 
 //USUARIOS
 Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
@@ -55,7 +57,6 @@ Route::get('/usuarios/{id}', [UserController::class, 'show'])->name('usuarios.sh
 Route::put('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.update');
 Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
 //Route::resource('usuarios', UserController::class)->only(['create', 'edit','update', 'index', 'show', 'destroy', 'store']);
-
 
 //CATEGORIAS
 Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
