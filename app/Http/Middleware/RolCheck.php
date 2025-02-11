@@ -20,6 +20,7 @@ class RolCheck
         $usuario = $request->user();
 
         if($usuario && $usuario->roles->pluck('nombre')->intersect($roles)->isNotEmpty()){
+
             return $next($request);
         }
 

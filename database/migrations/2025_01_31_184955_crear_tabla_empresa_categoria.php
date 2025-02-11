@@ -13,10 +13,6 @@ return new class extends Migration
     {
         Schema::create('empresa_cat', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('empresa_id')->constrained();
-            $table->foreignId('categoria_id')->constrained();
-            //PONER ID DE categoria_servicio -> id
-            // $table->foreignId('servicio_id')->constrained();
             $table->foreignId('empresa_id')->constrained()->cascadeOnDelete();
             $table->foreignId('categoria_id')->constrained()->cascadeOnDelete();
             $table->foreignId('servicio_id')->constrained()->cascadeOnDelete();

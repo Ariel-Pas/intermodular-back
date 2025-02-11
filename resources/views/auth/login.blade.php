@@ -48,6 +48,16 @@
                     <div class="">
                         <h4 class="text-center">Bienvenido</h4>
                         <h4 class="text-center mb-3" style="color:#ff3600"><strong>Acceder</strong></h4>
+
+                        @if (!empty($msg))
+                            <div class="alert alert-danger text-center">
+                                {{ $msg }}
+                            </div>
+                        @endif
+                        @if (session('msg'))
+                            <div class="alert alert-danger">{{ session('msg') }}</div>
+                        @endif
+
                         <form action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="form-group m-2 d-flex align-items-center">
@@ -55,11 +65,11 @@
                                     class="border-0 border-bottom border-1" name="email" id="email"
                                     placeholder="Usuario" />
                             </div>
-                            @if (!empty($msg))
+                            {{-- @if (!empty($msg))
                                 <div class="text-danger text-center">
                                     {{ $msg }}
                                 </div>
-                            @endif
+                            @endif --}}
                             <div class="form-group m-2 d-flex align-items-center">
                                 <i class="bi bi-key fs-4 m-2"></i><input type="password"
                                     class="border-0 border-bottom border-1" name="password" id="password"
@@ -75,6 +85,5 @@
         </div>
     </div>
 </body>
+
 </html>
-
-
