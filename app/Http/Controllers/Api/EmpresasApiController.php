@@ -230,9 +230,9 @@ class EmpresasApiController extends Controller
     //actualizar nota
     public function actualizarNota($idEmpresa, Request $request)
     {
-        $validated = $request->validate([
+        /* $validated = $request->validate([
             'notas' => 'string'
-        ]);
+        ]); */
 
         $centro = Auth::user()->centro;
         $empresa = $centro->empresas->find($idEmpresa);
