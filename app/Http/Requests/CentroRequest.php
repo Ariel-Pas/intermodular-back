@@ -27,7 +27,8 @@ class CentroRequest extends FormRequest
             'telefono' => 'required|min:8|regex:/[0-9]{9}/',
             'direccion' => 'required',
             'provincia' => 'required|numeric',
-            'poblacion' => 'required|numeric'
+            'poblacion' => 'required|numeric',
+            'ciclos' => 'required'
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EmpresaWebUpdateRequest extends FormRequest
 {
@@ -23,9 +24,9 @@ class EmpresaWebUpdateRequest extends FormRequest
     {
         return [
             'nombre' => 'required',
-            'cif' => 'required|string|size:9',
+            'cif' => ['required','string','size:9', Rule::unique('empresas')->ignore($this->route('empresa'))],
             'descripcion' => 'required|string',
-            'email' => 'required|email',
+            'email' => ['required' , 'email', Rule::unique('empresas')->ignore($this->route('empresa'))],
             'direccion' => 'required|string',
             'apManana' => 'required',
             'apTarde' => 'required',
@@ -37,6 +38,23 @@ class EmpresaWebUpdateRequest extends FormRequest
             'servicios' =>  'required|array|min:1',
             'imagen' => 'image'
 
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'nombre.required' => 'Introduce un nombre de empresa',
+            'provincia.numeric' => 'Elige una provincia',
+            'poblacion.numeric' => 'Elige una población',
+            'email.unique' => 'Este email está en uso',
+            'required' => 'Campo requerido',
+            'min' => 'Este campo no cumple con el tamaño mínimo',
+            'regex' => 'Formato inválido',
+            'size' => 'Número de caracteres incorrecto',
+            'email' => 'Email no válido',
+            'numeric' => 'Introduce un valor numérico',
+            'unique' => 'Este valor ya está registrado'
         ];
     }
 }
