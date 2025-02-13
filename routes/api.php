@@ -42,7 +42,7 @@ Route::get('empresas/buscar-token/{id}', [EmpresasApiController::class, 'obtener
 //Buscar empresa por token
 Route::get('empresas/token/{token}', [EmpresasApiController::class, 'empresaPorToken']);
 //Editar
-Route::post('empresas/token/{token}', [EmpresasApiController::class, 'updateEmpresaPorToken']);
+Route::put('empresas/token/{token}', [EmpresasApiController::class, 'updateEmpresaPorToken']);
 
 
 //Asociar empresa a centro
@@ -70,6 +70,7 @@ Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('a
 //SERVICIOS
 Route::apiResource('servicios', ServicioApiController::class);
 Route::get('servicios-simple', [ServicioApiController::class, 'getAll']);
+Route::get('categoria/servicios/{id}', [ServicioApiController::class, 'getByCategoria']);
 
 //CATEGORIAS
 Route::apiResource('categorias', CategoriaApiController::class);

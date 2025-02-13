@@ -151,6 +151,15 @@ class EmpresasApiController extends Controller
 
         //$empresa->update($datos);
         $empresa->save();
+        DB::table('empresa_cat')->where('empresa_id', '=', $id)->delete();
+        foreach($request->servicios as $servicio)
+            {
+                DB::table('empresa_cat')->insert([
+                    'empresa_id' => $empresa->id,
+                    'categoria_id' => $servicio['categoria'],
+                    'servicio_id' => $servicio['servicio']
+                ]);
+            }
 
         return response()->json(new EmpresaAuthSinNotasResource($empresa));
     }
@@ -221,9 +230,9 @@ class EmpresasApiController extends Controller
     //actualizar nota
     public function actualizarNota($idEmpresa, Request $request)
     {
-        $validated = $request->validate([
+        /* $validated = $request->validate([
             'notas' => 'string'
-        ]);
+        ]); */
 
         $centro = Auth::user()->centro;
         $empresa = $centro->empresas->find($idEmpresa);
