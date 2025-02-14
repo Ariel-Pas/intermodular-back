@@ -70,7 +70,7 @@ Route::put('/servicios/{id}', [ServicioController::class, 'update'])->name('serv
 Route::delete('/servicios/{id}', [ServicioController::class, 'destroy'])->name('servicios.destroy');
 
 // Formularios
-Route::get('/mostrarFormularios/{id}', [FormularioController::class, 'mostrarFormulario']); 
+Route::get('/mostrarFormularios/{id}', [FormularioController::class, 'mostrarFormulario']);
 
 // Resenias
 Route::get('/resenias/{tipo?}', [ReseniaController::class, 'index'])->name('resenias.index');
@@ -83,8 +83,9 @@ Route::get('/solicitudes/show/{id}', [SolicitudController::class, 'show'])->name
 Route::delete('/solicitudes/destroy/{id}', [SolicitudController::class, 'destroy'])->name('solicitudes.destroy');
 Route::post('/solicitudes/store', [SolicitudController::class, 'store'])->name('solicitudes.store');
 Route::get('/solicitudes/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
+Route::get('/solicitudes/edit/{solicitud}', [SolicitudController::class, 'edit'])->name('solicitudes.edit');
+Route::put('/solicitudes/update/{solicitud}', [SolicitudController::class, 'update'])->name('solicitudes.update');
 
-// Route::post('/resenias', [ReseniaController::class, 'store']);
 
 //CICLOS
 Route::resource('/ciclos', CicloWebController::class);

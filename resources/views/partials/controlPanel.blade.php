@@ -35,6 +35,6 @@
 </div>
 <div>
     <a class="text-decoration-none" style="color:#278a81" href="{{ route('resenias.index') }}"><i class="bi bi-list-stars"></i>
-        Reseñas/Formularios</a>
+        Reseñas</a>
     <hr>
 </div>

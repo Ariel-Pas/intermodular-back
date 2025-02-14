@@ -22,4 +22,8 @@ class Empresa extends Model
     public function categorias(){
         return $this->belongsToMany(Categoria::class);
     }
+
+    public function solicitudes() {
+        return $this->hasMany(Solicitud::class);
+    }
 }

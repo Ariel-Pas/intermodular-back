@@ -88,7 +88,7 @@ Route::get('categorias-simple', [CategoriaApiController::class, 'getAll']);
 
 
 // Formularios
-Route::get('/mostrarFormulario/{id}', [FormularioController::class, 'mostrarFormulario']); // funciona perfecto
+Route::get('/mostrarFormulario/{id}', [FormularioController::class, 'mostrarFormulario']); 
 
 // Token
 Route::post('/generar-token', [TokenControllerApi::class, 'generarToken']); // insertará en la tabla Token una fila
@@ -96,7 +96,7 @@ Route::get('/get-Token/{token}', [TokenControllerApi::class, 'obtenerFormularioP
 
 
 // Resenias
-Route::post('/resenias', [ReseniaControllerApi::class, 'store']); // funciona perfecto
+Route::post('/resenias', [ReseniaControllerApi::class, 'store']);
 
 // Solicitudes
 Route::post('/solicitudes', [SolicitudControllerApi::class, 'store']);
@@ -105,7 +105,7 @@ Route::post('/solicitudes', [SolicitudControllerApi::class, 'store']);
 
 //Centros
 Route::get('centros', [CentroApiController::class, 'index']);
-Route::get('ciclosPorCentro/{idCentro}', [CentroApiController::class, 'ciclosPorCentro']); // nuevo
+Route::get('ciclosPorCentro/{idCentro}', [CentroApiController::class, 'ciclosPorCentro']);
 
 Route::get('centros-provincia/{idProvincia}', [CentroApiController::class, 'centrosPorProvincia']);
 Route::get('centros-localidad/{idLocalidad}', [CentroApiController::class, 'centrosPorLocalidad']);

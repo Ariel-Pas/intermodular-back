@@ -13,6 +13,10 @@
           <a class="nav-link" href="{{url('http://localhost:4200/dashboard')}}">Empresas TEST</a>
           <a class="nav-link" href="{{route('centros.index')}}">Centros</a>
 
+          <a class="nav-link" href="{{route('solicitudes.index')}}">Solicitudes</a>
+
+          <a class="nav-link" href="{{route('resenias.index')}}">Reseñas</a>
+
           @if(auth()->check())
             <a class="nav-link" href="{{route('logout')}}">
                 <button class="btn btn-primary">Logout</button>

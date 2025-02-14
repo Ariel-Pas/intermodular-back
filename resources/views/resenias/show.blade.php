@@ -1,3 +1,5 @@
+
+
 @extends('template')
 
 @section('tituloNavegador', 'Reseñas de ' . $empresa->nombre)
@@ -11,10 +13,11 @@
 
     <table class="table-auto w-full border-collapse border border-gray-300">
         <thead>
+            </h4>
             <tr class="bg-gray-200">
                 <th class="border border-gray-300 px-4 py-2">Preguntas</th>
                 <th class="border border-gray-300 px-4 py-2">Respuestas</th>
-                <th class="border border-gray-300 px-4 py-2">Usuario</th>
+                <th class="border border-gray-300 px-4 py-2">Centro</th>
             </tr>
         </thead>
         <tbody>
@@ -22,7 +25,7 @@
                 <tr class="text-center bg-white hover:bg-gray-100">
                     <td class="border border-gray-300 px-4 py-2">{{ $resenia->pregunta_id }} - {{ $resenia->pregunta->titulo }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ $resenia->respuesta }}</td>
-                    {{-- <td class="border border-gray-300 px-4 py-2">{{ $resenia->centro_id->nombre }}</td> --}}
+                    <td class="border border-gray-300 px-4 py-2">{{ $resenia->centro->nombre }}</td>
                 </tr>
             @endforeach
         </tbody>

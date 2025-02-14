@@ -10,7 +10,7 @@ class Solicitud extends Model
     protected $guarded = [];
 
     public function ciclos() {
-        return $this->belongsToMany(Ciclo::class, 'solicitud_ciclo')->withPivot('numero_puestos'); 
+        return $this->belongsToMany(Ciclo::class, 'solicitud_ciclo')->withPivot('numero_puestos');
     }
 
     public function empresa() {

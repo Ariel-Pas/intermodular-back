@@ -23,6 +23,7 @@ class ReseniasSeeder extends Seeder
             'Cuenta con buenas habilidades técnicas.',
             5,
             'Cumplió con los objetivos planteados.',
+            
 
             3,
             'Se podrían mejorar los canales de comunicación.',
