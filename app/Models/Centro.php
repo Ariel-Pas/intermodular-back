@@ -25,7 +25,7 @@ class Centro extends Model
 
     public function ciclos()
     {
-        return $this->belongsToMany(Ciclo::class);
+        return $this->belongsToMany(Ciclo::class, 'centro_ciclo', 'centro_id', 'ciclo_id');
     }
 
 }

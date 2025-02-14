@@ -25,7 +25,7 @@
                     <td>{{ $solicitud->provincia }}</td>
                     <td>{{ $solicitud->titularidad }}</td>
                     <td>
-                        <a href="{{ route('solicitudes.show', $solicitud->id) }}" class="btn btn-info btn-sm"> Ver detalles</a>
+                        <a href="{{ route('solicitudes.show', $solicitud->empresa_id) }}" class="btn btn-info btn-sm"> Ver detalles</a>
                     </td>
                 </tr>
             @endforeach

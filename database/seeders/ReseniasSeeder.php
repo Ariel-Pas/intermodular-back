@@ -15,24 +15,25 @@ class ReseniasSeeder extends Seeder
     {
         $resenias = [
             'Buena experiencia con el practicante.',
-            'Mostró un alto nivel de responsabilidad.',
+            5,
             'Podría mejorar su comunicación con el equipo.',
-            'Siempre fue puntual en sus actividades.',
+            4,
             'Ha demostrado gran iniciativa en sus tareas.',
-            'Tiene una actitud muy positiva ante los desafíos.',
+            3,
             'Cuenta con buenas habilidades técnicas.',
-            'Sin duda, lo recomendaría para futuras oportunidades.',
-            'Se integró muy bien con el equipo de trabajo.',
+            5,
             'Cumplió con los objetivos planteados.',
-            'Fue una gran experiencia en la empresa.',
+            
+
+            3,
             'Se podrían mejorar los canales de comunicación.',
-            'El trato del equipo de trabajo fue excelente.',
+            5,
             'Las tareas fueron adecuadas para la formación.',
-            'Siempre me sentí acompañado y guiado.',
-            'Definitivamente recomendaría esta empresa.',
+            5,
+            4,
             'El ambiente de trabajo fue muy agradable.',
             'Hubo algunas dificultades en la comunicación con el tutor.',
-            'Las instalaciones y recursos eran adecuados.',
+            4,
             'Sugiero incluir más oportunidades de aprendizaje.',
         ];
 

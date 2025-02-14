@@ -25,6 +25,11 @@ class Empresa extends Model
     }
 
 
+    public function solicitudes() {
+        return $this->hasMany(Solicitud::class);
+    }
+
+
     public function resenias(){
         return $this->hasMany(Resenia::class);
     }
@@ -36,6 +41,7 @@ class Empresa extends Model
 
         return $media*2;
     }
+
 
 }
 

@@ -29,7 +29,7 @@ return new class extends Migration
             $table->double('puntuacion_alumno')->nullable();
             $table->integer('vacantes')->nullable();
             $table->foreignId('town_id')->constrained();
-            $table->string('token')->unique();
+            $table->string('token')->unique()->nullable();
         });
     }
 

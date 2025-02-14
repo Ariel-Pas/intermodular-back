@@ -10,7 +10,7 @@ class Ciclo extends Model
     protected $guarded = ['id'];
     public function centros()
     {
-        return $this->belongsToMany(Centro::class); 
+        return $this->belongsToMany(Centro::class, 'centro_ciclo', 'ciclo_id', 'centro_id'); // nuevo
     }
 
     public function solicitudes() // agregue

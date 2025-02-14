@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class CentroApiController extends Controller
 {
-    public function index(){
-
+    public function index() {
         $centros = Centro::all();
         return response()->json($centros);
     }

@@ -23,7 +23,7 @@ class SolicitudRequest extends FormRequest
     {
         return [
             'nombreEmpresa' => 'required|string',
-            'actividad' => 'required|string',
+            'actividad' => 'required',
             'cif' => 'required|regex:/^\d{8}[A-Z]$/',
             'provincia' => 'required',
             'localidad' => 'required',
@@ -33,6 +33,9 @@ class SolicitudRequest extends FormRequest
             'horario_fin' => 'required',
             'centro_id' => 'required|integer',
             'empresa_id' => 'required|integer',
+
+            // 'ciclo_id' => 'required|integer',
+            // 'numero_puestos' => 'required'
         ];
     }
 
@@ -44,7 +47,6 @@ class SolicitudRequest extends FormRequest
             'nombreEmpresa.string' => 'El nombre de la empresa debe ser un texto válido.',
 
             'actividad.required' => 'La actividad es obligatoria.',
-            'actividad.string' => 'La actividad debe ser un texto válido.',
 
             'cif.required' => 'El CIF es obligatorio.',
             'cif.regex' => 'El CIF no es válido.',
@@ -66,6 +68,11 @@ class SolicitudRequest extends FormRequest
 
             'empresa_id.required' => 'El ID de la empresa es obligatorio.',
             'empresa_id.integer' => 'El ID de la empresa debe ser un número entero.',
+
+            // 'ciclo_id.required' => 'El ID del ciclo es obligatorio.',
+            // 'ciclo_id.integer' => 'El ID del ciclo debe ser un número entero.',
+
+            // 'numero_puestos.required' => 'El numero de puestos es obligatorio.',
         ];
     }
 }

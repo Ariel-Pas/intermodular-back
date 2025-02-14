@@ -61,17 +61,7 @@ class ReseniaController extends Controller
      */
     public function store(ReseniaRequest $request)
     {
-        // dd('Solicitud recibida', $request->all());
-        // $resenia = Resenia::create([
-        //     'respuesta' => $request->respuesta,
-        //     'fecha' => $request->fecha,
-        //     'pregunta_id' => $request->pregunta_id,
-        //     'formulario_id' => $request->formulario_id,
-        //     'centro_id' => $request->centro_id,
-        //     'empresa_id' => $request->empresa_id,
-        // ]);
-
-        // return response()->json(['message' => 'Reseña creada exitosamente', 'resenia' => $resenia], 201);
+      //
     }
 
 
@@ -110,6 +100,7 @@ class ReseniaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Resenia::findOrFail($id)->delete();
+        return redirect()->route('resenias.index');
     }
 }
