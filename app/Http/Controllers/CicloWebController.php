@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AreasCiclo;
 use Illuminate\Http\Request;
 use App\Models\Ciclo;
+use Illuminate\Validation\Rule;
 
 class CicloWebController extends Controller
 {
@@ -34,9 +35,10 @@ class CicloWebController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nombre'=>'required',
+            'nombre'=>['required',  Rule::unique('ciclos')],
             'area' => 'required|exists:areasciclos,id'
-        ]);
+        ], ['required' => 'Campo requerido', 'unique' => 'Valor ya registrado']);
+
         $datos = ['nombre' => $request->nombre, 'areasciclo_id'=> $request->area];
 
         $ciclo = new Ciclo($datos);
@@ -68,9 +70,9 @@ class CicloWebController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'nombre'=>'required',
+            'nombre'=>['required', Rule::unique('ciclos')->ignore($id)],
             'area' => 'required|exists:areasciclos,id'
-        ]);
+        ], ['required' => 'Campo requerido', 'unique' => 'Valor ya registrado']);
         $datos = ['nombre' => $request->nombre, 'areasciclo_id'=> $request->area];
         $ciclo = Ciclo::findOrFail($id);
         $ciclo->update($datos);

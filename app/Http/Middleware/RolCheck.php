@@ -14,20 +14,17 @@ class RolCheck
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    // public function handle(Request $request, Closure $next, ...$roles): Response
-    // {
-    //     if (Auth::check() && in_array(Auth::user()->role, $roles)) {
-    //         return $next($request);
-    //     }
-    //     return redirect('/');
-    // }
 
-    public function handle(Request $request, Closure $next, ...$roles): Response
+    public function handle(Request $request, Closure $next, ...$roles)
     {
+        $usuario = $request->user();
 
-        if (Auth::check() && Auth::user()->roles->pluck('nombre')->intersect($roles)->isNotEmpty()) {
+        if($usuario && $usuario->roles->pluck('nombre')->intersect($roles)->isNotEmpty()){
+
             return $next($request);
         }
-        return redirect('/');
+
+        return response()->json(['error' => 'Acceso no autorizado'], 403);
     }
+
 }

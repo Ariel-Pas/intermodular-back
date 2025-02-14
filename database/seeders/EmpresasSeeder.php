@@ -27,7 +27,7 @@ class EmpresasSeeder extends Seeder
         $municipios = Community::find(10)->towns;
         $rand = rand(1, $municipios->count() -1);
         foreach ($centros as $centro) {
-            Empresa::factory()->hasAttached($centro, ['notas' => fake()->text(rand(30,50))])->count(2)->create(['town_id' => $municipios[rand(1, $municipios->count() -1)]->id]);
+            Empresa::factory()->hasAttached($centro, ['notas' => fake()->text(rand(30,50))])->count(4)->create(['town_id' => $municipios[rand(1, $municipios->count() -1)]->id]);
         }
 
         //asociar servicios y categorias

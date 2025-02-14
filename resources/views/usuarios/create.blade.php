@@ -61,6 +61,12 @@
                         usuario</button>
                 </div>
             </form>
+             {{-- BOTÓN PARA VOLVER --}}
+             <div class="text-center mt-4">
+                <a href="{{ route('usuarios.index') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver a la lista
+                </a>
+            </div>
         </div>
     </div>
 @endsection

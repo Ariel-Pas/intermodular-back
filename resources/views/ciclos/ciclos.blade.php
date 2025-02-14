@@ -3,55 +3,60 @@
 @section('tituloNavegador', 'Ciclos')
 
 @section('contenido')
+    <div class="container">
+        <h2 class="my-4">Gestión de Ciclos</h2>
 
-<div class="row">
-    @if (session('msg'))
-    <div class="alert alert-success">{{session('msg')}}</div>
-    @endif
-    <div>
-        <a href="{{route('ciclos.create')}}">
-            <button class="btn btn-primary">Crear ciclo</button>
-        </a>
+     
+        @if (session('msg'))
+            <div class="alert alert-success">{{ session('msg') }}</div>
+        @endif
+
+        <div class="card p-3 mb-4 shadow-sm">
+            <a class="btn" href="{{ route('ciclos.create') }}">
+                <i class="bi bi-plus-circle"></i> Crear Ciclo
+            </a>
+        </div>
+
+
+        @foreach ($areas as $area)
+            <div class="mb-4">
+                <h4 class="my-4">{{ $area->nombre }}</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover text-center align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($area->ciclos as $ciclo)
+                                <tr>
+
+                                    <td>{{ $ciclo->nombre }}</td>
+
+
+                                    <td class="d-flex justify-content-center">
+
+                                        <a class="align-self-center text-dark ms-3 me-3" href="{{ route('ciclos.edit', [$ciclo->id]) }}">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+
+
+                                        <form method="POST" action="{{ route('ciclos.destroy', [$ciclo->id]) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endforeach
     </div>
-    @foreach ($areas as $area)
-        <h5>{{$area->nombre}}</h5>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Nombre</th>
-                <th>Editar</th>
-                <th>Borrar</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach ($area->ciclos as $ciclo)
-
-                <tr>
-                    <td>{{$ciclo->nombre}}</td>
-                    <td><a href="{{route('ciclos.edit', [$ciclo->id])}}">
-                        <button class="btn btn-primary">
-                            Editar
-                        </button>
-                    </a></td>
-                    <td>
-                        <form action="{{route('ciclos.destroy', [$ciclo->id])}}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" value="Eliminar" class="btn btn-danger">
-                        </form>
-                    </td>
-                </tr>
-
-
-
-            @endforeach
-            </tbody>
-
-        </table>
-    @endforeach
-
-
-</div>
-
-
 @endsection

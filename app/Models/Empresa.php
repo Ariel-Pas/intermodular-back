@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Flogti\SpanishCities\Traits\HasTown;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,7 +24,26 @@ class Empresa extends Model
         return $this->belongsToMany(Categoria::class);
     }
 
+
     public function solicitudes() {
         return $this->hasMany(Solicitud::class);
     }
+
+
+    public function resenias(){
+        return $this->hasMany(Resenia::class);
+    }
+
+    public function puntuacionMedia(){
+        $media = $this->resenias()->whereHas('pregunta', function(Builder $query){
+            $query->where('tipo', '=', 'estrellas');
+        })->avg('respuesta');
+
+        return $media*2;
+    }
+
+
 }
+
+
+

@@ -2,43 +2,33 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\Api\EmpresasApiController;
 use App\Http\Controllers\Api\ReseniaControllerApi;
-
 use App\Http\Controllers\Api\CentroApiController;
 use App\Http\Controllers\CicloController;
-
 use App\Http\Controllers\LocalizacionApiController;
 use App\Http\Controllers\LoginController;
 use App\Models\Ciclo;
-
+use App\Http\Controllers\Api\ServicioApiController;
+use App\Http\Controllers\Api\CategoriaApiController;
+use App\Http\Controllers\Api\LoginApiController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\ReseniaController;
 use App\Http\Controllers\Api\TokenControllerApi;
 use App\Http\Controllers\Api\SolicitudControllerApi;
 
-use App\Http\Controllers\Api\ServicioApiController;
-use App\Http\Controllers\Api\CategoriaApiController;
+//LOGIN
+Route::post('login', [LoginApiController::class, 'login'])->name('api.login');
+Route::post('logout', [LoginApiController::class, 'logout'])->middleware('auth:sanctum')->name('api.logout');
 
-
-Route::post('login', [LoginController::class, 'apiLogin'])->name('apiLogin');
-
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
+//EMPRESAS
 Route::apiResource('empresas', EmpresasApiController::class)->middleware('auth:sanctum');
-
 //Obtener infomación completa de empresa
 Route::get('empresa-completa/{id}', [EmpresasApiController::class, 'empresaCompleta'])->middleware('auth:sanctum');
-
 //Ruta pública para alumnos
 Route::get('empresas-centro/{idCentro}', [EmpresasApiController::class, 'empresasPorCentro']);
-
-
 
 //Obtener ruta pública para alumnos
 Route::get('empresas-centro-url', [EmpresasApiController::class, 'obtenerEmpresasUrl'])->middleware('auth:sanctum');
@@ -52,14 +42,13 @@ Route::get('empresas/buscar-token/{id}', [EmpresasApiController::class, 'obtener
 //Buscar empresa por token
 Route::get('empresas/token/{token}', [EmpresasApiController::class, 'empresaPorToken']);
 //Editar
-Route::post('empresas/token/{token}', [EmpresasApiController::class, 'updateEmpresaPorToken']);
+Route::put('empresas/token/{token}', [EmpresasApiController::class, 'updateEmpresaPorToken']);
 
 
 //Asociar empresa a centro
 //Comprobar si existe por cif
 Route::get('empresas/comprobar-cif/{cif}', [EmpresasApiController::class, 'obtenerEmpresaPorCif'])->middleware('auth:sanctum');
 Route::get('empresas/asociar-centro/{id}', [EmpresasApiController::class, 'asociarEmpresaCentro'])->middleware('auth:sanctum');
-
 
 //Actualizar notas de empresa
 Route::post('empresas/notas/{idEmpresa}', [EmpresasApiController::class, 'actualizarNota'])->middleware('auth:sanctum');
@@ -81,6 +70,7 @@ Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('a
 //SERVICIOS
 Route::apiResource('servicios', ServicioApiController::class);
 Route::get('servicios-simple', [ServicioApiController::class, 'getAll']);
+Route::get('categoria/servicios/{id}', [ServicioApiController::class, 'getByCategoria']);
 
 //CATEGORIAS
 Route::apiResource('categorias', CategoriaApiController::class);
@@ -100,7 +90,6 @@ Route::post('/resenias', [ReseniaControllerApi::class, 'store']);
 
 // Solicitudes
 Route::post('/solicitudes', [SolicitudControllerApi::class, 'store']);
-
 
 
 //Centros
