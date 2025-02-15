@@ -23,7 +23,7 @@ use App\Http\Controllers\TokenController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\ReseniaController;
 use App\Http\Controllers\Api\TokenControllerApi;
-
+use App\Http\Controllers\Api\UsuarioApiController;
 
 //LOGIN
 Route::post('login', [LoginApiController::class, 'login'])->name('api.login');
@@ -70,6 +70,9 @@ Route::apiResource('servicios', ServicioApiController::class);
 
 //CATEGORIAS
 Route::apiResource('categorias', CategoriaApiController::class);
+
+//USUARIOS
+Route::apiResource('usuarios', UsuarioApiController::class)->middleware('auth:sanctum');
 
 
 // Formularios

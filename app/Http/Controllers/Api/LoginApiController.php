@@ -31,6 +31,7 @@ class LoginApiController extends Controller
             'token_type'   => 'Bearer',
             'roles'        => $usuario->roles->pluck('nombre'),
             'nombre'       => $usuario->nombre,
+            'centro_id'    => $usuario->centro_id
         ]);
     }
 
