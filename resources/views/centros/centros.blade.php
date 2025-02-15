@@ -4,7 +4,12 @@
 
 @section('contenido')
     <div class="container">
-        <h2 class="my-4">Gestión de Centros</h2>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2 class="my-4 ">Gestión de Centros</h2>
+            <a class="btn btn-sm btn-outline-secondary me-2" href="{{ route('pdf-centros') }}">
+                <i class="bi bi-filetype-pdf"></i> Descargar en pdf
+            </a>
+        </div>
 
         {{-- MENSAJES DE AVISO --}}
         @if (session('msg'))

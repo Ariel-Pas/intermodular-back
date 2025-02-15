@@ -175,7 +175,7 @@ class EmpresaController extends Controller
     public function generarPDF(){
         $empresas = Empresa::all();
         $pdf = Pdf::loadView('empresas.pdf', ['empresas' =>$empresas]);
-        return $pdf->download('empresas.pdf');
+        return $pdf->download('empresas-lista');
     }
 
 
