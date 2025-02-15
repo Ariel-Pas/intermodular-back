@@ -49,6 +49,8 @@ Route::resource('empresas', EmpresaController::class);
 Route::resource('centros', CentrosController::class);
 
 //USUARIOS
+Route::get('/usuarios/download-pdf', [UserController::class, 'downloadPdf'])->name('usuarios.downloadPdf');
+
 Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
 Route::get('/usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
 Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
@@ -74,12 +76,12 @@ Route::delete('/servicios/{id}', [ServicioController::class, 'destroy'])->name('
 Route::get('/mostrarFormularios/{id}', [FormularioController::class, 'mostrarFormulario']);
 
 // Resenias
+Route::get('/resenias/download-pdf', [ReseniaController::class, 'downloadPdf'])->name('resenias.downloadPdf');
 Route::get('/resenias/{tipo?}', [ReseniaController::class, 'index'])->name('resenias.index');
 Route::get('/resenias/empresa/{empresaId}', [ReseniaController::class, 'show'])->name('resenias.show');
 Route::delete('/resenias/destroy/{id}', [ReseniaController::class, 'destroy'])->name('resenias.destroy');
 Route::get('/resenias/empresa/{empresaId}/edit', [ReseniaController::class, 'edit'])->name('resenias.edit');
 Route::put('/resenias/empresa/{empresaId}', [ReseniaController::class, 'update'])->name('resenias.update');
-
 
 // Solicitudes
 Route::get('/solicitudes/index', [SolicitudController::class, 'index'])->name('solicitudes.index');
@@ -89,7 +91,7 @@ Route::post('/solicitudes/store', [SolicitudController::class, 'store'])->name('
 Route::get('/solicitudes/create', [SolicitudController::class, 'create'])->name('solicitudes.create');
 Route::get('/solicitudes/edit/{solicitud}', [SolicitudController::class, 'edit'])->name('solicitudes.edit');
 Route::put('/solicitudes/update/{solicitud}', [SolicitudController::class, 'update'])->name('solicitudes.update');
-
+Route::get('/solicitudes/download-pdf', [SolicitudController::class, 'downloadPdf'])->name('solicitudes.downloadPdf');
 
 //CICLOS
 Route::resource('/ciclos', CicloWebController::class);

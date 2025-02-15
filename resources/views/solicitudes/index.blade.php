@@ -11,8 +11,12 @@
 
     <div class="card shadow-sm border-0 rounded-3 mb-4">
         <div class="card-body p-3">
-            <a href="{{ route('solicitudes.create') }}" class="btn btn-primary rounded-pill d-flex align-items-center gap-2">
+            <a href="{{ route('solicitudes.create') }}" class="btn btn-outline-primary rounded-pill d-flex align-items-center gap-2 mb-3">
                 <i class="bi bi-plus-circle"></i>Añadir Solicitud
+            </a>
+
+            <a href="{{ route('solicitudes.downloadPdf') }}" class="btn btn-outline-secondary px-4 py-2 rounded-pill d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-pdf"></i>Descargar informe Solicitudes
             </a>
         </div>
     </div>

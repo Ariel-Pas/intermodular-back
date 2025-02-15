@@ -18,12 +18,18 @@
         <a href="{{ route('resenias.index') }}" class="btn btn-outline-secondary px-4 py-2 rounded-pill d-flex align-items-center gap-2">
             <i class="bi bi-list-ul"></i>Mostrar todos
         </a>
+
     </div>
 
+    <div class="d-flex justify-content-center mb-4 ms-5">
+        <a href="{{ route('resenias.downloadPdf') }}" class="btn btn-outline-secondary px-4 py-2 rounded-pill d-none d-md-flex align-items-center gap-2 w-80 mx-auto">
+            <i class="bi bi-file-earmark-pdf"></i>Descargar Reseñas
+        </a>
+    </div>
 
     <div class="card shadow-sm border-0 rounded-3">
         <div class="card-body p-0">
-            <!-- Tabla para desktop -->
+            <!-- Tabla para escritorio -->
             <div class="d-none d-md-block">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">

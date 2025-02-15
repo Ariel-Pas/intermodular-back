@@ -16,6 +16,11 @@
             <a class="btn" href="{{route('usuarios.create')}}"><i class="bi bi-person-plus"></i> Crear Usuario</a>
         </div>
 
+         {{-- DESCARGAR INFORMES USUARIOS --}}
+         <div class="card p-3 mb-4 shadow-sm">
+            <a class="btn" href="{{ route('usuarios.downloadPdf') }}"><i class="bi bi-file-earmark-pdf"></i> Descargar Informe Usuarios</a>
+        </div>
+
         {{-- LISTADO DE USUARIOS --}}
         <h4 class="my-4">Listado de Usuarios</h4>
 
