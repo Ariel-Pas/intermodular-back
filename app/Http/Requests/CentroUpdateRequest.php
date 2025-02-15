@@ -27,7 +27,7 @@ class CentroUpdateRequest extends FormRequest
             'email' => ['required', 'email', Rule::unique('centros')->ignore($this->route('centro'))],
             'telefono' => ['required','min:8','regex:/[0-9]{9}/',Rule::unique('centros')->ignore($this->route('centro'))],
             'direccion' => 'required',
-            'provincia' => 'required|numeric',
+            'provincia' => 'numeric',
             'poblacion' => 'required|numeric'
         ];
     }
