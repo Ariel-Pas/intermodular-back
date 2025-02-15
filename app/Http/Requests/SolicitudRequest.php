@@ -34,8 +34,8 @@ class SolicitudRequest extends FormRequest
             'centro_id' => 'required|integer',
             'empresa_id' => 'required|integer',
 
-            // 'ciclo_id' => 'required|integer',
-            // 'numero_puestos' => 'required'
+            'ciclo_id' => 'nullable',
+            'numero_puestos' => 'nullable'
         ];
     }
 
