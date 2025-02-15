@@ -82,17 +82,27 @@ class ReseniaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($empresaId)
     {
-        //
+        $empresa = Empresa::findOrFail($empresaId);
+        return view('resenias.edit', compact('empresa'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $empresaId)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        $empresa = Empresa::findOrFail($empresaId);
+        $empresa->nombre = $request->nombre;
+        $empresa->save();
+
+        return redirect()->route('resenias.index')->with('success', 'Nombre de la empresa actualizado correctamente.');
     }
 
     /**
@@ -100,7 +110,7 @@ class ReseniaController extends Controller
      */
     public function destroy(string $id)
     {
-        Resenia::findOrFail($id)->delete();
+        Empresa::findOrFail($id)->delete();
         return redirect()->route('resenias.index');
     }
 }

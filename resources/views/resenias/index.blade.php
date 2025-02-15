@@ -33,7 +33,9 @@
                                 <th class="py-3"><i class="bi bi-card-text me-2"></i>CIF</th>
                                 <th class="py-3"><i class="bi bi-envelope me-2"></i>Email</th>
                                 <th class="py-3"><i class="bi bi-briefcase me-2"></i>Vacantes</th>
-                                <th class="py-3"><i class="bi bi-gear me-2"></i>Acciones</th>
+                                <th class="py-3"><i class="bi bi-gear me-2"></i>Ver</th>
+                                <th class="py-3"><i class="bi bi-gear me-2"></i>Eliminar</th>
+                                <th class="py-3"><i class="bi bi-gear me-2"></i>Editar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,11 +49,29 @@
                                     <td class="py-3">{{ $empresa->cif }}</td>
                                     <td class="py-3">{{ $empresa->email }}</td>
                                     <td class="py-3">{{ $empresa->vacantes }}</td>
+
                                     <td class="py-3">
                                         <a href="{{ route('resenias.show', $empresa->id) }}" class="btn btn-outline-primary btn-sm rounded-pill d-flex align-items-center gap-2">
-                                            <i class="bi bi-eye"></i>Ver Reseñas
+                                            <i class="bi bi-eye"></i>Ver
                                         </a>
                                     </td>
+
+                                    <td>
+                                        <form action="{{ route('resenias.destroy', $empresa->id) }}" method="POST" class="mt-2">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill d-flex align-items-center gap-2">
+                                                <i class="bi bi-trash"></i>Eliminar
+                                            </button>
+                                        </form>
+                                    </td>
+
+                                    <td class="py-3">
+                                        <a href="{{ route('resenias.edit', $empresa->id) }}" class="btn btn-outline-warning btn-sm rounded-pill d-flex align-items-center gap-2">
+                                            <i class="bi bi-pencil"></i>Editar
+                                        </a>
+                                    </td>
+
                                 </tr>
                             @endforeach
                         </tbody>
@@ -72,12 +92,32 @@
                             <p class="card-text mb-1"><i class="bi bi-card-text me-2"></i><strong>CIF:</strong> {{ $empresa->cif }}</p>
                             <p class="card-text mb-1"><i class="bi bi-envelope me-2"></i><strong>Email:</strong> {{ $empresa->email }}</p>
                             <p class="card-text mb-1"><i class="bi bi-briefcase me-2"></i><strong>Vacantes:</strong> {{ $empresa->vacantes }}</p>
+
                             <div class="mt-3">
                                 <a href="{{ route('resenias.show', $empresa->id) }}" class="btn btn-outline-primary btn-sm rounded-pill d-flex align-items-center gap-2">
-                                    <i class="bi bi-eye"></i>Ver Reseñas
+                                    <i class="bi bi-eye"></i>Ver
                                 </a>
                             </div>
+
+                            <div class="mt-3">
+                                <form action="{{ route('resenias.destroy', $empresa->id) }}" method="POST" class="mt-2">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            class="btn btn-outline-danger btn-sm rounded-pill d-flex align-items-center gap-2 w-100">
+                                        <i class="bi bi-trash"></i>Eliminar
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="mt-3">
+                                <a href="{{ route('resenias.edit', $empresa->id) }}" class="btn btn-outline-warning btn-sm rounded-pill d-flex align-items-center gap-2 w-100">
+                                    <i class="bi bi-pencil"></i>Editar
+                                </a>
+                            </div>
+
                         </div>
+
                     </div>
                 @endforeach
             </div>

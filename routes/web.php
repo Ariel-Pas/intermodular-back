@@ -76,6 +76,9 @@ Route::get('/mostrarFormularios/{id}', [FormularioController::class, 'mostrarFor
 // Resenias
 Route::get('/resenias/{tipo?}', [ReseniaController::class, 'index'])->name('resenias.index');
 Route::get('/resenias/empresa/{empresaId}', [ReseniaController::class, 'show'])->name('resenias.show');
+Route::delete('/resenias/destroy/{id}', [ReseniaController::class, 'destroy'])->name('resenias.destroy');
+Route::get('/resenias/empresa/{empresaId}/edit', [ReseniaController::class, 'edit'])->name('resenias.edit');
+Route::put('/resenias/empresa/{empresaId}', [ReseniaController::class, 'update'])->name('resenias.update');
 
 
 // Solicitudes
