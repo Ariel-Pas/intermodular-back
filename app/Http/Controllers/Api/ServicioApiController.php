@@ -13,7 +13,8 @@ class ServicioApiController extends Controller
      */
     public function index()
     {
-        return response()->json(Servicio::all(), 200);
+        // return response()->json(Servicio::all(), 200);
+        return response()->json(Servicio::with('categorias')->get(), 200);
     }
 
     /**

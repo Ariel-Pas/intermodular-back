@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
 
 class CategoriaApiController extends Controller
 {
@@ -29,7 +31,7 @@ class CategoriaApiController extends Controller
 
         $categoria = Categoria::create($validarDatos);
 
-        if($request->has('servicios')){
+        if ($request->has('servicios')) {
             $categoria->servicios()->sync($request->servicios);
         }
 
@@ -58,20 +60,22 @@ class CategoriaApiController extends Controller
             return response()->json(['error' => 'Categoría no encontrada'], 404);
         }
 
-        if($categoria->nombre !== $request->nombre){
-            $request->validate([
-                'nombre' => 'required|string|max:255|unique:categoria,nombre'
-            ]);
-        }
-
-        $request->validate([
-            'servicios' => 'array',
+        $validado = $request->validate([
+            'nombre' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('categorias')->ignore($categoria->id)
+            ],
+            'servicios' => 'sometimes|array',
             'servicios.*' => 'exists:servicios,id'
         ]);
 
-        $categoria->update($request->nombre);
+        $categoria->update([
+            'nombre' => $validado['nombre']
+        ]);
 
-        if($request->has('servicios')){
+        if ($request->has('servicios')) {
             $categoria->servicios()->sync($request->servicios);
         }
 
@@ -84,7 +88,7 @@ class CategoriaApiController extends Controller
     public function destroy(string $id)
     {
         $categoria = Categoria::find($id);
-        if(!$categoria){
+        if (!$categoria) {
             return response()->json(['error' => 'Categoría no encontrada'], 404);
         }
 

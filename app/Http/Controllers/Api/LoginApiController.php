@@ -19,9 +19,9 @@ class LoginApiController extends Controller
         }
 
         // BLOQUEAR LOGIN VIA API A USUARIOS CON ROL ADMIN
-        if ($usuario->roles->pluck('nombre')->contains('Admin')) {
-            return response()->json(['error' => 'Acceso no autorizado para usuarios Admin'], 403);
-        }
+        // if ($usuario->roles->pluck('nombre')->contains('Admin')) {
+        //     return response()->json(['error' => 'Acceso no autorizado para usuarios Admin'], 403);
+        // }
 
         //GENERAR TOKEN PARA AUTENTICACION API
         $token = $usuario->createToken($usuario->email)->plainTextToken;

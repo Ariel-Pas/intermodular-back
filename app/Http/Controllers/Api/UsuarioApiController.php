@@ -70,7 +70,7 @@ class UsuarioApiController extends Controller
         $validado = $request->validate([
             'nombre' => 'sometimes|string|max:255',
             'apellidos' => 'sometimes|string|max:255',
-            'email' => ['sometimes', Rule::unique('usuarios')->ignore($usuario->id)],
+            'email' => ['sometimes', Rule::unique('users')->ignore($usuario->id)],
             'password' => 'sometimes|string|min:6'
         ]);
 
