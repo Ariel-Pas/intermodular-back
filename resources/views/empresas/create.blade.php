@@ -181,7 +181,7 @@
                                                 }
                                             }
                                     @endphp
-                                    {{-- Checkbox with Bootstrap button style --}}
+                               
                                     <input type="checkbox" class="btn-check" name="servicios[]" value="{{ $categoria->id }}-{{ $servicio->id }}" id="servicio_{{ $servicio->id }}" @checked($servicioSeleccionado)>
                                     <label class="btn btn-outline-secondary" for="servicio_{{ $servicio->id }}">{{ $servicio->nombre }}</label>
                                 @endforeach

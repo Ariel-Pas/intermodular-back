@@ -4,7 +4,12 @@
 
 @section('contenido')
     <div class="container">
-        <h2 class="my-4">Gestión de Empresas</h2>
+        <div class="d-flex align-items-center justify-content-between">
+            <h2 class="my-4 ">Gestión de Empresas</h2>
+            <a class="btn btn-sm btn-outline-secondary me-2" href="{{ route('pdf-empresas') }}">
+                <i class="bi bi-filetype-pdf"></i> Descargar en pdf
+            </a>
+        </div>
 
         {{-- MENSAJES DE AVISO --}}
         @if (session('msg'))
@@ -29,11 +34,11 @@
                             <h5 class="card-title">{{ $empresa->nombre }}</h5>
                             <p class="card-text">{{ $empresa->descripcion }}</p>
                             <div class="d-flex justify-content-end">
-                                {{-- EDIT BUTTON --}}
+
                                 <a class="btn btn-sm btn-outline-secondary me-2" href="{{ route('empresas.edit', $empresa->id) }}">
                                     <i class="bi bi-pencil-square"></i> Editar
                                 </a>
-                                {{-- DELETE BUTTON --}}
+
                                 <form action="{{ route('empresas.destroy', $empresa->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')

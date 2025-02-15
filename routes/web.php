@@ -44,7 +44,7 @@ Route::middleware(['auth', 'RolCheck:Admin'])->group( function (){
 
 
 
-
+    Route::get('empresas/pdf', [EmpresaController::class, 'generarPdf'])->name('pdf-empresas');
     Route::resource('empresas', EmpresaController::class);
     Route::resource('centros', CentrosController::class);
 
