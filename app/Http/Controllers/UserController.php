@@ -9,10 +9,18 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
+
+    public function downloadPdf()
+    {
+        $usuarios = Usuario::with(['centro', 'roles'])->get();
+        $pdf = Pdf::loadView('usuarios.pdf', compact('usuarios'));
+        return $pdf->download('usuarios.pdf'); 
+    }
+
     /**
      * Display a listing of the resource.
      */

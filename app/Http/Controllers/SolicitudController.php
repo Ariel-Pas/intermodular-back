@@ -16,9 +16,18 @@ use Flogti\SpanishCities\Models\Town;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use \Exception;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class SolicitudController extends Controller
 {
+    public function downloadPdf() {
+        $solicitudes = Solicitud::with(['centro', 'empresa', 'ciclos'])->get(); 
+        // $solicitudes = Solicitud::all();
+        $pdf = Pdf::loadView('solicitudes.pdf', compact('solicitudes'));
+        return $pdf->download('solicitudes.pdf');
+    }
+
     /**
      * Display a listing of the resource.
      */

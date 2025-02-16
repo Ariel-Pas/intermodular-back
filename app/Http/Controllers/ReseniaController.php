@@ -6,31 +6,20 @@ use App\Http\Requests\ReseniaRequest;
 use Illuminate\Http\Request;
 use App\Models\Resenia;
 use App\Models\Empresa;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReseniaController extends Controller
 {
+
+    public function downloadPdf() {
+        $resenias = Resenia::with(['pregunta', 'centro', 'empresa'])->get();
+        $pdf = Pdf::loadView('resenias.pdf', compact('resenias'));
+        return $pdf->download('resenias.pdf');
+    }
+
     /**
      * Display a listing of the resource.
      */
-
-    // public function index()
-    // {
-    //     $resenias= Resenia::orderBy('pregunta_id')->paginate(10);
-    //     return view('resenias.index', compact('resenias'));
-    // }
-
-
-
-    // public function index($tipo = null)
-    // {
-    //     if ($tipo) {
-    //         $resenias = Resenia::where('formulario_id', $tipo)->paginate(10); // filtra solo por formulario_id específico
-    //     } else {
-    //         $resenias = Resenia::paginate(10);  // muestra todas las reseñas
-    //     }
-
-    //     return view('resenias.index', compact('resenias', 'tipo'));
-    // }
 
     public function index($tipo = null)
     {
@@ -82,17 +71,27 @@ class ReseniaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($empresaId)
     {
-        //
+        $empresa = Empresa::findOrFail($empresaId);
+        return view('resenias.edit', compact('empresa'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $empresaId)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        $empresa = Empresa::findOrFail($empresaId);
+        $empresa->nombre = $request->nombre;
+        $empresa->save();
+
+        return redirect()->route('resenias.index')->with('success', 'Nombre de la empresa actualizado correctamente.');
     }
 
     /**
@@ -100,7 +99,7 @@ class ReseniaController extends Controller
      */
     public function destroy(string $id)
     {
-        Resenia::findOrFail($id)->delete();
+        Empresa::findOrFail($id)->delete();
         return redirect()->route('resenias.index');
     }
 }
