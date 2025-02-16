@@ -139,14 +139,14 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="longitud" class="form-label">Longitud</label>
-                            <input type="number" class="form-control" id="longitud" name="coordX" value="{{ old('longitud', $empresa ? $empresa->coordX : null) }}">
+                            <input type="number" class="form-control" id="longitud" name="coordX" value="{{ old('coordX', $empresa ? $empresa->coordX : null) }}">
                             @if ($errors->has('longitud'))
                                 <p class="text-danger">{{ $errors->first('longitud') }}</p>
                             @endif
                         </div>
                         <div class="col-6">
                             <label for="latitud" class="form-label">Latitud</label>
-                            <input type="number" class="form-control" id="latitud" name="coordY" value="{{ old('latitud', $empresa ? $empresa->coordY : null) }}">
+                            <input type="number" class="form-control" id="latitud" name="coordY" value="{{ old('coordY', $empresa ? $empresa->coordY : null) }}">
                             @if ($errors->has('latitud'))
                                 <p class="text-danger">{{ $errors->first('latitud') }}</p>
                             @endif
@@ -181,7 +181,7 @@
                                                 }
                                             }
                                     @endphp
-                                    {{-- Checkbox with Bootstrap button style --}}
+                               
                                     <input type="checkbox" class="btn-check" name="servicios[]" value="{{ $categoria->id }}-{{ $servicio->id }}" id="servicio_{{ $servicio->id }}" @checked($servicioSeleccionado)>
                                     <label class="btn btn-outline-secondary" for="servicio_{{ $servicio->id }}">{{ $servicio->nombre }}</label>
                                 @endforeach

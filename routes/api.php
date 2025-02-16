@@ -17,7 +17,9 @@ use App\Http\Controllers\TokenController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\ReseniaController;
 use App\Http\Controllers\Api\TokenControllerApi;
+use App\Http\Controllers\Api\UsuarioApiController;
 use App\Http\Controllers\Api\SolicitudControllerApi;
+
 
 //LOGIN
 Route::post('login', [LoginApiController::class, 'login'])->name('api.login');
@@ -53,32 +55,35 @@ Route::get('empresas/asociar-centro/{id}', [EmpresasApiController::class, 'asoci
 //Actualizar notas de empresa
 Route::post('empresas/notas/{idEmpresa}', [EmpresasApiController::class, 'actualizarNota'])->middleware('auth:sanctum');
 
-//Localizaciones
+//Localizaciones - sin auth para las solicitudes y modificación de empresa
 Route::get('provincias', [LocalizacionApiController::class, 'getProvincias']);
 Route::get('municipios/{id}', [LocalizacionApiController::class, 'getMunicipios']);
 
 
-//Ciclos y áreas
+//Ciclos y áreas - sin auth para las solicitudes y modificación de empresa
 Route::get('areas', [CicloController::class, 'getAreas']);
-Route::get('ciclos', [CicloController::class, 'index'])->middleware('auth:sanctum');
-Route::get('ciclos-area/{id}', [CicloController::class, 'ciclosPorArea'])->middleware('auth:sanctum');
+Route::get('ciclos', [CicloController::class, 'index']);
+Route::get('ciclos-area/{id}', [CicloController::class, 'ciclosPorArea']);
 
 Route::post('mail', [EmpresasApiController::class, 'enviarMail'])->middleware('auth:sanctum');
 
 
 
-//SERVICIOS
+//SERVICIOS - sin auth para las solicitudes y modificación de empresa
 Route::apiResource('servicios', ServicioApiController::class);
 Route::get('servicios-simple', [ServicioApiController::class, 'getAll']);
 Route::get('categoria/servicios/{id}', [ServicioApiController::class, 'getByCategoria']);
 
-//CATEGORIAS
+//CATEGORIAS - sin auth para las solicitudes y modificación de empresa
 Route::apiResource('categorias', CategoriaApiController::class);
 Route::get('categorias-simple', [CategoriaApiController::class, 'getAll']);
 
+//USUARIOS
+Route::apiResource('usuarios', UsuarioApiController::class)->middleware('auth:sanctum');
+
 
 // Formularios
-Route::get('/mostrarFormulario/{id}', [FormularioController::class, 'mostrarFormulario']); 
+Route::get('/mostrarFormulario/{id}', [FormularioController::class, 'mostrarFormulario']);
 
 // Token
 Route::post('/generar-token', [TokenControllerApi::class, 'generarToken']); // insertará en la tabla Token una fila
