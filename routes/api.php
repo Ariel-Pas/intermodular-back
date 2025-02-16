@@ -79,25 +79,25 @@ Route::apiResource('categorias', CategoriaApiController::class);
 Route::get('categorias-simple', [CategoriaApiController::class, 'getAll']);
 
 //USUARIOS
-Route::apiResource('usuarios', UsuarioApiController::class)->middleware('auth:sanctum');
+Route::apiResource('usuarios', UsuarioApiController::class)->middleware(['auth:sanctum', 'RolCheck:Centro']);
 
 
 // Formularios
 Route::get('/mostrarFormulario/{id}', [FormularioController::class, 'mostrarFormulario']);
 
 // Token
-Route::post('/generar-token', [TokenControllerApi::class, 'generarToken']); // insertará en la tabla Token una fila
-Route::get('/get-Token/{token}', [TokenControllerApi::class, 'obtenerFormularioPorToken']); // devuelve el formulario dependiendo del token, el token mira el formulario_id
+Route::post('/generar-token', [TokenControllerApi::class, 'generarToken'])->middleware('auth:sanctum');; // insertará en la tabla Token una fila
+Route::get('/get-Token/{token}', [TokenControllerApi::class, 'obtenerFormularioPorToken'])->middleware('auth:sanctum');; // devuelve el formulario dependiendo del token, el token mira el formulario_id
 
 
 // Resenias
-Route::post('/resenias', [ReseniaControllerApi::class, 'store']);
+Route::post('/resenias', [ReseniaControllerApi::class, 'store'])->middleware('auth:sanctum');;
 
 // Solicitudes
 Route::post('/solicitudes', [SolicitudControllerApi::class, 'store']);
 
 
-//Centros
+//Centros - sin auth para poder utilizarlo en las solicitues
 Route::get('centros', [CentroApiController::class, 'index']);
 Route::get('ciclosPorCentro/{idCentro}', [CentroApiController::class, 'ciclosPorCentro']);
 

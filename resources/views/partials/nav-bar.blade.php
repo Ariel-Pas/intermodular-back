@@ -7,16 +7,16 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             {{-- href="{{route('inicio')}}" --}}
-          <a class="nav-link active" aria-current="page" >Inicio</a>
-          <a class="nav-link" href="{{route('empresas.index')}}">Empresas</a>
+          {{-- <a class="nav-link active" aria-current="page" >Inicio</a>
+          <a class="nav-link" href="{{route('empresas.index')}}">Empresas</a> --}}
 
           {{-- FUNCIONA --}}
-          <a class="nav-link" href="{{url('http://localhost:4200/dashboard')}}">Empresas TEST</a>
+          {{-- <a class="nav-link" href="{{url('http://localhost:4200/dashboard')}}">Empresas TEST</a>
           <a class="nav-link" href="{{route('centros.index')}}">Centros</a>
 
           <a class="nav-link" href="{{route('solicitudes.index')}}">Solicitudes</a>
 
-          <a class="nav-link" href="{{route('resenias.index')}}">Reseñas</a>
+          <a class="nav-link" href="{{route('resenias.index')}}">Reseñas</a> --}}
 
           @if(auth()->check())
             <a class="nav-link" href="{{route('logout')}}">

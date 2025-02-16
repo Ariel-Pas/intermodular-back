@@ -50,6 +50,7 @@ Route::middleware(['auth', 'RolCheck:Admin'])->group( function (){
     Route::resource('centros', CentrosController::class);
 
     //USUARIOS
+    Route::get('/usuarios/download-pdf', [UserController::class, 'downloadPdf'])->name('usuarios.downloadPdf');
     Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
     Route::get('/usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
     Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
@@ -57,6 +58,7 @@ Route::middleware(['auth', 'RolCheck:Admin'])->group( function (){
     Route::get('/usuarios/{id}', [UserController::class, 'show'])->name('usuarios.show');
     Route::put('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.update');
     Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+
     //Route::resource('usuarios', UserController::class)->only(['create', 'edit','update', 'index', 'show', 'destroy', 'store']);
 
     //CATEGORIAS
@@ -86,11 +88,6 @@ Route::middleware(['auth', 'RolCheck:Admin'])->group( function (){
 
     // Formularios
     Route::get('/mostrarFormularios/{id}', [FormularioController::class, 'mostrarFormulario']);
-
-    // Resenias
-    Route::get('/resenias/{tipo?}', [ReseniaController::class, 'index'])->name('resenias.index');
-    Route::get('/resenias/empresa/{empresaId}', [ReseniaController::class, 'show'])->name('resenias.show');
-
 
 
     // Resenias
