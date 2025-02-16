@@ -17,7 +17,9 @@ use App\Http\Controllers\TokenController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\ReseniaController;
 use App\Http\Controllers\Api\TokenControllerApi;
+use App\Http\Controllers\Api\UsuarioApiController;
 use App\Http\Controllers\Api\SolicitudControllerApi;
+
 
 //LOGIN
 Route::post('login', [LoginApiController::class, 'login'])->name('api.login');
@@ -75,6 +77,9 @@ Route::get('categoria/servicios/{id}', [ServicioApiController::class, 'getByCate
 //CATEGORIAS - sin auth para las solicitudes y modificación de empresa
 Route::apiResource('categorias', CategoriaApiController::class);
 Route::get('categorias-simple', [CategoriaApiController::class, 'getAll']);
+
+//USUARIOS
+Route::apiResource('usuarios', UsuarioApiController::class)->middleware('auth:sanctum');
 
 
 // Formularios
