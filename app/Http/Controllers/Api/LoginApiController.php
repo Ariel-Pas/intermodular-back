@@ -18,10 +18,14 @@ class LoginApiController extends Controller
             return response()->json(['error' => 'Credenciales no válidas'], 401);
         }
 
-        // BLOQUEAR LOGIN VIA API A USUARIOS CON ROL ADMIN
-        // if ($usuario->roles->pluck('nombre')->contains('Admin')) {
-        //     return response()->json(['error' => 'Acceso no autorizado para usuarios Admin'], 403);
-        // }
+
+        //ESTA LINEA DE AQUI, ESTROPEA EL LOGIN DE ANGULAR, HACIENDO QUE SI UN USUARIO
+        // TIENE LOS 3 ROLES, SOLO POR TENER ADMIN YA LO BLOQUEA
+
+        //if ($usuario->roles->pluck('nombre')->contains('Admin')) {
+        //    return response()->json(['error' => 'Acceso no autorizado para usuarios Admin'], 403);
+        //}
+
 
         //GENERAR TOKEN PARA AUTENTICACION API
         $token = $usuario->createToken($usuario->email)->plainTextToken;
@@ -37,7 +41,9 @@ class LoginApiController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        // $request->user()->currentAccessToken()->delete();
+        $request->user()->tokens()->delete();
+
         return response()->json(['message' => 'Logout exitoso.'], 200);
     }
 }

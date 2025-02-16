@@ -95,4 +95,12 @@ class CategoriaApiController extends Controller
         $categoria->delete();
         return response()->json(['mensaje' => 'Categoría eliminada correctamente'], 200);
     }
+
+
+    //versión sin relaciones
+    public function getAll(){
+        return response()->json(Categoria::all(), 200);
+    }
+
+    
 }

@@ -6,18 +6,16 @@ use App\Http\Requests\CentroRequest;
 use App\Http\Requests\CentroUpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\Centro;
+use App\Models\Ciclo;
 use App\Models\Empresa;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-class CentrosController extends Controller implements HasMiddleware
+use Flogti\SpanishCities\Models\Community;
+use Flogti\SpanishCities\Models\Town;
+use Barryvdh\DomPDF\Facade\Pdf;
+class CentrosController extends Controller
 {
-    public static function middleware() :array
-    {
-        return[
-            new Middleware('auth', except:['index', 'show']),
-            new Middleware(['RolCheck:Admin'], only:['edit', 'update'])
-        ];
-    }
+
 
     /**
      * Display a listing of the resource.
@@ -37,9 +35,12 @@ class CentrosController extends Controller implements HasMiddleware
      */
     public function create()
     {
+        $provincias = Community::find(10)->provinces;
+        $municipios = Town::select('id','province_id', 'name')->whereIn('province_id', ['3', '12', '46'])->get();
+        $ciclos = Ciclo::all();
         $empresas = Empresa::all();
         $centro = new Centro();
-        return view('centros.create', compact('empresas', 'centro'));
+        return view('centros.create', compact('empresas', 'centro', 'ciclos', 'provincias', 'municipios'));
     }
 
     /**
@@ -48,12 +49,12 @@ class CentrosController extends Controller implements HasMiddleware
     public function store(CentroRequest $request)
     {
        //dd($errors);
-       //dd($request);
-       $datos = $request->except('empresas, password');
+       $datos = $request->except('empresas, ciclos');
        $centro = new Centro($datos);
-        $centro->password = bcrypt($request->password);
+       $centro->town_id = $request->poblacion;
        $centro->save();
        $centro->empresas()->sync($request->empresas);
+       $centro->ciclos()->sync($request->ciclos);
        return redirect()->route('centros.index')->with('msg', "Centro $request->nombre creado");
     }
 
@@ -70,10 +71,12 @@ class CentrosController extends Controller implements HasMiddleware
      */
     public function edit(string $id)
     {
+        $provincias = Community::find(10)->provinces;
+        $municipios = Town::select('id','province_id', 'name')->whereIn('province_id', ['3', '12', '46'])->get();
+        $ciclos = Ciclo::all();
         $centro = Centro::with('empresas')->findOrFail($id);
         $empresas = Empresa::all();
-        //dd($centro->empresas);
-        return view('centros.create', compact('centro', 'empresas'));
+        return view('centros.create', compact('centro', 'empresas', 'ciclos', 'provincias', 'municipios'));
 
     }
 
@@ -83,12 +86,15 @@ class CentrosController extends Controller implements HasMiddleware
     public function update(CentroUpdateRequest $request, string $id)
     {
 
-        $datos = $request->except('empresas', 'password');
+        $datos = $request->except('empresas', 'ciclos');
        $centro = Centro::findOrFail($id);
-       $centro->password = bcrypt($request->password);
        //actualizar los datos propios no fk
         $centro->update($datos);
+        $centro->town_id = $request->poblacion;
+        $centro->save();
        $centro->empresas()->sync($request->empresas);
+
+       $centro->ciclos()->sync($request->ciclos);
        return redirect()->route('centros.index')->with('msg', "Centro $request->nombre actualizado");
     }
 
@@ -99,6 +105,7 @@ class CentrosController extends Controller implements HasMiddleware
     {
         $centro = Centro::findOrFail($id);
         $centro->delete();
+        return redirect()->route('centros.index')->with('msg', "Centro $centro->nombre eliminado");
     }
 
     public function asociarNotaAEmpresa(Request $request)
@@ -108,5 +115,12 @@ class CentrosController extends Controller implements HasMiddleware
         $centro->empresas()->updateExistingPivot($request->empresa, ['notas'=>$request->nota]);
     }
 
+
+    public function generarPDF(){
+        $centros = Centro::with('empresas:nombre')->get();
+        //dd($centros);
+        $pdf = Pdf::loadView('centros.pdf', ['centros' =>$centros]);
+        return $pdf->download('empresas-pdf');
+    }
 
 }

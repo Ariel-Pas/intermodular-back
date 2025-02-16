@@ -10,7 +10,7 @@ class Solicitud extends Model
     protected $guarded = [];
 
     public function ciclos() {
-        return $this->belongsToMany(Ciclo::class)->withPivot('numero_puestos'); // agregar el withpivot
+        return $this->belongsToMany(Ciclo::class, 'solicitud_ciclo')->withPivot('numero_puestos');
     }
 
     public function empresa() {
@@ -21,5 +21,5 @@ class Solicitud extends Model
         return $this->belongsTo(Centro::class, 'centro_id'); // una Solicitd pertenece a un Centro
     }
 
-    
+
 }

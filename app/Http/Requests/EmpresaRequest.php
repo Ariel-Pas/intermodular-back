@@ -29,12 +29,12 @@ class EmpresaRequest extends FormRequest
             'direccion' => 'required|string',
             'horario_manana' => 'required',
             'horario_tarde' => 'required',
-            'town_id' =>  'required|exists:towns,id',
+            'localidad' =>  'required|exists:towns,id',
             'finSemana' => 'required|boolean',
             'coordX' => 'required|numeric',
             'coordY' => 'required|numeric',
             'centro' => 'string|exists:centro,id',
-            'telefono' => 'required'
+            'categorias' =>  'array: servicio,categoria'
 
         ];
     }
@@ -50,7 +50,8 @@ class EmpresaRequest extends FormRequest
             'min' => 'Este campo no cumple con el tamaño mínimo',
             'regex' => 'Formato inválido',
             'size' => 'Número de caracteres incorrecto',
-            'email' => 'Email no válido'
+            'email' => 'Email no válido',
+            'unique' => 'Este valor ya está registrado'
         ];
     }
 }

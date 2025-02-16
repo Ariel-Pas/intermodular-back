@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nombre');
-            $table->string('codigo');
             $table->string('email');
-            $table->string('password');
             $table->string('direccion');
             $table->string('telefono');
             $table->foreignId('town_id')->constrained();

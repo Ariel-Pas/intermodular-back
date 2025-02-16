@@ -14,6 +14,11 @@
 
     <title>@yield('tituloNavegador')</title>
 </head>
+<style>
+    .error-msg{
+        color: red;
+    }
+</style>
 
 <body>
     <div style="background-color: #f8f9fa">
@@ -22,6 +27,9 @@
         {{-- <div class="container-md d-flex justify-content-end">
             <div>{{ fechaActual('d/m/Y') }}</div>
         </div> --}}
+        <div class="container-md d-flex justify-content-end">
+
+        </div>
         <!-- VER DE MOVER ESTO AL NAV-BAR -->
         <hr>
         <div class="container-fluid">

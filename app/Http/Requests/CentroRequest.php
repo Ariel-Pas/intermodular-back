@@ -23,20 +23,12 @@ class CentroRequest extends FormRequest
     {
         return [
             'nombre' => 'required|min:5',
-            'password' => [
-                'required',
-                'string',
-                'min:8',             // must be at least 10 characters in length
-                'regex:/[a-z]/',      // must contain at least one lowercase letter
-                'regex:/[A-Z]/',      // must contain at least one uppercase letter
-                'regex:/[0-9]/',      // must contain at least one digit
-
-            ],
             'email' => 'required|email',
             'telefono' => 'required|min:8|regex:/[0-9]{9}/',
             'direccion' => 'required',
-            'provincia' => 'required|numeric',
-            'poblacion' => 'required|numeric'
+            'provincia' => 'numeric',
+            'poblacion' => 'required|numeric',
+            'ciclos' => 'required'
         ];
     }
 

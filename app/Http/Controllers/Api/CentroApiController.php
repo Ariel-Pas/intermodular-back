@@ -4,16 +4,21 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Centro;
+use App\Models\Ciclo;
 use Illuminate\Support\Facades\DB;
 use Flogti\SpanishCities\Models\Town;
 use Illuminate\Database\Eloquent\Builder;
 
 class CentroApiController extends Controller
 {
-    public function index(){
-
+    public function index() {
         $centros = Centro::all();
         return response()->json($centros);
+    }
+
+    public function ciclosPorCentro($idCentro) {
+        $ciclos = Centro::find($idCentro)->ciclos;
+        return response()->json($ciclos);
     }
 
     public function centrosPorProvincia($idProvincia)

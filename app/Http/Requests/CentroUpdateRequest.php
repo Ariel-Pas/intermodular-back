@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CentroUpdateRequest extends FormRequest
 {
@@ -23,10 +24,10 @@ class CentroUpdateRequest extends FormRequest
     {
         return [
             'nombre' => 'required|min:5',
-            'email' => 'required|email',
-            'telefono' => 'required|min:8|regex:/[0-9]{9}/',
+            'email' => ['required', 'email', Rule::unique('centros')->ignore($this->route('centro'))],
+            'telefono' => ['required','min:8','regex:/[0-9]{9}/',Rule::unique('centros')->ignore($this->route('centro'))],
             'direccion' => 'required',
-            'provincia' => 'required|numeric',
+            'provincia' => 'numeric',
             'poblacion' => 'required|numeric'
         ];
     }
@@ -41,6 +42,7 @@ class CentroUpdateRequest extends FormRequest
             'password.min' => 'Mínimo 8 caracteres',
             'provincia.numeric' => 'Elige una provincia',
             'poblacion.numeric' => 'Elige una población',
+            'unique' => 'Este valor ya está registrado',
             'required' => 'Campo requerido',
             'min' => 'Este campo no cumple con el tamaño mínimo',
             'regex' => 'Formato inválido',

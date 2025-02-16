@@ -3,48 +3,64 @@
 @section('tituloNavegador', 'Centros')
 
 @section('contenido')
-@if (session('msg'))
-    <div>{{session('msg')}}</div>
-@endif
-<div class=" my-3">
-    <a href="{{route('centros.create')}}">
-        <button class="btn btn-primary">Añadir centro</button>
-    </a>
-</div>
-<div class="row">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <h2 class="my-4 ">Gestión de Centros</h2>
+            <a class="btn btn-sm btn-outline-secondary me-2" href="{{ route('pdf-centros') }}">
+                <i class="bi bi-filetype-pdf"></i> Descargar en pdf
+            </a>
+        </div>
 
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Email</th>
-            <th scope="col">Direccion</th>
-            <th>Empresas</th>
-            <th>Editar</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($centros as $centro)
-          <tr>
-            <th scope="row">{{$centro->id}}</th>
-            <td>{{$centro->nombre}}</td>
-            <td>{{$centro->email}}</td>
-            <td>{{$centro->direccion}}</td>
-            <td>{{$centro->empresas()->implode('nombre', ',')}}</td>
-            @if(auth()->check() && auth()->user()->role === 'admin')
-            <td>
-                <a class="btn btn-primary" href="{{route('centros.edit', $centro->id)}}">
-                    Editar
-                </a>
-            </td>
-            @endif
-          </tr>
-          @endforeach
-        </tbody>
-    </table>
+        {{-- MENSAJES DE AVISO --}}
+        @if (session('msg'))
+            <div class="alert alert-success">{{session('msg')}}</div>
+        @endif
 
+        {{-- AGREGAR NUEVO CENTRO --}}
+        <div class="card p-3 mb-4 shadow-sm">
+            <a class="btn" href="{{route('centros.create')}}"><i class="bi bi-plus-circle"></i> Añadir Centro</a>
+        </div>
 
-</div>
+        {{-- LISTADO DE CENTROS --}}
+        <h4 class="my-4">Listado de Centros</h4>
 
+        <div class="table-responsive">
+            <table class="table table-hover text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Dirección</th>
+                        <th>Empresas</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($centros as $centro)
+                    <tr>
+                        {{-- ID CENTRO --}}
+                        <td>{{$centro->id}}</td>
+                        {{-- DATOS CENTRO --}}
+                        <td>{{$centro->nombre}}</td>
+                        <td>{{$centro->email}}</td>
+                        <td>{{$centro->direccion}}</td>
+                        <td>{{$centro->empresas()->implode('nombre', ', ')}}</td>
+                        <td class="d-flex justify-content-center">
+                            <a class="align-self-center text-dark ms-3 me-3" href="{{route('centros.edit', $centro->id)}}"><i class="bi bi-pencil-square"></i></a>
+                            {{-- ELIMINAR CENTRO --}}
+                            <form method="POST" action="{{route('centros.destroy', $centro->id)}}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 @endsection

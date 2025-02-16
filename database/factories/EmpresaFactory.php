@@ -21,19 +21,18 @@ class EmpresaFactory extends Factory
         $nombre = fake()->company();
         return [
            'nombre'=> $nombre,
-            'cif' =>fake()->regexify('/[0-9]{8}[A-Z]/'),
+            'cif' =>fake()->regexify('/[A-Z][0-9]{8}/'),
             'descripcion' => fake()->text(100),
             'email' => fake()->email(),
             'direccion' => fake()->address(),
             'coordX' => rand(0,100),
             'coordY' => rand(0,100),
-            'horario_manana' => '9:00 - 13:00',
-            'horario_tarde' => '14:00 - 18:00',
+            'horario_manana' => '09:00',
+            'horario_tarde' => '14:00',
             'finSemana' => fake()->boolean(20),
             'vacantes' => rand(1,7),
             'puntuacion_profesor' => rand(1,10),
             'puntuacion_alumno' => rand(1,10),
-            'telefono' => fake()->phoneNumber(),
             'token' => Str::uuid()
         ];
     }

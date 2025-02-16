@@ -16,21 +16,20 @@ return new class extends Migration
             $table->timestamps();
             $table->string('nombre');
             $table->string('cif')->unique();
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->string('email')->unique();
-            $table->string('direccion');
-            $table->double('coordX');
-            $table->double('coordY');
+            $table->string('direccion')->nullable();
+            $table->double('coordX')->nullable();
+            $table->double('coordY')->nullable();
             $table->string('horario_manana');
             $table->string('horario_tarde');
-            $table->boolean('finSemana');
+            $table->boolean('finSemana')->nullable();
             $table->string('imagen')->nullable();
-            $table->string('telefono');
             $table->double('puntuacion_profesor')->nullable();
             $table->double('puntuacion_alumno')->nullable();
             $table->integer('vacantes')->nullable();
             $table->foreignId('town_id')->constrained();
-            $table->string('token')->unique();
+            $table->string('token')->unique()->nullable();
         });
     }
 
