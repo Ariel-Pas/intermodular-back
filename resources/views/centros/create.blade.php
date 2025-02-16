@@ -79,18 +79,18 @@
                 </div>
 
                 {{-- PROVINCIA --}}
-                <div class="mb-3">
+              {{--   <div class="mb-3">
                     <label for="provincia" class="form-label">Provincia</label>
                     <select class="form-select" id="provincia" name="provincia">
                         <option value="">Elige una provincia</option>
                         @foreach ($provincias as $provincia)
-                            <option value="{{ $provincia->id }}" @selected(old('provincia', $centro->province_id ?? '') == $provincia->id)>{{ $provincia->name }}</option>
+                            <option value="{{ $provincia->id }}" @selected(old('provincia', $centro ? $centro->province()->id : '') == $provincia->id)>{{ $provincia->name }}</option>
                         @endforeach
                     </select>
                     @if ($errors->has('provincia'))
                         <p class="text-danger">{{ $errors->first('provincia') }}</p>
                     @endif
-                </div>
+                </div> --}}
 
                 {{-- POBLACION --}}
                 <div class="mb-3">

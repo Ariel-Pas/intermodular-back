@@ -12,6 +12,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Flogti\SpanishCities\Models\Community;
 use Flogti\SpanishCities\Models\Town;
+use Barryvdh\DomPDF\Facade\Pdf;
 class CentrosController extends Controller
 {
 
@@ -114,5 +115,12 @@ class CentrosController extends Controller
         $centro->empresas()->updateExistingPivot($request->empresa, ['notas'=>$request->nota]);
     }
 
+
+    public function generarPDF(){
+        $centros = Centro::with('empresas:nombre')->get();
+        //dd($centros);
+        $pdf = Pdf::loadView('centros.pdf', ['centros' =>$centros]);
+        return $pdf->download('empresas-pdf');
+    }
 
 }

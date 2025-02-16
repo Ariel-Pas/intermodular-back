@@ -14,6 +14,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class EmpresaController extends Controller
 {
@@ -169,6 +170,12 @@ class EmpresaController extends Controller
 
     public function leerImagen(){
 
+    }
+
+    public function generarPDF(){
+        $empresas = Empresa::all();
+        $pdf = Pdf::loadView('empresas.pdf', ['empresas' =>$empresas]);
+        return $pdf->download('empresas-lista');
     }
 
 
